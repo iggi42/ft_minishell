@@ -12,18 +12,16 @@
 
 NAME = minishell
 
-C_FILES += main.c
+SRCS += ms_main.c ms_repl.c ms_exec.c ms_parsing.c
 SRC_DIR = src
 BIN_DIR = bin
+CFLAGS += -I./inc
 
-# FT_EXTRA_CFLAGS += -g
-all: $(NAME)
-
-libft/project.mk:
-	git clone git@github.com:iggi42/ft_libft.git libft
+## cflags here get also applied to libft binaries
+FT_EXTRA_CFLAGS += -g
 
 -include libft/project.mk
 
 GIT_IGNORE += $(NAME)
-$(NAME): $(OBJS) $(LIBFT_A) 
+$(NAME): $(OBJS) $(LIBFT_A)
 	$(CC) $(CFLAGS) -o $@ $^

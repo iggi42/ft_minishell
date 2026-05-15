@@ -17,6 +17,9 @@
 CC = cc
 CFLAGS += -MD -Wall -Wextra -Werror $(FT_EXTRA_CFLAGS)
 
+all: $(NAME)
+.PHONY: all
+
 ifndef FT_APP_NAME
 export FT_APP_NAME := $(NAME)
 export FT_EXTRA_CFLAGS += -DFT_APP_NAME=\"$(FT_APP_NAME)\"
@@ -26,22 +29,7 @@ GIT_IGNORE += .depend
 GIT_IGNORE += .gdb_history
 GIT_IGNORE += $(NAME)
 
-ifdef C_FILES
-
-ifdef SRC_DIR
-SRCS += $(addprefix $(SRC_DIR)/, $(C_FILES))
-else
-SRCS += $(C_FILES)
-endif
-
-ifdef BIN_DIR
-OBJS = $(C_FILES:%.c=$(BIN_DIR)/%.o)
-else
 OBJS = $(SRCS:.c=.o)
-endif
-
-endif # of ifdef C_FILES
-
 DEPS = $(OBJS:.o=.d)
 DEV_FILES += .gitignore compile_flags.txt
 GIT_IGNORE += $(OBJS) $(DEPS) $(DEV_FILES)
@@ -53,16 +41,35 @@ LDLIBS += $(LIBFT_A)
 
 SELF=$(firstword $(MAKEFILE_LIST))
 
-# phony targets
-all: $(NAME)
+# optional folders
+ifdef SRC_DIR
+VPATH += $(SRC_DIR)
+endif
+
+ifdef BIN_DIR
+VPATH += $(BIN_DIR)
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
+$(BIN_DIR)/%.o: %.c | $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+endif
+
+# cleaning targets
 re: clean all
 fclean: clean
 	$(RM) $(NAME)
 	$(MAKE) -C $(LIBFT) $@
 	find -name '*.d' -print -delete
+
 clean:
+ifdef BIN_DIR
+	$(RM) -r $(BIN_DIR)
+else
 	$(RM) $(OBJS) $(DEPS)
+endif
 	$(MAKE) -C $(LIBFT) $@
+
+# dev utils targets
 dev: $(DEV_FILES)
 	$(MAKE) -C $(LIBFT) $@
 dev_clean:
@@ -70,7 +77,8 @@ dev_clean:
 	$(MAKE) -C $(LIBFT) $@
 debug: FT_EXTRA_CFLAGS += -g
 debug: clean $(NAME)
-.PHONY: fclean clean re all dev debug
+
+.PHONY: fclean clean re dev debug
 
 # development helper files
 compile_flags.txt: $(SELF)
@@ -90,10 +98,6 @@ GIT_IGNORE += /libft/*.o /libft/*.d
 # core build rules
 $(LIBFT_A): $(LIBFT)
 	$(MAKE) -C $(LIBFT)
-
-$(BIN_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(@D)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 GIT_IGNORE += $(DEPS)
 -include $(DEPS)
