@@ -30,6 +30,8 @@ ifdef C_FILES
 
 ifdef SRC_DIR
 SRCS += $(addprefix $(SRC_DIR)/, $(C_FILES))
+else
+SRCS += $(C_FILES)
 endif
 
 ifdef BIN_DIR
@@ -88,6 +90,10 @@ GIT_IGNORE += /libft/*.o /libft/*.d
 # core build rules
 $(LIBFT_A): $(LIBFT)
 	$(MAKE) -C $(LIBFT)
+
+$(BIN_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 GIT_IGNORE += $(DEPS)
 -include $(DEPS)
