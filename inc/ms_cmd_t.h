@@ -1,30 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parsing.h                                       :+:      :+:    :+:   */
+/*   ms_op_t.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/15 19:04:10 by fkruger           #+#    #+#             */
-/*   Updated: 2026/05/15 19:04:12 by fkruger          ###   ########.fr       */
+/*   Created: 2026/05/15 19:04:07 by fkruger           #+#    #+#             */
+/*   Updated: 2026/05/15 19:04:08 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_PARSING_H
-# define MS_PARSING_H
-# include "ms_cmd_t.h"
-# include <stdbool.h>
+#ifndef MS_CMD_T_H
+# define MS_CMD_T_H
+# include <libft_byte_t.h>
+# include <stddef.h>
 
-typedef struct s_ms_parse_res
+typedef struct s_ms_redi
 {
-	bool			success;
-	union			u_ms_parse_res_body
+	enum		e_ms_redi_kind
 	{
-		char		*error_msg;
-		t_ms_cmd	*cmds;
+		INVALID = -1,
+		IN,
+		OUT,
+		OUT_APPEND,
+		HERE_DOC
+	} kind;
+	enum		e_ms_redi_source
+	{
+		FD,
+		PATH
+	} source_kind;
+	union		u_redi_source
+	{
+		char	*path;
+		int		fd;
 	} source;
-}					t_ms_parse_res;
+}				t_ms_redi;
 
-t_ms_parse_res		*ms_parse(char *input);
+typedef struct s_ms_cmd
+{
+	char		**argv;
+	t_ms_redi	**reds;
+}				t_ms_cmd;
+
+void			ms_cmd_free(t_ms_cmd *cmd);
 
 #endif
