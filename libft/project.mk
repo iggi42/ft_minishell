@@ -36,7 +36,7 @@ GIT_IGNORE += $(OBJS) $(DEPS) $(DEV_FILES)
 
 LIBFT = ./libft
 LIBFT_A = ./libft/libft.a
-CFLAGS += -I./libft/inc/
+CPPFLAGS += -I./libft/inc/
 LDLIBS += $(LIBFT_A)
 
 SELF=$(firstword $(MAKEFILE_LIST))
@@ -47,11 +47,12 @@ VPATH += $(SRC_DIR)
 endif
 
 ifdef BIN_DIR
+GPATH += $(BIN_DIR)
 VPATH += $(BIN_DIR)
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
-$(BIN_DIR)/%.o: %.c | $(BIN_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+%.o: %.c | $(BIN_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $(BIN_DIR)/$@
 endif
 
 # cleaning targets
@@ -67,14 +68,14 @@ ifdef BIN_DIR
 else
 	$(RM) $(OBJS) $(DEPS)
 endif
-	$(MAKE) -C $(LIBFT) $@
+	$(MAKE) -s -C $(LIBFT) $@
 
 # dev utils targets
 dev: $(DEV_FILES)
 	$(MAKE) -C $(LIBFT) $@
 dev_clean:
 	$(RM) $(DEV_FILES)
-	$(MAKE) -C $(LIBFT) $@
+	$(MAKE) -s -C $(LIBFT) $@
 debug: FT_EXTRA_CFLAGS += -g
 debug: clean $(NAME)
 
@@ -84,7 +85,7 @@ debug: clean $(NAME)
 compile_flags.txt: $(SELF)
 	@echo setup $@
 	@echo -n > $@
-	@for flag in $(CFLAGS); do \
+	@for flag in $(CFLAGS) $(CPPFLAGS); do \
 		echo $$flag >> $@ ; \
 	done
 
@@ -95,9 +96,10 @@ compile_flags.txt: $(SELF)
 	done
 
 GIT_IGNORE += /libft/*.o /libft/*.d
+
 # core build rules
 $(LIBFT_A): $(LIBFT)
-	$(MAKE) -C $(LIBFT)
+	$(MAKE) -s -C $(LIBFT) $(@F)
 
 GIT_IGNORE += $(DEPS)
 -include $(DEPS)

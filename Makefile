@@ -15,7 +15,7 @@ NAME = minishell
 SRCS += ms_main.c ms_repl.c ms_exec.c ms_parsing.c
 SRC_DIR = src
 BIN_DIR = bin
-CFLAGS += -I./inc
+CPPFLAGS += -I./inc
 
 ## cflags here get also applied to libft binaries
 FT_EXTRA_CFLAGS += -g
@@ -24,4 +24,4 @@ FT_EXTRA_CFLAGS += -g
 
 GIT_IGNORE += $(NAME)
 $(NAME): $(OBJS) $(LIBFT_A)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $+
