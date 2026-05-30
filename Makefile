@@ -12,10 +12,14 @@
 
 NAME = minishell
 
-SRCS += ms_main.c ms_repl.c ms_exec.c ms_parsing.c
+SRCS += ms_repl.c ms_exec.c ms_parsing.c
+#ms_main.c
 SRC_DIR = src
 BIN_DIR = bin
 CPPFLAGS += -I./inc
+
+TEST_DIR = test
+TESTS += parsing_test.c
 
 ## cflags here get also applied to libft binaries
 FT_EXTRA_CFLAGS += -g
