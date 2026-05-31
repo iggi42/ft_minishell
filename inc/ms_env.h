@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parsing.h                                       :+:      :+:    :+:   */
+/*   ms_env.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,25 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_PARSING_H
-# define MS_PARSING_H
-# include "ms_cmd_t.h"
-# include <libft_kv.h>
-# include <stdbool.h>
+#ifndef MS_ENV_H
+# define MS_ENV_H
 
-typedef struct s_ms_parse_res
-{
-	bool			success;
-	union			u_ms_parse_res_body
-	{
-		char		*error_msg;
-		t_ms_cmd	*cmds;
-	} source;
-}					t_ms_parse_res;
+void		ms_load_env(const char **environ);
+const char	**ms_get_environ(void);
 
-t_ms_parse_res		*ms_parse(char *input);
+void		ms_set_env(const char *key, const char *value);
 
-// returns always a freeable string
-char				*ms_expand_vars(const char *text_with_vars);
+char		*ms_get_env(const char *key, const char *fallback);
+void		ms_env_free(void);
 
 #endif

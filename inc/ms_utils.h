@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parsing.h                                       :+:      :+:    :+:   */
+/*   ms_utils.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,25 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_PARSING_H
-# define MS_PARSING_H
-# include "ms_cmd_t.h"
-# include <libft_kv.h>
-# include <stdbool.h>
+#ifndef MS_UTILS_H
+# define MS_UTILS_H
 
-typedef struct s_ms_parse_res
-{
-	bool			success;
-	union			u_ms_parse_res_body
-	{
-		char		*error_msg;
-		t_ms_cmd	*cmds;
-	} source;
-}					t_ms_parse_res;
-
-t_ms_parse_res		*ms_parse(char *input);
-
-// returns always a freeable string
-char				*ms_expand_vars(const char *text_with_vars);
+// ms_exit_if(ft_malloc(size), "malloc failed");
+void	*ms_exit_if(void *cond, const char *error_msg);
 
 #endif
