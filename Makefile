@@ -13,7 +13,6 @@
 NAME = minishell
 
 SRCS += ms_repl.c ms_exec.c ms_parsing.c
-#ms_main.c
 SRC_DIR = src
 BIN_DIR = bin
 CPPFLAGS += -I./inc
@@ -25,6 +24,7 @@ TESTS += parsing_test.c
 FT_EXTRA_CFLAGS += -g
 
 -include libft/project.mk
+SRCS += ms_main.c
 
 GIT_IGNORE += $(NAME)
 $(NAME): $(OBJS) $(LIBFT_A)
