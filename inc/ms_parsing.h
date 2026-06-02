@@ -28,7 +28,11 @@ typedef struct s_ms_parse_res
 
 t_ms_parse_res		*ms_parse(char *input);
 
+char				**ms_tokenize(char *input);
+
 // returns always a freeable string
-char				*ms_expand_vars(const char *text_with_vars);
+char				*ms_expand_vars(char *text_with_vars);
+
+bool				ms_is_metachar(char c);
 
 #endif
