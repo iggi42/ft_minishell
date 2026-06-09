@@ -12,7 +12,7 @@
 
 NAME = minishell
 
-SRCS += ms_repl.c ms_exec.c ms_parsing.c
+SRCS += ms_repl.c ms_exec.c ms_parsing.c ms_env.c ms_exit.c
 SRC_DIR = src
 BIN_DIR = bin
 CPPFLAGS += -I./inc
@@ -26,6 +26,7 @@ FT_EXTRA_CFLAGS += -g
 -include libft/project.mk
 SRCS += ms_main.c
 
+# TODO deduplicate OBJS here (with a sort?)
 GIT_IGNORE += $(NAME)
 $(NAME): $(OBJS) $(LIBFT_A)
 	$(CC) $(CFLAGS) -o $@ $+
