@@ -1,6 +1,3 @@
-[submodule "test"]
-	path = test
-	url = git@github.com:iggi42/ft_minishell_test.git
 [submodule "libft"]
 	path = libft
 	url = git@github.com:iggi42/ft_libft.git
