@@ -12,7 +12,8 @@
 
 NAME = minishell
 
-SRCS += ms_repl.c ms_exec.c ms_parsing.c ms_env.c ms_exit.c
+SRCS += ms_env.c ms_exec.c ms_exit.c ms_parsing.c ms_parsing_metachar.c ms_repl.c ms_stm_blank.c ms_stm.c ms_token.c
+
 SRC_DIR = src
 BIN_DIR = bin
 CPPFLAGS += -I./inc
