@@ -25,14 +25,14 @@ static t_kv	*env_core(int op)
 {
 	static t_kv	*store;
 
-	if (op == MSC_FREE || (op == MSC_INIT && store != NULL))
+	if (op == MSC_FREE)
 		store = (ft_kv_free(store, ft_kv_free_entry), NULL);
-	if (op == MSC_INIT)
+	else if (op == MSC_INIT && store == NULL)
 		store = ms_protect(ft_kv_init(env_key_cmp));
 	return (store);
 }
 
-void	ms_set_env(const char *key, const char *value)
+void	ms_set_env(char *key, const char *value)
 {
 	t_kv		*store;
 	void		*my_val;
@@ -46,7 +46,7 @@ void	ms_set_env(const char *key, const char *value)
 	ft_kv_free_entry(prev);
 }
 
-char	*ms_get_env(const char *key, char *fallback)
+char	*ms_get_env(char *key, char *fallback)
 {
 	t_kv	*store;
 	char	*result;

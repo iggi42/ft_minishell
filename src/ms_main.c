@@ -18,7 +18,7 @@ int	main()
 	char *get0 = ms_get_env("USER", "{{unset}}");
 	ms_set_env("USER", "homer");
 	char *get1 = ms_get_env("USER", "{{unset}}");
-	ft_printf("%s ==> %s\n", get0, get1);
+	ft_printf("[%s] ==> [%s]\n", get0, get1);
 	ms_env_free();
 	return (-1);
 }

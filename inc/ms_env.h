@@ -17,10 +17,10 @@ void		ms_load_env(char **environ);
 const char	**ms_get_environ(void);
 
 // set an environment variable, copies the string into an key value storage.
-void		ms_set_env(const char *name, const char *value);
+void		ms_set_env(char *name, const char *value);
 
 // get an environment variable, freeing it directly is not your job
-char		*ms_get_env(const char *name, const char *fallback);
+char		*ms_get_env(char *name, const char *fallback);
 
 void		ms_env_each(void (*fold)(void *acc, char *name, char *value),
 				void *acc);
