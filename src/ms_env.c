@@ -1,4 +1,4 @@
-
+#include "libft_arr.h"
 #include "libft_arr_t.h"
 #include "libft_ll.h"
 #include "libft_lst_kv.h"
@@ -58,6 +58,29 @@ char	*ms_get_env(char *key, char *fallback)
 	return (result);
 }
 
+void		ms_unset_env(char *name)
+{
+	t_kv	*store;
+
+	store = env_core(MSC_INIT);
+	ft_kv_free_entry(ft_kv_pop(store, name));
+}
+
+#include <unistd.h>
+static void *ms_env_envstr(void *pair)
+{
+	if(pair == NULL)
+		return NULL;
+	// return ft_strf("%s=%s", pair->key, pair->val);
+	return ft_strdup("lol");
+}
+
+char	**ms_get_environ(void)
+{
+	t_arr *keypairs = ft_lst2arr(env_core(MSC_INIT)->_store);
+	return (char **) ft_arr_map(*keypairs, ms_env_envstr);
+}
+ 
 // array of t_kv_pair*
 t_arr	*ms_env_arr(void)
 {

@@ -19,6 +19,8 @@ const char	**ms_get_environ(void);
 // set an environment variable, copies the string into an key value storage.
 void		ms_set_env(char *name, const char *value);
 
+void		ms_unset_env(char *name);
+
 // get an environment variable, freeing it directly is not your job
 char		*ms_get_env(char *name, const char *fallback);
 
