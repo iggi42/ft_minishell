@@ -1,0 +1,29 @@
+= libFT
+
+**This is my libft. There are many like it, but this one is mine.**
+
+I kinda overdid it here, ngl. Writing this was too much fun.
+
+I divided this into a couple subcategories that I call sections.
+Currently these sections are mature:
+ 
+Sections::
+  Mature:::
+    . char
+    . fmt
+  Experimental:::
+    . math
+    . arr
+    . buf
+    . fmt
+    . iol
+    . io
+    . ll
+    . mem
+    . os
+    . str
+    . toa
+
+== Inspiration
+ - Makefile https://linuxvox.com/blog/makefiles-with-source-files-in-different-directories/[linuxvox]
+
