@@ -13,12 +13,16 @@
 NAME = minishell
 
 SRCS += ms_repl.c ms_exec.c ms_parsing.c ms_env.c ms_exit.c
+
+# steffi parser
+SRCS += ms_token.c ms_token_utils.c ms_expander.c ms_expander_utils.c
+
 SRC_DIR = src
 BIN_DIR = bin
 CPPFLAGS += -I./inc
 
 TEST_DIR = test
-TESTS += parsing_test.c
+TESTS += token_test.c
 
 ## cflags here get also applied to libft binaries
 FT_EXTRA_CFLAGS += -g

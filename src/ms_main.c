@@ -11,14 +11,24 @@
 /* ************************************************************************** */
 
 #include "ms_env.h"
+#include "ms_token.h"
 #include <libft_io.h>
 
-int	main()
+void print_tokens(size_t id, char *input)
 {
-	char *get0 = ms_get_env("USER", "{{unset}}");
-	ms_set_env("USER", "homer");
-	char *get1 = ms_get_env("USER", "{{unset}}");
-	ft_printf("[%s] ==> [%s]\n", get0, get1);
-	ms_env_free();
+	t_token *tkns = ms_tokenize(input);
+	while(tkns)
+	{
+		if(0 >= ft_printf("(%d)token: [%s]\n", id, tkns->value))
+			break;
+		tkns = tkns->next;
+	}
+}
+
+int	main(int argc, char **argv)
+{
+	size_t i = 1;
+	while(i < (size_t) argc && argv[i])
+		(print_tokens(i, argv[i]), i++);
 	return (-1);
 }
