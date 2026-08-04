@@ -6,7 +6,7 @@
 #    By: fkruger <fkruger@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 16:10:11 by fkruger           #+#    #+#              #
-#    Updated: 2025/12/11 12:20:33 by fkruger          ###   ########.fr        #
+#    Updated: 2026/08/02 16:00:09 by fkruger          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ $(BIN_DIR)/%.o: $(TEST_DIR)/%.c | $(BIN_DIR)
 endif
 
 .PHONY: test
+GIT_IGNORE += tester
 test: tester
 	./$<
 
