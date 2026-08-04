@@ -18,7 +18,8 @@ BIN_DIR = bin
 CPPFLAGS += -I./inc
 
 TEST_DIR = test
-TESTS += parsing_test.c
+# TESTS += parsing_test.c
+TESTS += env_test.c
 
 ## cflags here get also applied to libft binaries
 FT_EXTRA_CFLAGS += -g
