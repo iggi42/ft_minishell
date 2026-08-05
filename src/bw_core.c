@@ -12,7 +12,7 @@
 
 #include "bw.h"
 #include "bw_priv_t.h"
-#include "utils.h"
+#include "ms_utils.h"
 #include <libft_mem.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -31,7 +31,7 @@ void	ft_bw_add(int fd)
 
 	if (fd < 2)
 		return ;
-	new_head = my_malloc(sizeof(t_ms));
+	new_head = ms_malloc(sizeof(t_ms));
 	new_head->next = *head();
 	new_head->fd = fd;
 	*head() = new_head;

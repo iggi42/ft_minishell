@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_op_t.h                                          :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/15 19:04:07 by fkruger           #+#    #+#             */
-/*   Updated: 2026/05/15 19:04:08 by fkruger          ###   ########.fr       */
+/*   Created: 2026/07/26 17:54:18 by fkruger           #+#    #+#             */
+/*   Updated: 2026/07/26 17:54:27 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_CMD_T_H
-# define MS_CMD_T_H
-# include <libft_byte_t.h>
-# include <stddef.h>
-# include "ms_redi_t.h"
+#include "ms_utils.h"
+#include <libft_io.h>
+#include <libft_mem.h>
+#include <unistd.h>
 
-typedef struct s_ms_cmd
+void	*ms_malloc(size_t size)
 {
-	char		**argv;
-	t_ms_redi	**reds;
-}				t_ms_cmd;
+	void	*result;
 
-void			ms_cmd_free(t_ms_cmd *cmd);
+	result = ft_malloc(size);
+	if (result)
+		return (result);
+	ft_putendl_fd("\nOUT OF MEMORY\n", STDERR_FILENO);
+	ms_exit(EXIT_FAILURE);
+	return (NULL);
+}
 
-#endif
+

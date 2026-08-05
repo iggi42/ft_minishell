@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_op_t.h                                          :+:      :+:    :+:   */
+/*   ms_redi.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/15 19:04:07 by fkruger           #+#    #+#             */
-/*   Updated: 2026/05/15 19:04:08 by fkruger          ###   ########.fr       */
+/*   Created: 2026/08/05 12:02:46 by fkruger           #+#    #+#             */
+/*   Updated: 2026/08/05 12:02:46 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_CMD_T_H
-# define MS_CMD_T_H
-# include <libft_byte_t.h>
-# include <stddef.h>
+#ifndef MS_REDI_H
+# define MS_REDI_H
+
 # include "ms_redi_t.h"
 
-typedef struct s_ms_cmd
-{
-	char		**argv;
-	t_ms_redi	**reds;
-}				t_ms_cmd;
+void	redi_set_path(t_ms_redi *r, char *path);
+void	redi_set_fd(t_ms_redi *r, int fd);
 
-void			ms_cmd_free(t_ms_cmd *cmd);
-
+void	apply_redi(t_ms_redi *apply_me);
 #endif
