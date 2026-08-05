@@ -84,7 +84,7 @@ static t_list	*spawn_pipe(t_ms_cmd **cmds)
 }
 
 // not defined for an empty pipe, needs at least 1 element!
-t_byte	run_pipe(t_ms_cmd **full_pipe)
+t_byte	ms_run_pipe(t_ms_cmd **full_pipe)
 {
 	t_list	*pids;
 	t_byte	result;
