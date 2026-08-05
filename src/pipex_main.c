@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "ms_exec.h"
+#include "ms_env.h"
 #include "ms_exec_utils.h"
 #include "ms_redi.h"
 #include "ms_utils.h"
@@ -147,6 +148,7 @@ int	main(int argc, char **argv)
 	t_ms_redi	redis[2];
 	int			result;
 	t_ms_cmd	**shell_pipe;
+	ft_printf("{%p }\n",ms_get_environ());
 
 	if (argc <= 4)
 		return (print_help(), EXIT_FAILURE);
@@ -166,6 +168,8 @@ int	main(int argc, char **argv)
 	}
 	set_redi(shell_pipe[0], &redis[0]);
 	set_redi(pipe_end(shell_pipe), &redis[1]);
+	ms_load_env(__environ);
+	ft_printf("PATH = [%s]\n", ms_get_env("PATH", "LOL"));
 	result = ms_run_pipe(shell_pipe);
 	ft_m3_cleanup();
 	return (result);

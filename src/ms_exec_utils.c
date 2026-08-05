@@ -99,6 +99,7 @@ static char	*ms_search_path(char *cmd0)
 
 	if (cmd0 == NULL || *cmd0 == '\0')
 		return (NULL);
+	//TODO handle getting PATH='::' (basically any amount of just ':')
 	paths = ft_split(ms_get_env("PATH", "."), ':');
 	i = 0;
 	sub_optimal = NULL;

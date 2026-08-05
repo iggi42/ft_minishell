@@ -2,6 +2,7 @@
 #include "libft_arr_t.h"
 #include "libft_ll.h"
 #include "libft_lst_kv.h"
+#include "ms_redi_t.h"
 #include "ms_utils.h"
 #include <libft_kv.h>
 #include <libft_mem.h>
@@ -58,7 +59,7 @@ char	*ms_get_env(char *key, char *fallback)
 	return (result);
 }
 
-void		ms_unset_env(char *name)
+void	ms_unset_env(char *name)
 {
 	t_kv	*store;
 
@@ -67,27 +68,57 @@ void		ms_unset_env(char *name)
 }
 
 #include <unistd.h>
-static void *ms_env_envstr(void *pair)
+
+static void	*ms_env_fold(void *acc, void *el)
 {
-	if(pair == NULL)
-		return NULL;
-	// return ft_strf("%s=%s", pair->key, pair->val);
-	return ft_strdup("lol");
+	t_kv_pair *pair;
+
+	pair = el;
+	*(void **) acc = ms_protect(ft_strf("%s=%s", pair->key, pair->val));
+	return ((void **) acc) + 1;
 }
 
 char	**ms_get_environ(void)
 {
-	t_arr *keypairs = ft_lst2arr(env_core(MSC_INIT)->_store);
-	return (char **) ft_arr_map(*keypairs, ms_env_envstr);
+	char **result;
+	t_kv *store;
+
+	store = env_core(MSC_INIT);
+	result = ms_protect(ft_arr_new(ft_lstsize(store->_store)));
+	ft_lstfold(store->_store, result, ms_env_fold);
+	return (char **) result;
 }
- 
+
+static bool	parse_env(char *input, char **output)
+{
+	char	*split;
+
+	split = ft_strchr(input, '=');
+	if (split == NULL)
+		return (false);
+	output[0] = ft_substr(input, 0, split - input);
+	output[1] = ft_substr(input, 1 + split - input, ft_strlen(input));
+	return (true);
+}
+
+void	ms_load_env(char **environ)
+{
+	char	*kv[2];
+
+	if (!*environ)
+		return ;
+	if (parse_env(*environ, kv))
+		ms_set_env(kv[0], kv[1]);
+	ms_load_env(environ + 1);
+}
+
 // array of t_kv_pair*
 t_arr	*ms_env_arr(void)
 {
 	t_kv	*store;
 
 	store = env_core(MSC_INIT);
-	return ms_protect(ft_lst2arr(store->_store));
+	return (ms_protect(ft_lst2arr(store->_store)));
 }
 
 void	ms_env_free(void)
