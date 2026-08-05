@@ -40,6 +40,7 @@ static void	exec_cmd(t_ms_cmd *cmd, int stdenv[2])
 
 	apply_stdenv(stdenv);
 	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))apply_redi);
+	//TODO get buitltin here if argv[0] matches
 	path = ms_find_exec_file(cmd->argv[0]);
 	ft_bw_cleanup();
 	execve(path, cmd->argv, __environ);
