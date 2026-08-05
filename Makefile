@@ -11,39 +11,9 @@
 
 NAME = minishell
 
-# # base arch
-# SRCS += ms_repl.c ms_exec.c ms_parsing.c ms_env.c 
-
-# # resources manageres (memory, fds) to clean up and exit
-# SRCS += bw_core.c ms_utils_exit.c ms_utils_malloc.c
-
-# # steffi parser
-# SRCS += ms_token.c ms_token_utils.c ms_expander.c ms_expander_utils.c
-
-# # utils
-# SRCS += bw_core.c
-
-# # create and run commands and redis
-# ms_cmd.c
-
-# # enviorment vars
-# SRCS +=  ms_env.c
-
-# ms_exec.c ms_exec_heredoc.c ms_exec_utils.c
-# ms_expander.c ms_expander_utils.c
-# ms_main.c
-# ms_parsing.c
-# ms_redi.c
-# ms_repl.c
-# ms_token.c ms_token_utils.c
-
-# ms_utils_exit.c ms_utils_malloc.c
-SRCS += ms_utils_exit.c ms_utils_malloc.c
-SRCS += bw_core.c ms_env.c
-
 # top level apis
 SRCS += ms_repl.c ms_parsing.c ms_exec.c
-# data structures
+## data structures
 SRCS += ms_redi.c ms_cmd.c
 
 # execution
@@ -54,6 +24,14 @@ SRCS += ms_expander.c ms_expander_utils.c
 SRCS += ms_token.c ms_token_utils.c
 
 # utils
+
+## environment variables handling
+SRCS += ms_env.c
+
+## resources trackers and clean
+SRCS += ms_utils_exit.c
+SRCS += ms_utils_malloc.c bw_core.c
+
 
 SRC_DIR = src
 BIN_DIR = bin
