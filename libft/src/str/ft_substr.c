@@ -9,9 +9,25 @@
 /*   Updated: 2026/02/13 18:39:07 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft_str.h"
 #include "libft_mem.h"
+#include "libft_str.h"
 
+char	*ft_substr(const char *s, size_t start, size_t len)
+{
+	char *wip = ft_strdup(s);
+	char *result;
+	if(!wip)
+		return NULL;
+	if(ft_strlen(wip) <= start)
+		return (ft_free(wip), ft_strdup(""));
+	if(ft_strlen(wip) > start + len)
+		wip[start + len] = '\0';
+	result = ft_strdup(wip + start);
+	ft_free(wip);
+	return result;
+}
+
+/*
 // returns the size of the substring
 static size_t	ft_substr_len(const char *s, size_t start, size_t len)
 {
@@ -24,6 +40,8 @@ static size_t	ft_substr_len(const char *s, size_t start, size_t len)
 		return (s_len - start);
 	return (len);
 }
+
+
 
 char	*ft_substr(const char *s, size_t start, size_t len)
 {
@@ -43,3 +61,4 @@ char	*ft_substr(const char *s, size_t start, size_t len)
 	}
 	return (result);
 }
+*/
