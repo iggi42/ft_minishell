@@ -44,16 +44,18 @@ TESTS += env_test.c token_test.c
 ## cflags here get also applied to libft binaries
 FT_EXTRA_CFLAGS += -g
 
+LDLIBS += -lreadline
+
 -include libft/project.mk
 
 # add the main here so it doesn't get added to tests
-# SRCS += ms_main.c
-SRCS += pipex_main.c
+SRCS += ms_main.c
+# SRCS += pipex_main.c
 
 # TODO deduplicate OBJS here (with a sort?)
 GIT_IGNORE += $(NAME)
 $(NAME): $(OBJS) $(LIBFT_A)
-	$(CC) $(CFLAGS) -o $@ $+
+	$(CC) $(CFLAGS) $(LDLIBS) -o $@ $+
 
 pipex: $(NAME)
 	cp $(NAME) pipex

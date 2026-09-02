@@ -10,5 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void ms_repl(void);
+#ifndef MS_REPL_H
+# define MS_REPL_H
 
+// run repl with readline
+int	ms_repl(void);
+
+// read and exec line by from the fd
+int	ms_run_from_fd(int fd);
+
+#endif

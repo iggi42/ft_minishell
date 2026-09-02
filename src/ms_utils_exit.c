@@ -4,9 +4,11 @@
 #include <libft_merle.h>
 #include <unistd.h>
 #include <string.h>
+#include <readline/history.h>
 
 void	ms_exit(int exit_code)
 {
+	clear_history();
 	ft_bw_cleanup();
 	ft_m3_cleanup();
 	exit(exit_code);

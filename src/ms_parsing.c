@@ -10,4 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ms_parsing.h"
+#include <libft_arr.h>
 
+t_ms_parse_res		*ms_parse(char *input)
+{
+	(void) input;
+	return NULL;
+}

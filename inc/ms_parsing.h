@@ -26,6 +26,9 @@ typedef struct s_ms_parse_res
 	} source;
 }					t_ms_parse_res;
 
+//TODO write me
+void				ms_free_parser_result(t_ms_parse_res *res);
+
 t_ms_parse_res		*ms_parse(char *input);
 
 char				**ms_tokenize(char *input);

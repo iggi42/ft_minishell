@@ -105,7 +105,7 @@ void	ms_load_env(char **environ)
 {
 	char	*kv[2];
 
-	if (!*environ)
+	if (environ == NULL || *environ == NULL)
 		return ;
 	if (parse_env(*environ, kv))
 		ms_set_env(kv[0], kv[1]);
