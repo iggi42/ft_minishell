@@ -59,3 +59,16 @@ t_token	*free_token_list(t_token *list)
 	}
 	return (NULL);
 }
+
+int	is_redirect(t_toke_type kind)
+{
+	if (kind == T_IN)
+		return (1);
+	if (kind == T_OUT)
+		return (1);
+	if (kind == T_OUT_APPEND)
+		return (1);
+	if (kind == T_HERE_DOC)
+		return (1);
+	return (0);
+}
