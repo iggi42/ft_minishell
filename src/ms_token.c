@@ -1,5 +1,5 @@
-#include "ms_token.h"
-#include <libft_str.h>
+#include "../inc/ms_token.h"
+#include <cstdio>
 #include <stdlib.h>
 
 int	handle_operator(char *str, int i, t_token **tokens)
@@ -12,17 +12,17 @@ int	handle_operator(char *str, int i, t_token **tokens)
 	if (str[i] == '>' && str[i + 1] == '>')
 	{
 		len = 2;
-		type = OUT_APPEND;
+		type = T_OUT_APPEND;
 	}
 	else if (str[i] == '<' && str[i + 1] == '<')
 	{
 		len = 2;
-		type = HERE_DOC;
+		type = T_HERE_DOC;
 	}
 	else if (str[i] == '>')
-		type = OUT;
+		type = T_OUT;
 	else if (str[i] == '<')
-		type = IN;
+		type = T_IN;
 	else if (str[i] == '|')
 		type = PIPE;
 	else
@@ -56,6 +56,30 @@ int	handle_arg(char *str, int i, t_token **tokens)
 	}
 	append_token(tokens, ft_substr(str, start, i - start), WORD);
 	return (i);
+}
+
+int		validate(t_token *tokens)
+{
+	t_token	*current;
+
+	current = tokens;
+	if (current && current->kind == PIPE)
+		return (printf("minishell: syntax error near unexpected sign '|'\n"), 0);
+	while (current)
+	{
+		if (is_redirect(current->kind))
+		{
+			if (!current->next || current->next->kind != WORD)
+				return (printf("minishell: syntax error near unexpected sign 'newline'\n"), 0);
+		}
+		if (current->kind == PIPE)
+		{
+			if (!current->next || current->next->kind == PIPE)
+				return (printf("minishell: syntax error near unexpected sign '|'\n"));
+		}
+		current = current->next;
+	}
+	return (1);
 }
 
 t_token	*ms_tokenize(char *input)
