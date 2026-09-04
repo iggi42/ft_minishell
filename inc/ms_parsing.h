@@ -26,9 +26,9 @@ typedef struct s_ms_parse_res
 	} source;
 }					t_ms_parse_res;
 
-t_ms_parse_res		*ms_parse(char *input);
+void				ms_free_parser_result(t_ms_parse_res *res);
 
-char				**ms_tokenize(char *input);
+t_ms_parse_res		*ms_parse(char *input);
 
 // returns always a freeable string
 char				*ms_expand_vars(char *text_with_vars);

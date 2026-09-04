@@ -101,14 +101,20 @@ static bool	parse_env(char *input, char **output)
 	return (true);
 }
 
+// TODO: add SHLVL incr
+// TODO: $?
 void	ms_load_env(char **environ)
 {
 	char	*kv[2];
 
-	if (!*environ)
+	if (environ == NULL || *environ == NULL)
 		return ;
 	if (parse_env(*environ, kv))
+	{
 		ms_set_env(kv[0], kv[1]);
+		ft_free(kv[0]);
+		ft_free(kv[1]);
+	}
 	ms_load_env(environ + 1);
 }
 

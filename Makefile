@@ -17,11 +17,13 @@ SRCS += ms_repl.c ms_parsing.c ms_exec.c
 SRCS += ms_redi.c ms_cmd.c
 
 # execution
-SRCS += ms_exec_heredoc.c ms_exec_utils.c 
+SRCS += ms_exec_heredoc.c ms_exec_utils.c
+SRCS += ms_cmd_free.c
 
 # parsing
 SRCS += ms_expander.c ms_expander_utils.c  
 SRCS += ms_token.c ms_token_utils.c
+SRCS += ms_free_parser_result.c
 
 # utils
 
@@ -44,16 +46,18 @@ TESTS += env_test.c token_test.c
 ## cflags here get also applied to libft binaries
 FT_EXTRA_CFLAGS += -g
 
+LDLIBS += -lreadline
+
 -include libft/project.mk
 
 # add the main here so it doesn't get added to tests
-# SRCS += ms_main.c
-SRCS += pipex_main.c
+SRCS += ms_main.c
+# SRCS += pipex_main.c
 
 # TODO deduplicate OBJS here (with a sort?)
 GIT_IGNORE += $(NAME)
 $(NAME): $(OBJS) $(LIBFT_A)
-	$(CC) $(CFLAGS) -o $@ $+
+	$(CC) $(CFLAGS) $(LDLIBS) -o $@ $+
 
 pipex: $(NAME)
 	cp $(NAME) pipex

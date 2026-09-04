@@ -87,7 +87,7 @@ endif
 all: $(NAME)
 re: clean all
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) tester
 	$(MAKE) -C $(LIBFT) $@
 	find -name '*.d' -print -delete
 
