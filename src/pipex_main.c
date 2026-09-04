@@ -30,7 +30,6 @@ void	print_help(void)
 	ft_putendl_fd("computer sagt nein", 2);
 }
 
-
 enum e_ms_redi_kind	detect_redi(char *s)
 {
 	if (s == NULL)
@@ -148,7 +147,6 @@ int	main(int argc, char **argv)
 	t_ms_redi	redis[2];
 	int			result;
 	t_ms_cmd	**shell_pipe;
-	ft_printf("{%p }\n",ms_get_environ());
 
 	if (argc <= 4)
 		return (print_help(), EXIT_FAILURE);

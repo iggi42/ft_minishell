@@ -14,17 +14,17 @@
 # define MS_REDI_T_H
 enum						e_ms_redi_kind
 {
-	INVALID = -1,
-	IN,
-	OUT,
-	OUT_APPEND,
-	HERE_DOC
+	REDI_INVALID = -1,
+	REDI_IN,
+	REDI_OUT,
+	REDI_OUT_APPEND,
+	REDI_HERE_DOC
 };
 
 enum						e_ms_redi_source
 {
-	FD,
-	PATH
+	REDI_SOURCE_FD,
+	REDI_SOURCE_PATH
 };
 
 typedef struct s_redi

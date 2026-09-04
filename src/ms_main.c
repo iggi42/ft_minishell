@@ -11,24 +11,18 @@
 /* ************************************************************************** */
 
 #include "ms_env.h"
-#include "ms_token.h"
+#include "ms_repl.h"
 #include <libft_io.h>
-
-void print_tokens(size_t id, char *input)
-{
-	t_token *tkns = ms_tokenize(input);
-	while(tkns)
-	{
-		if(0 >= ft_printf("(%d)token: [%s]\n", id, tkns->value))
-			break;
-		tkns = tkns->next;
-	}
-}
+#include <unistd.h>
+#include <readline/history.h>
 
 int	main(int argc, char **argv)
 {
-	size_t i = 1;
-	while(i < (size_t) argc && argv[i])
-		(print_tokens(i, argv[i]), i++);
-	return (-1);
+	if (argc != 1)
+		return ((void)argv, -1);
+	ms_load_env(__environ);
+	ms_repl();
+	clear_history();
+	ms_env_free();
+	ft_gnl(-1);
 }
