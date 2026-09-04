@@ -32,7 +32,8 @@ void	*ms_exit_if(void *cond, char *error_msg)
 {
 	if (cond)
 		return (cond);
-	ft_putendl_fd((char *)error_msg, STDERR_FILENO);
+	if(error_msg)
+		ft_putendl_fd((char *)error_msg, STDERR_FILENO);
 	ms_exit(EXIT_FAILURE);
 	return (NULL);
 }

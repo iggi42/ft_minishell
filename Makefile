@@ -17,11 +17,13 @@ SRCS += ms_repl.c ms_parsing.c ms_exec.c
 SRCS += ms_redi.c ms_cmd.c
 
 # execution
-SRCS += ms_exec_heredoc.c ms_exec_utils.c 
+SRCS += ms_exec_heredoc.c ms_exec_utils.c
+SRCS += ms_cmd_free.c
 
 # parsing
 SRCS += ms_expander.c ms_expander_utils.c  
 SRCS += ms_token.c ms_token_utils.c
+SRCS += ms_free_parser_result.c
 
 # utils
 

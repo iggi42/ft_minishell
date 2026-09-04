@@ -15,8 +15,10 @@
 
 # include "ms_redi_t.h"
 
+//TODO maybe rename to ms_redi ? 
 void	redi_set_path(t_ms_redi *r, char *path);
 void	redi_set_fd(t_ms_redi *r, int fd);
 
+void	redi_free(t_ms_redi *redi);
 void	apply_redi(t_ms_redi *apply_me);
 #endif

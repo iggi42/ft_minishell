@@ -101,6 +101,8 @@ static bool	parse_env(char *input, char **output)
 	return (true);
 }
 
+// TODO: add SHLVL incr
+// TODO: $?
 void	ms_load_env(char **environ)
 {
 	char	*kv[2];
