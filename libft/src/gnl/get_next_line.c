@@ -71,6 +71,8 @@ char	*ft_gnl(int fd)
 	t_buf	*block;
 	char	*line_eol;
 
+	if(fd < 0)
+		return (fdc_cleanup(), NULL);
 	line_buf = fdc_pop(fd, (void *)(size_t)ft_buf_new, 0);
 	if (line_buf == NULL)
 		return (NULL);

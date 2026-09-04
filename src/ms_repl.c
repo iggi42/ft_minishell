@@ -41,6 +41,9 @@ static char	*ms_gnl(void)
 	return (line);
 }
 
+// maybe only clear the cache of the used fd one day
+// for now just remeber to ft_gnl(-1) before exiting
+// this is good enough for now
 int	ms_repl(void)
 {
 	char			*line;

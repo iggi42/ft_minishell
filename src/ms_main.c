@@ -12,12 +12,9 @@
 
 #include "ms_env.h"
 #include "ms_repl.h"
-#include "ms_token.h"
-#include "ms_utils.h"
 #include <libft_io.h>
-#include <libft_mem.h>
-#include <stdlib.h>
 #include <unistd.h>
+#include <readline/history.h>
 
 int	main(int argc, char **argv)
 {
@@ -25,5 +22,7 @@ int	main(int argc, char **argv)
 		return ((void)argv, -1);
 	ms_load_env(__environ);
 	ms_repl();
+	clear_history();
 	ms_env_free();
+	ft_gnl(-1);
 }
