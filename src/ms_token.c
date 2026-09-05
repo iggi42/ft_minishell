@@ -1,5 +1,5 @@
 #include "../inc/ms_token.h"
-#include <cstdio>
+#include <libft_str.h>
 #include <stdlib.h>
 
 int	handle_operator(char *str, int i, t_token **tokens)
@@ -24,9 +24,9 @@ int	handle_operator(char *str, int i, t_token **tokens)
 	else if (str[i] == '<')
 		type = T_IN;
 	else if (str[i] == '|')
-		type = PIPE;
+		type = T_PIPE;
 	else
-		return 0;
+		return (0);
 	operator = ft_substr(str, i, len);
 	append_token(tokens, operator, type);
 	return (i + len);
@@ -39,9 +39,9 @@ int	handle_arg(char *str, int i, t_token **tokens)
 
 	start = i;
 	while (str[i] && str[i] != ' ' && str[i] != '\t' && str[i] != '|'
-	       && str[i] != '<' && str[i] != '>')
+		&& str[i] != '<' && str[i] != '>')
 	{
-		if (str [i] == '\'' || str[i] == '\"')
+		if (str[i] == '\'' || str[i] == '\"')
 		{
 			quote = str[i];
 			i++;
@@ -54,32 +54,32 @@ int	handle_arg(char *str, int i, t_token **tokens)
 		else
 			i++;
 	}
-	append_token(tokens, ft_substr(str, start, i - start), WORD);
+	append_token(tokens, ft_substr(str, start, i - start), T_WORD);
 	return (i);
 }
 
-int		validate(t_token *tokens)
+char	*ms_syntax_check(t_token *tokens)
 {
 	t_token	*current;
 
 	current = tokens;
-	if (current && current->kind == PIPE)
-		return (printf("minishell: syntax error near unexpected sign '|'\n"), 0);
+	if (current && current->kind == T_PIPE)
+		return (ft_strdup("syntax error near unexpected sign '|'"));
 	while (current)
 	{
 		if (is_redirect(current->kind))
 		{
-			if (!current->next || current->next->kind != WORD)
-				return (printf("minishell: syntax error near unexpected sign 'newline'\n"), 0);
+			if (!current->next || current->next->kind != T_WORD)
+				return (ft_strdup("syntax error near unexpected sign 'newline'"));
 		}
-		if (current->kind == PIPE)
+		if (current->kind == T_PIPE)
 		{
-			if (!current->next || current->next->kind == PIPE)
-				return (printf("minishell: syntax error near unexpected sign '|'\n"));
+			if (!current->next || current->next->kind == T_PIPE)
+				return (ft_strdup("syntax error near unexpected sign '|'"));
 		}
 		current = current->next;
 	}
-	return (1);
+	return (NULL);
 }
 
 t_token	*ms_tokenize(char *input)
@@ -89,7 +89,6 @@ t_token	*ms_tokenize(char *input)
 
 	i = 0;
 	tokens = NULL;
-
 	while (input[i])
 	{
 		if (input[i] == ' ' || input[i] == '\t')
@@ -100,7 +99,7 @@ t_token	*ms_tokenize(char *input)
 		{
 			i = handle_arg(input, i, &tokens);
 			if (i == -1)
-				return (NULL);	//TODO: free token list function? print smth?
+				return (NULL); // TODO: free token list function? print smth?
 		}
 	}
 	return (tokens);

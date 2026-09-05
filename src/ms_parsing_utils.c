@@ -1,22 +1,21 @@
-#include "../inc/ms_parsing.h"
-#include <cstddef>
-#include <cstdlib>
+#include "ms_parsing.h"
+#include "ms_redi_t.h"
+#include "ms_token.h"
+#include "ms_utils.h"
 #include <stdlib.h>
 
-int	count_cmds(t_token *tokens)
+size_t	ms_parsing_count_cmds(t_token *tokens)
 {
-	int		counter;
-	t_token	*current;
+	size_t	counter;
 
 	if (!tokens)
 		return (0);
 	counter = 1;
-	current = tokens;
-	while (current)
+	while (tokens != NULL)
 	{
-		if (current->kind == PIPE)
+		if (tokens->kind == T_PIPE)
 			counter++;
-		current = current->next;
+		tokens = tokens->next;
 	}
 	return (counter);
 }
@@ -28,7 +27,7 @@ void	count_cmd_elements(t_token *tokens, int *args, int *reds)
 	*args = 0;
 	*reds = 0;
 	current = tokens;
-	while (current && current->kind != PIPE)
+	while (current && current->kind != T_PIPE)
 	{
 		if (is_redirect(current->kind))
 		{
@@ -47,10 +46,10 @@ int	alloc_cmd_array(t_ms_cmd *cmds, t_token *tokens)
 	int	reds_count;
 
 	count_cmd_elements(tokens, &args_count, &reds_count);
-	cmds->argv = malloc(sizeof(char *) * (args_count + 1));
+	cmds->argv = ms_malloc(sizeof(char *) * (args_count + 1));
 	if (!cmds->argv)
 		return (0);
-	cmds->reds = malloc(sizeof(t_ms_redi) * (reds_count + 1));
+	cmds->reds = ms_malloc(sizeof(t_ms_redi) * (reds_count + 1));
 	if (!cmds->reds)
 		return (free(cmds->argv), 0);
 	cmds->argv[args_count] = NULL;
@@ -58,20 +57,26 @@ int	alloc_cmd_array(t_ms_cmd *cmds, t_token *tokens)
 	return (1);
 }
 
-t_ms_redi	*redi_builder(char *redi_path, int kind)
+static enum e_ms_redi_kind	convert_redi_kind(t_toke_type tkn_type)
+{
+	if (tkn_type == T_IN)
+		return (REDI_IN);
+	if (tkn_type == T_OUT)
+		return (REDI_OUT);
+	if (tkn_type == T_OUT_APPEND)
+		return (REDI_OUT_APPEND);
+	if (tkn_type == T_HERE_DOC)
+		return (REDI_HERE_DOC);
+	return (REDI_INVALID);
+}
+
+t_ms_redi	*redi_builder(char *redi_path, t_toke_type kind)
 {
 	t_ms_redi	*redi;
 
-	redi = malloc(sizeof(t_ms_redi));
-	if (!redi)
-		return (NULL);
-	redi->kind = kind;
-	redi->source_kind = PATH;
+	redi = ms_malloc(sizeof(t_ms_redi));
+	redi->kind = convert_redi_kind(kind);
+	redi->source_kind = REDI_SOURCE_PATH;
 	redi->source.path = redi_path;
 	return (redi);
-}
-
-void	fill_cmd(t_token **current, t_ms_cmd *cmds)
-{
-	//populate cmds
 }

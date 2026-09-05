@@ -37,25 +37,29 @@ bool	ft_m3_add(void *ptr)
 	return (true);
 }
 
-void	ft_m3_rm(void *ptr)
+bool	ft_m3_rm(void *ptr)
 {
 	t_ms	**curr;
 	t_ms	*cache;
+	bool	result;
 
 	if (ptr == NULL)
-		return ;
+		return (false);
 	curr = head();
+	result = false;
 	while (*curr)
 	{
 		if ((*curr)->ptr == ptr)
 		{
 			cache = *curr;
 			*curr = (*curr)->next;
+			result = true;
 			free(cache);
 		}
 		else
 			curr = &(*curr)->next;
 	}
+	return (result);
 }
 
 void	ft_m3_each(void (*apply)(void *ptr))

@@ -25,7 +25,7 @@ void	*ft_m3_malloc(size_t n);
 void	ft_m3_free(void *ptr);
 
 // @brief remove a pointer from m3
-void	ft_m3_rm(void *ptr);
+bool	ft_m3_rm(void *ptr);
 
 // @brief call the apply function against each stored pointer
 void	ft_m3_each(void (*apply)(void *ptr));

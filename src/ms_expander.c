@@ -1,5 +1,7 @@
+#include "libft_kv.h"
 #include "ms_token.h"
 #include "ms_env.h"
+#include "ms_dbg.h"
 #include <libft_str.h>
 #include <libft_char.h>
 #include <stdbool.h>
@@ -89,14 +91,14 @@ char	*expand_var(char *str)
 	return (str);
 }
 
-void	expander(t_token **list)
+void	ms_expand(t_token **list)
 {
 	t_token	*current;
 
 	current = *list;
 	while (current)
 	{
-		if (current->kind == WORD)
+		if (current->kind == T_WORD)
 			current->value = expand_var(current->value);
 		current = current->next;
 	}
@@ -104,8 +106,9 @@ void	expander(t_token **list)
 	current = *list;
 	while (current)
 	{
-		if (current->kind == WORD)
+		if (current->kind == T_WORD)
 			current->value = remove_quote(current->value);
 		current = current->next;
 	}
+	ms_print_tokens(*list);
 }

@@ -88,8 +88,7 @@ void				*ft_lstfold(t_list *lst, void *acc, void *(*f)(void *,
 // returns NULL if list is empty;
 void				*ft_lst_pop(t_list **lst);
 
-//! @brief removes the first list element from the list and returns its content;
-// returns NULL if list is empty;
+//! @brief adds an element to the list
 void				ft_lst_push(t_list **lst, void *new_el);
 
 t_arr				*ft_lst2arr(t_list *head);
