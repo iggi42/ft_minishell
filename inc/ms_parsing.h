@@ -22,7 +22,7 @@ typedef struct s_ms_parse_res
 	union			u_ms_parse_res_body
 	{
 		char		*error_msg;
-		t_ms_cmd	*cmds;
+		t_ms_cmd	**cmds;
 	} source;
 }					t_ms_parse_res;
 

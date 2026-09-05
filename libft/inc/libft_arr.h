@@ -37,6 +37,9 @@ void		*ft_arr_fold(t_arr arr, void *(*fold)(void *, t_arr_el), void *acc);
 void		*ft_arr_nfold(t_arr arr, void *(*fold)(void *, t_arr_el),
 				void *acc);
 
+// reverse the order of elements in the array
+void		ft_arr_rev(t_arr arr);
+
 t_arr_el	*ft_arr_find(t_arr arr, bool (*valid)(t_arr_el));
 
 #endif
