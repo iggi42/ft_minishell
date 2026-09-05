@@ -12,6 +12,9 @@
 
 #include <libft_byte_t.h>
 
+// flags have to be at the start
+// -nnnn is valid -n flag (may only contain n)
+
 t_byte			ms_exec_builtin_echo(char **argv)
 {
 	(void) argv;
