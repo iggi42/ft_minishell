@@ -34,7 +34,6 @@ char	*ms_find_exec_file(char *cmd0);
 
 int		fill_here_doc(char *delimiter, pid_t *writer);
 
-
 // file utils for redis
 int		open_infile(char *infile_path);
 

@@ -10,4 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft_byte_t.h>
+
+t_byte			ms_exec_builtin_unset(char **argv)
+{
+	(void) argv;
+	return -1;
+}
 

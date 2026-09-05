@@ -13,7 +13,6 @@
 #ifndef MS_EXEC_BUILTINS_H
 # define MS_EXEC_BUILTINS_H
 # include <libft_byte_t.h>
-typedef t_byte	(*ms_builtin)(char **argv);
 
 t_byte			ms_exec_builtin_cd(char **argv);
 t_byte			ms_exec_builtin_echo(char **argv);

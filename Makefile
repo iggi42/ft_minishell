@@ -19,6 +19,9 @@ SRCS += ms_redi.c ms_cmd.c
 # execution
 SRCS += ms_exec_heredoc.c ms_exec_utils.c
 SRCS += ms_cmd_free.c
+SRCS += ms_exec_builtins.c ms_exec_builtins_cd.c ms_exec_builtins_echo.c
+SRCS += ms_exec_builtins_env.c ms_exec_builtins_exit.c ms_exec_builtins_export.c
+SRCS += ms_exec_builtins_pwd.c ms_exec_builtins_unset.c
 
 # parsing
 SRCS += ms_expander.c ms_expander_utils.c  

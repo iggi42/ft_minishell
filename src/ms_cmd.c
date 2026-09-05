@@ -11,10 +11,12 @@
 /* ************************************************************************** */
 
 #include "bw.h"
+#include "libft_byte_t.h"
 #include "ms_cmd_t.h"
 #include "ms_exec_utils.h"
 #include "ms_redi.h"
 #include "ms_utils.h"
+#include "ms_exec.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <libft_arr.h>
@@ -99,4 +101,32 @@ t_byte	ms_run_pipe(t_ms_cmd **full_pipe)
 		pids = pids->next;
 	}
 	return (result);
+}
+
+// returns a list of pids to wait on
+static pid_t	spawn_cmd(t_ms_cmd *cmds)
+{
+	pid_t	fr;
+	int		stdenv[2];
+
+	stdenv[STDIN_FILENO] = STDIN_FILENO;
+	stdenv[STDOUT_FILENO] = STDOUT_FILENO;
+	// FIXME: this needs to surive empty cmds
+	fr = ms_fork();
+	if (fr == 0)
+		exec_cmd(cmds, stdenv);
+	return (fr);
+}
+
+t_byte	ms_run_cmd(t_ms_cmd *cmd)
+{
+	pid_t	pid;
+	ms_builtin builtin;
+
+	builtin = ms_get_builtin_nofrk(cmd->argv[0]);
+	if(builtin)
+		return builtin(cmd->argv);
+	pid = spawn_cmd(cmd);
+	ft_bw_cleanup();
+	return (ft_wait(pid));
 }
