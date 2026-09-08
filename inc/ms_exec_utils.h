@@ -28,6 +28,7 @@ pid_t	ms_fork(void);
 void	ms_close(int fd);
 void	ms_dup2(int from, int to);
 
+void	ms_apply_stdenv(int stdenv[2]);
 int		*ms_pipe(int *new_pipe);
 
 char	*ms_find_exec_file(char *cmd0);

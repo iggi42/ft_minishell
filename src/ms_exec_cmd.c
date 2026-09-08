@@ -30,14 +30,8 @@
 #include <string.h>
 #include <unistd.h>
 
-void	ms_apply_stdenv(int stdenv[2])
-{
-	ms_dup2(stdenv[R], STDIN_FILENO);
-	ms_dup2(stdenv[W], STDOUT_FILENO);
-}
-
 // this _never_ returns
-static void	in_fork_cmd(t_ms_cmd *cmd, int stdenv[2])
+static void	exec_cmd(t_ms_cmd *cmd, int stdenv[2])
 {
 	char	*path;
 	ms_builtin built_in;
@@ -47,6 +41,7 @@ static void	in_fork_cmd(t_ms_cmd *cmd, int stdenv[2])
 	if(cmd->argv[0] == NULL)
 		ms_exit(EXIT_SUCCESS);
 	built_in = ms_get_builtin(cmd->argv[0]);
+	//TODO get buitltin here if argv[0] matches
 	path = ms_find_exec_file(cmd->argv[0]);
 	ft_bw_cleanup();
 	if(built_in != NULL)
@@ -86,7 +81,7 @@ static t_list	*spawn_pipe(t_ms_cmd **cmds)
 			stdenv[W] = STDOUT_FILENO;
 		fr = ms_fork();
 		if (fr == 0)
-			in_fork_cmd(cmds[0], stdenv);
+			exec_cmd(cmds[0], stdenv);
 		add_pid(&result, fr);
 		cmds++;
 	}
@@ -111,7 +106,7 @@ t_byte	ms_run_pipe(t_ms_cmd **full_pipe)
 }
 
 // returns a list of pids to wait on
-static pid_t	spawn_cmd(t_ms_cmd *cmd)
+static pid_t	spawn_cmd(t_ms_cmd *cmds)
 {
 	pid_t	fr;
 	int		stdenv[2];
@@ -121,14 +116,11 @@ static pid_t	spawn_cmd(t_ms_cmd *cmd)
 	// FIXME: this needs to surive empty cmds
 	fr = ms_fork();
 	if (fr == 0)
-		exec_cmd(cmd, stdenv);
+		exec_cmd(cmds, stdenv);
 	return (fr);
 }
 
-static t_byte run_built_nofrk(ms_builtin builtin, t_ms_cmd *cmd)
-{
-	
-}
+// static t_byte run_cmd_
 
 t_byte	ms_run_cmd(t_ms_cmd *cmd)
 {
@@ -137,7 +129,7 @@ t_byte	ms_run_cmd(t_ms_cmd *cmd)
 
 	builtin = ms_get_builtin_nofrk(cmd->argv[0]);
 	if(builtin)
-		return run_built_nofrk(builtin, cmd);
+		return builtin(cmd->argv);
 	pid = spawn_cmd(cmd);
 	ft_bw_cleanup();
 	return (ft_wait(pid));

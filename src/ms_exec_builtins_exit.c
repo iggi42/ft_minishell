@@ -11,9 +11,12 @@
 /* ************************************************************************** */
 
 #include <libft_byte_t.h>
+#include <stdlib.h>
+#include "ms_utils.h"
 
 t_byte			ms_exec_builtin_exit(char **argv)
 {
+	ms_exit(EXIT_SUCCESS);
 	(void) argv;
 	return -1;
 }
