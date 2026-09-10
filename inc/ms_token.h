@@ -1,6 +1,6 @@
 #ifndef MS_TOKEN_H
 # define MS_TOKEN_H
-# include <stdlib.h>
+# include <stddef.h>
 
 typedef enum e_token_type
 {
