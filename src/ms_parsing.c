@@ -22,7 +22,6 @@
 #include <libft_io.h>
 #include <libft_mem.h>
 #include <libft_str.h>
-#include <readline/history.h>
 
 
 typedef union
