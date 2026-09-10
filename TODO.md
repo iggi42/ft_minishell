@@ -13,4 +13,5 @@ TODO check every 42 header for the email (write a sed script)
 TODO expand variables in heredoc
 TODO (maybe) check how bw and kg handle alloc failure during add
 TODO write libft.d for libft.a to know when to rebuild it
+TODO pop gnl cache on io wrappers (close, dup)
 TODO funcheck and valgrind this bitch
