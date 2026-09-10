@@ -1,9 +1,11 @@
+#include "libft_str.h"
 #include "ms_utils.h"
 #include "bw.h"
 #include <libft_io.h>
 #include <libft_merle.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdio.h> // TODO remove me for eval
 #include <readline/history.h>
 
 void	ms_exit(int exit_code)
@@ -41,4 +43,9 @@ void	*ms_exit_if(void *cond, char *error_msg)
 void	*ms_protect(void *cond)
 {
 	return (ms_exit_if(cond, MS_MEM_ERR));
+}
+
+char *ms_strdup(char *input)
+{
+	return (ms_protect(ft_strdup(input)));
 }

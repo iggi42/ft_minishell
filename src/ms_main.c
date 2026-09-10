@@ -14,6 +14,7 @@
 #include "ms_repl.h"
 #include <libft_io.h>
 #include <unistd.h>
+#include <stdio.h> // TODO remove me for eval
 #include <readline/history.h>
 
 int	main(int argc, char **argv)

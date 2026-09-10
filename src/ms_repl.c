@@ -20,6 +20,7 @@
 #include <errno.h>
 #include <libft_char.h>
 #include <libft_mem.h>
+#include <stdio.h> // TODO REMOVE ME for EVAL
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdlib.h>
