@@ -1,13 +1,13 @@
-#include "libft_kv.h"
 #include "ms_token.h"
+#include "ms_safe.h"
 #include "ms_env.h"
-#include "ms_dbg.h"
+#include "ms_utils.h"
 #include <libft_str.h>
+#include <libft_mem.h>
 #include <libft_char.h>
 #include <stdbool.h>
-#include <stdlib.h>
 
-int		get_len(char *str)
+static int		get_len(char *str)
 {
 	int	len;
 	
@@ -19,21 +19,21 @@ int		get_len(char *str)
 	return (len);
 }
 
-char	*slice_and_dice(char *str, int start, int len, char *var)
+static char	*slice_and_dice(char *str, int start, int len, char *var)
 {
 	char	*before;
 	char	*after;
 	char	*tmp;
 	char	*new_str;
 
-	before = ft_substr(str, 0, start);
-	after = ft_substr(str, start + len, ft_strlen(str) - (start + len));
-	tmp = ft_strjoin(before, var);
-	new_str = ft_strjoin(tmp, after);
-	free(before);
-	free(after);
-	free(tmp);
-	free(str);
+	before = ms_substr(str, 0, start);
+	after = ms_substr(str, start + len, ft_strlen(str) - (start + len));
+	tmp = ms_protect(ft_strjoin(before, var));
+	new_str = ms_protect(ft_strjoin(tmp, after));
+	ft_free(before);
+	ft_free(after);
+	ft_free(tmp);
+	ft_free(str);
 	return (new_str);
 }
 
@@ -50,14 +50,14 @@ char	*expand(char *str, int *i)
 		(*i)++;
 		return (str);
 	}
-	var_name = ft_substr(str, *i + 1, len);
+	var_name = ms_substr(str, *i + 1, len);
 	if (var_name[0] == '?')
 		env_var = "";		//TODO: get prev exit code
 	else
 		env_var = ms_get_env(var_name, "");
 	new_str = slice_and_dice(str, *i, len + 1, env_var);
 	*i = *i + ft_strlen(env_var);
-	free(var_name);
+	ft_free(var_name);
 	return (new_str);
 }
 
@@ -110,5 +110,5 @@ void	ms_expand(t_token **list)
 			current->value = remove_quote(current->value);
 		current = current->next;
 	}
-	ms_print_tokens(*list);
+	// ms_print_tokens(*list);
 }

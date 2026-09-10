@@ -14,6 +14,7 @@
 #include "ms_utils.h"
 #include "ms_exec_utils.h"
 #include "ms_redi.h"
+#include "ms_safe.h"
 #include <errno.h>
 #include <libft_io.h>
 #include <libft_mem.h>
@@ -22,11 +23,11 @@
 static int	(*get_opn(enum e_ms_redi_kind k))(char *target)
 {
 	if (k == REDI_IN)
-		return (open_infile);
+		return (ms_open_infile);
 	if (k == REDI_OUT)
-		return (open_outfile);
+		return (ms_open_outfile);
 	if (k == REDI_OUT_APPEND)
-		return (open_outappfile);
+		return (ms_open_outappfile);
 	ms_error_out(EXIT_FAILURE, "unexpected redirector kind", 0);
 	return (NULL);
 }

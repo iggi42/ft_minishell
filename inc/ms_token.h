@@ -29,7 +29,7 @@ t_token				*free_token_list(t_token *list);
 
 size_t				ms_parsing_count_cmds(t_token *tokens);
 
-char				*slice_and_dice(char *str, int start, int len, char *var);
+// char				*slice_and_dice(char *str, int start, int len, char *var);
 void				del_empty_token(t_token **list);
 
 // returns NULL if tokens have no syntax error

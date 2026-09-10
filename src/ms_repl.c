@@ -14,7 +14,6 @@
 #include "libft_merle.h"
 #include "ms_env.h"
 #include "ms_exec.h"
-#include "ms_token.h"
 #include "ms_parsing.h"
 #include "ms_utils.h"
 #include <errno.h>
@@ -62,7 +61,7 @@ int	ms_repl(void)
 			ft_printf_fd(STDERR_FILENO, "invalid syntax: %s\n",
 				parsing_result->source.error_msg);
 		else
-			exit_code = ms_run_pipe(parsing_result->source.cmds);
+			exit_code = ms_run(parsing_result->source.cmds);
 		ft_free(line);
 		ms_free_parser_result(parsing_result);
 	}

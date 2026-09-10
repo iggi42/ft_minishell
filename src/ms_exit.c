@@ -1,5 +1,6 @@
-#include "ms_utils.h"
+#include "ms_exit.h"
 #include "bw.h"
+#include "kg.h"
 #include <libft_io.h>
 #include <libft_merle.h>
 #include <unistd.h>
@@ -11,6 +12,7 @@ void	ms_exit(int exit_code)
 {
 	clear_history();
 	ft_bw_cleanup();
+	kg_cleanup(true);
 	ft_m3_cleanup();
 	exit(exit_code);
 }

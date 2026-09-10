@@ -1,7 +1,8 @@
-#include "ms_parsing.h"
 #include "ms_redi_t.h"
+#include "ms_safe.h"
 #include "ms_token.h"
 #include "ms_utils.h"
+#include "ms_cmd_t.h"
 #include <stdlib.h>
 
 size_t	ms_parsing_count_cmds(t_token *tokens)

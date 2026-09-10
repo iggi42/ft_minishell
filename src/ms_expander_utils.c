@@ -3,7 +3,7 @@
 #include <libft_mem.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include <stdlib.h>
+#include "ms_safe.h"
 
 int	unquote_len(char *str)
 {

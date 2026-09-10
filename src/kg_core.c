@@ -10,46 +10,45 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bw.h"
-#include "bw_priv_t.h"
+#include "kg_priv_t.h"
 #include "ms_safe.h"
+#include <libft_os.h>
 #include <libft_mem.h>
 #include <stdbool.h>
-#include <unistd.h>
 
-static t_bw_el	**head(void)
+static t_kg_el	**head(void)
 {
-	static t_bw_el	*core_head;
+	static t_kg_el	*core_head;
 
 	return (&core_head);
 }
 
-void	ft_bw_add(int new_fd)
+void	kg_add(pid_t new_pid)
 {
-	t_bw_el	*new_head;
+	t_kg_el	*new_head;
 
-	if (new_fd < 2)
+	if (new_pid < 1)
 		return ;
-	// TODO close new_fd even if this fails
-	new_head = ms_malloc(sizeof(t_bw_el));
+	// TODO wait for new_pid even if this fails
+	new_head = ms_malloc(sizeof(t_kg_el));
 	new_head->next = *head();
-	new_head->fd = new_fd;
+	new_head->pid = new_pid;
 	*head() = new_head;
 }
 
-bool	ft_bw_rm(int fd)
+bool	kg_rm(pid_t pid)
 {
-	t_bw_el	**curr;
-	t_bw_el	*cache;
+	t_kg_el	**curr;
+	t_kg_el	*cache;
 	bool	result;
 
-	if (fd < 0)
-		return (false);
+	if (pid  < 1)
+		return false;
 	result = false;
 	curr = head();
 	while (*curr)
 	{
-		if ((*curr)->fd == fd)
+		if ((*curr)->pid == pid)
 		{
 			result = true;
 			cache = *curr;
@@ -62,25 +61,25 @@ bool	ft_bw_rm(int fd)
 	return (result);
 }
 
-void	ft_bw_each(void (*apply)(int fd))
+void	kg_each(void (*apply)(pid_t stored_pid))
 {
-	t_bw_el	*curr;
+	t_kg_el	*curr;
 
 	curr = *head();
 	while (curr)
-		curr = (apply(curr->fd), curr->next);
+		curr = (apply(curr->pid), curr->next);
 }
 
-void	ft_bw_cleanup(void)
+void	kg_cleanup(bool wait)
 {
-	t_bw_el	*curr;
-	t_bw_el	*cache;
+	t_kg_el	*curr;
+	t_kg_el	*cache;
 
 	curr = *head();
 	while (curr)
 	{
-		if (curr->fd > 2)
-			close(curr->fd);
+		if(wait)
+			ft_wait(curr->pid);
 		cache = curr;
 		curr = curr->next;
 		ft_free(cache);

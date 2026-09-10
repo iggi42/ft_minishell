@@ -24,21 +24,15 @@ enum	e_pipe_end
 	W = 1
 };
 
-pid_t	ms_fork(void);
-void	ms_close(int fd);
-void	ms_dup2(int from, int to);
-
 void	ms_apply_stdenv(int stdenv[2]);
-int		*ms_pipe(int *new_pipe);
 
 char	*ms_find_exec_file(char *cmd0);
 
-int		fill_here_doc(char *delimiter, pid_t *writer);
+int		ms_fill_here_doc(char *delimiter, pid_t *writer);
 
 // file utils for redis
-int		open_infile(char *infile_path);
-
-int		open_outfile(char *outfile_path);
-int		open_outappfile(char *outfile_path);
+int		ms_open_infile(char *infile_path);
+int		ms_open_outfile(char *outfile_path);
+int		ms_open_outappfile(char *outfile_path);
 
 #endif

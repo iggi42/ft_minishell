@@ -1,82 +1,92 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.c                                              :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/19 15:06:28 by fkruger           #+#    #+#             */
-/*   Updated: 2026/04/19 15:06:29 by fkruger          ###   ########.fr       */
+/*   Created: 2026/04/19 16:26:51 by fkruger           #+#    #+#             */
+/*   Updated: 2026/04/19 16:26:51 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bw.h"
-#include "libft_byte_t.h"
-#include "ms_cmd_t.h"
+#include "ms_safe.h"
+#include "ms_env.h"
+#include "ms_exit.h"
+#include "unistd.h"
 #include "ms_exec_utils.h"
-#include "ms_redi.h"
-#include "ms_utils.h"
-#include "ms_exec.h"
-#include <errno.h>
-#include <fcntl.h>
-#include <libft_arr.h>
-#include <libft_io.h>
-#include <libft_ll.h>
-#include <libft_mem.h>
-#include <libft_merle.h>
-#include <libft_os.h>
 #include <libft_str.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include <libft_arr.h>
+#include <libft_mem.h>
 
-void	apply_stdenv(int stdenv[2])
+void ms_apply_stdenv(int stdenv[2])
 {
 	ms_dup2(stdenv[R], STDIN_FILENO);
 	ms_dup2(stdenv[W], STDOUT_FILENO);
 }
 
-// not defined for an empty pipe, needs at least 1 element!
-t_byte	ms_run_pipe(t_ms_cmd **full_pipe)
+bool	is_path(char *cmd)
 {
-	t_list	*pids;
-	t_byte	result;
-
-	pids = spawn_pipe(full_pipe);
-	ft_bw_cleanup();
-	result = 0;
-	while (pids)
+	while (cmd != NULL)
 	{
-		result = ft_wait(*(int *)pids->content);
-		pids = pids->next;
+		if (*cmd == '/')
+			return (true);
+		if (*cmd == '\0')
+			return (false);
+		cmd++;
 	}
-	return (result);
+	return (false);
 }
 
-// returns a list of pids to wait on
-static pid_t	spawn_cmd(t_ms_cmd *cmds)
+static char	*default_str(char *normal, char *fallback)
 {
-	pid_t	fr;
-	int		stdenv[2];
-
-	stdenv[STDIN_FILENO] = STDIN_FILENO;
-	stdenv[STDOUT_FILENO] = STDOUT_FILENO;
-	// FIXME: this needs to surive empty cmds
-	fr = ms_fork();
-	if (fr == 0)
-		exec_cmd(cmds, stdenv);
-	return (fr);
+	if (*normal == '\0')
+		return (fallback);
+	return (normal);
 }
 
-t_byte	ms_run_cmd(t_ms_cmd *cmd)
+static char	*ms_search_path(char *cmd0)
 {
-	pid_t	pid;
-	ms_builtin builtin;
+	char	**paths;
+	size_t	i;
+	char	*full_path;
+	char	*sub_optimal;
 
-	builtin = ms_get_builtin_nofrk(cmd->argv[0]);
-	if(builtin)
-		return builtin(cmd->argv);
-	pid = spawn_cmd(cmd);
-	ft_bw_cleanup();
-	return (ft_wait(pid));
+	if (cmd0 == NULL || *cmd0 == '\0')
+		return (NULL);
+	//TODO handle getting PATH='::' (basically any amount of just ':')
+	paths = ms_protect(ft_split(ms_get_env("PATH", "."), ':'));
+	i = 0;
+	sub_optimal = NULL;
+	while (paths != NULL && paths[i])
+	{
+		full_path = ft_strf("%s/%s", default_str(paths[i], "."), cmd0);
+		if (full_path == NULL || access(full_path, X_OK) == 0)
+			return (ft_arr_each((t_arr)paths, ft_free), ft_free(paths),
+				ft_free(sub_optimal), full_path);
+		if (sub_optimal == NULL && access(full_path, F_OK) == 0)
+			sub_optimal = (ft_free(sub_optimal), full_path);
+		else
+			ft_free(full_path);
+		i++;
+	}
+	if (paths)
+		ft_arr_each((t_arr)paths, ft_free);
+	return (ft_free(paths), sub_optimal);
+}
+
+char	*ms_find_exec_file(char *cmd0)
+{
+	char	*path;
+
+	if (!is_path(cmd0))
+		path = ms_search_path(cmd0);
+	else
+		path = ms_strdup(cmd0);
+	if (access(path, F_OK))
+	{
+		path = ft_strf("%s: command not found", cmd0);
+		ms_error_out(EXIT_CMD_NOT_FOUND, path, 0);
+	}
+	return (path);
 }

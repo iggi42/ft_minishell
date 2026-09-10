@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_exec.h                                          :+:      :+:    :+:   */
+/*   m3_priv.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/15 19:04:07 by fkruger           #+#    #+#             */
-/*   Updated: 2026/05/15 19:04:08 by fkruger          ###   ########.fr       */
+/*   Created: 2026/04/07 05:29:32 by fkruger           #+#    #+#             */
+/*   Updated: 2026/04/07 05:29:35 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_EXEC_H
-# define MS_EXEC_H
-# include "ms_cmd_t.h"
+#ifndef BW_PRIV_T_H
+# define BW_PRIV_T_H
+# include <unistd.h>
 
-t_byte			ms_run(t_ms_cmd **run_me);
-// run an array of cmds in a pipe. don't use for 1 cmd.
-t_byte			ms_run_pipe(t_ms_cmd **full_pipe);
-t_byte			ms_run_cmd(t_ms_cmd *run_me);
+typedef struct s_kg_el
+{
+	struct s_kg_el	*next;
+	pid_t			pid;
+}					t_kg_el;
 
 #endif

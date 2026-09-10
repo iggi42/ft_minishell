@@ -13,11 +13,9 @@
 #ifndef MS_UTILS_H
 # define MS_UTILS_H
 # define MS_MEM_ERR "malloc failed"
-# include <stddef.h>
 
 void	ms_exit(int exit_code);
 
-void	*ms_malloc(size_t size);
 void	ms_error_out(int exit_code, char *msg, int error_code);
 
 // ms_exit_if(ft_malloc(size), "malloc failed");

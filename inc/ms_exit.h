@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_exec.h                                          :+:      :+:    :+:   */
+/*   ms_exit.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/15 19:04:07 by fkruger           #+#    #+#             */
-/*   Updated: 2026/05/15 19:04:08 by fkruger          ###   ########.fr       */
+/*   Created: 2026/05/15 19:04:10 by fkruger           #+#    #+#             */
+/*   Updated: 2026/05/15 19:04:12 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_EXEC_H
-# define MS_EXEC_H
-# include "ms_cmd_t.h"
+#ifndef MS_EXIT_H
+# define MS_EXIT_H
+# define MS_MEM_ERR "malloc failed"
 
-t_byte			ms_run(t_ms_cmd **run_me);
-// run an array of cmds in a pipe. don't use for 1 cmd.
-t_byte			ms_run_pipe(t_ms_cmd **full_pipe);
-t_byte			ms_run_cmd(t_ms_cmd *run_me);
+void	ms_exit(int exit_code);
+
+void	ms_error_out(int exit_code, char *msg, int error_code);
+
+// ms_exit_if(ft_malloc(size), "malloc failed");
+void	*ms_exit_if(void *cond, char *error_msg);
+
+// exit clean with memory allocation error if cond is NULL,
+//	otherwise return cond
+void	*ms_protect(void *cond);
 
 #endif

@@ -1,6 +1,5 @@
-#include "../inc/ms_token.h"
-#include <libft_str.h>
-#include <stdlib.h>
+#include "ms_token.h"
+#include "ms_safe.h"
 
 int	handle_operator(char *str, int i, t_token **tokens)
 {
@@ -27,7 +26,7 @@ int	handle_operator(char *str, int i, t_token **tokens)
 		type = T_PIPE;
 	else
 		return (0);
-	operator = ft_substr(str, i, len);
+	operator = ms_substr(str, i, len);
 	append_token(tokens, operator, type);
 	return (i + len);
 }
@@ -54,7 +53,7 @@ int	handle_arg(char *str, int i, t_token **tokens)
 		else
 			i++;
 	}
-	append_token(tokens, ft_substr(str, start, i - start), T_WORD);
+	append_token(tokens, ms_substr(str, start, i - start), T_WORD);
 	return (i);
 }
 
@@ -64,18 +63,18 @@ char	*ms_syntax_check(t_token *tokens)
 
 	current = tokens;
 	if (current && current->kind == T_PIPE)
-		return (ft_strdup("syntax error near unexpected sign '|'"));
+		return (ms_strdup("syntax error near unexpected sign '|'"));
 	while (current)
 	{
 		if (is_redirect(current->kind))
 		{
 			if (!current->next || current->next->kind != T_WORD)
-				return (ft_strdup("syntax error near unexpected sign 'newline'"));
+				return (ms_strdup("syntax error near unexpected sign 'newline'"));
 		}
 		if (current->kind == T_PIPE)
 		{
 			if (!current->next || current->next->kind == T_PIPE)
-				return (ft_strdup("syntax error near unexpected sign '|'"));
+				return (ms_strdup("syntax error near unexpected sign '|'"));
 		}
 		current = current->next;
 	}

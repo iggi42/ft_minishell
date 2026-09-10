@@ -1,10 +1,8 @@
-#include "libft_arr.h"
-#include "libft_arr_t.h"
-#include "libft_ll.h"
-#include "libft_lst_kv.h"
-#include "ms_redi_t.h"
 #include "ms_utils.h"
+#include "ms_safe.h"
+#include <libft_arr.h>
 #include <libft_kv.h>
+#include <libft_ll.h>
 #include <libft_mem.h>
 #include <libft_str.h>
 #include <limits.h>
@@ -33,15 +31,15 @@ static t_kv	*env_core(int op)
 	return (store);
 }
 
-void	ms_set_env(char *key, const char *value)
+void	ms_set_env(char *key, char *value)
 {
 	t_kv		*store;
 	void		*my_val;
 	void		*my_key;
 	t_kv_pair	*prev;
 
-	my_val = ms_protect(ft_strdup(value));
-	my_key = ms_protect(ft_strdup(key));
+	my_val = ms_strdup(value);
+	my_key = ms_strdup(key);
 	store = env_core(MSC_INIT);
 	prev = ft_kv_put(store, my_key, my_val);
 	ft_kv_free_entry(prev);
@@ -67,26 +65,24 @@ void	ms_unset_env(char *name)
 	ft_kv_free_entry(ft_kv_pop(store, name));
 }
 
-#include <unistd.h>
-
 static void	*ms_env_fold(void *acc, void *el)
 {
-	t_kv_pair *pair;
+	t_kv_pair	*pair;
 
 	pair = el;
-	*(void **) acc = ms_protect(ft_strf("%s=%s", pair->key, pair->val));
-	return ((void **) acc) + 1;
+	*(void **)acc = ms_protect(ft_strf("%s=%s", pair->key, pair->val));
+	return (((void **)acc) + 1);
 }
 
 char	**ms_get_environ(void)
 {
-	char **result;
-	t_kv *store;
+	char	**result;
+	t_kv	*store;
 
 	store = env_core(MSC_INIT);
 	result = ms_protect(ft_arr_new(ft_lstsize(store->_store)));
 	ft_lstfold(store->_store, result, ms_env_fold);
-	return (char **) result;
+	return ((char **)result);
 }
 
 static bool	parse_env(char *input, char **output)
@@ -96,13 +92,11 @@ static bool	parse_env(char *input, char **output)
 	split = ft_strchr(input, '=');
 	if (split == NULL)
 		return (false);
-	output[0] = ft_substr(input, 0, split - input);
-	output[1] = ft_substr(input, 1 + split - input, ft_strlen(input));
+	output[0] = ms_substr(input, 0, split - input);
+	output[1] = ms_substr(input, 1 + split - input, ft_strlen(input));
 	return (true);
 }
 
-// TODO: add SHLVL incr
-// TODO: $?
 void	ms_load_env(char **environ)
 {
 	char	*kv[2];

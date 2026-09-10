@@ -20,7 +20,8 @@ t_byte			ms_exec_builtin_pwd(char **argv)
 {
 	(void) argv;
 	char s[PATH_MAX];
-	getcwd(s, PATH_MAX);
+	//TODO react to failure
+	(void) getcwd(s, PATH_MAX);
 	ft_putendl_fd(s, STDOUT_FILENO);
 	return -1;
 }

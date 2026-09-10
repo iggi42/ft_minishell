@@ -13,10 +13,10 @@
 #ifndef BW_PRIV_T_H
 # define BW_PRIV_T_H
 
-typedef struct s_ms
+typedef struct s_bw_el
 {
-	struct s_ms	*next;
-	int			fd;
-}				t_ms;
+	struct s_bw_el	*next;
+	int				fd;
+}					t_bw_el;
 
 #endif

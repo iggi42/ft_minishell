@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.c                                              :+:      :+:    :+:   */
+/*   ms_exec_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,40 +11,31 @@
 /* ************************************************************************** */
 
 #include "bw.h"
-#include "libft_byte_t.h"
 #include "ms_cmd_t.h"
+#include "ms_exec_builtins.h"
 #include "ms_exec_utils.h"
 #include "ms_redi.h"
+#include "ms_safe.h"
 #include "ms_utils.h"
-#include "ms_exec.h"
 #include <errno.h>
-#include <fcntl.h>
 #include <libft_arr.h>
-#include <libft_io.h>
 #include <libft_ll.h>
-#include <libft_mem.h>
-#include <libft_merle.h>
-#include <libft_os.h>
-#include <libft_str.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
 // this _never_ returns
 static void	exec_cmd(t_ms_cmd *cmd, int stdenv[2])
 {
-	char	*path;
-	ms_builtin built_in;
+	char		*path;
+	ms_builtin	built_in;
 
 	ms_apply_stdenv(stdenv);
 	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))apply_redi);
-	if(cmd->argv[0] == NULL)
+	if (cmd->argv[0] == NULL)
 		ms_exit(EXIT_SUCCESS);
 	built_in = ms_get_builtin(cmd->argv[0]);
 	path = ms_find_exec_file(cmd->argv[0]);
 	ft_bw_cleanup();
-	if(built_in != NULL)
-		ms_exit(built_in(cmd->argv + 1));
+	if (built_in != NULL)
+		ms_exit(built_in(cmd->argv));
 	else
 		execve(path, cmd->argv, __environ);
 	ms_error_out(EXIT_NO_EXEC_PERM, path, errno);
@@ -98,7 +89,7 @@ t_byte	ms_exec_pipe(t_ms_cmd **full_pipe)
 	result = 0;
 	while (pids)
 	{
-		result = ft_wait(*(int *)pids->content);
+		result = ms_wait(*(int *)pids->content);
 		pids = pids->next;
 	}
 	return (result);
