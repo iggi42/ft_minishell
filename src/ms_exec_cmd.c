@@ -57,7 +57,7 @@ static pid_t	spawn_cmd(t_ms_cmd *cmds)
 	return (fr);
 }
 
-t_byte	ms_run_cmd(t_ms_cmd *cmd)
+t_byte	ms_exec_cmd(t_ms_cmd *cmd)
 {
 	pid_t		pid;
 	ms_builtin	builtin;

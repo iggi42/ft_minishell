@@ -13,9 +13,9 @@
 #include "libft_arr_t.h"
 #include <libft_arr.h>
 
-t_byte			ms_run(t_ms_cmd **run_me)
+t_byte			ms_exec(t_ms_cmd **run_me)
 {
 	if(ft_arr_len((t_arr) *run_me) > 1)
-		return ms_run_pipe(run_me);
-	return ms_run_cmd(*run_me);
+		return ms_exec_pipe(run_me);
+	return ms_exec_cmd(*run_me);
 }
