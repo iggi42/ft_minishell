@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_exec.h                                          :+:      :+:    :+:   */
+/*   ms_exec_builtins_exit.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/15 19:04:07 by fkruger           #+#    #+#             */
-/*   Updated: 2026/05/15 19:04:08 by fkruger          ###   ########.fr       */
+/*   Created: 2026/08/05 22:30:01 by fkruger           #+#    #+#             */
+/*   Updated: 2026/08/05 22:30:01 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_EXEC_H
-# define MS_EXEC_H
-# include "ms_cmd_t.h"
+#include <libft_byte_t.h>
+#include <stdlib.h>
+#include "ms_exit.h"
+#include <libft_io.h>
 
-t_byte			ms_exec(t_ms_cmd **run_me);
-// run an array of cmds in a pipe. don't use for 1 cmd.
-t_byte			ms_exec_pipe(t_ms_cmd **full_pipe);
+t_byte			ms_exec_builtin_exit(char **argv)
+{
+	ms_exit(EXIT_SUCCESS);
+	(void) argv;
+	return -1;
+}
 
-// runs a single and doesn't fork for all of them
-t_byte			ms_exec_cmd(t_ms_cmd *run_me);
-
-#endif

@@ -16,5 +16,7 @@
 
 bool	ft_str_eq(const char *a, const char *b)
 {
+	if (a == NULL || b == NULL)
+		return (false);
 	return (ft_strncmp(a, b, SIZE_MAX) == 0);
 }

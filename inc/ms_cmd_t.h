@@ -13,7 +13,6 @@
 #ifndef MS_CMD_T_H
 # define MS_CMD_T_H
 # include <libft_byte_t.h>
-# include <stddef.h>
 # include "ms_redi_t.h"
 
 typedef struct s_ms_cmd

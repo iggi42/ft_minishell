@@ -1,39 +1,26 @@
-#include "libft_kv.h"
-#include "ms_token.h"
 #include "ms_env.h"
-#include "ms_dbg.h"
+#include "ms_exit.h"
+#include "ms_parsing_getlen.h"
+#include "ms_safe.h"
+#include "ms_token.h"
+#include <libft_mem.h>
 #include <libft_str.h>
-#include <libft_char.h>
-#include <stdbool.h>
-#include <stdlib.h>
 
-int		get_len(char *str)
-{
-	int	len;
-	
-	len = 0;
-	if (str[len] == '?')
-		return (len);
-	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'))
-			len++;
-	return (len);
-}
-
-char	*slice_and_dice(char *str, int start, int len, char *var)
+static char	*slice_and_dice(char *str, int start, int len, char *var)
 {
 	char	*before;
 	char	*after;
 	char	*tmp;
 	char	*new_str;
 
-	before = ft_substr(str, 0, start);
-	after = ft_substr(str, start + len, ft_strlen(str) - (start + len));
-	tmp = ft_strjoin(before, var);
-	new_str = ft_strjoin(tmp, after);
-	free(before);
-	free(after);
-	free(tmp);
-	free(str);
+	before = ms_substr(str, 0, start);
+	after = ms_substr(str, start + len, ft_strlen(str) - (start + len));
+	tmp = ms_protect(ft_strjoin(before, var));
+	new_str = ms_protect(ft_strjoin(tmp, after));
+	ft_free(before);
+	ft_free(after);
+	ft_free(tmp);
+	ft_free(str);
 	return (new_str);
 }
 
@@ -44,20 +31,17 @@ char	*expand(char *str, int *i)
 	char	*new_str;
 	int		len;
 
-	len = get_len(str + *i + 1);
+	len = ms_parsing_varname(str + *i + 1);
 	if (len == 0)
 	{
 		(*i)++;
 		return (str);
 	}
-	var_name = ft_substr(str, *i + 1, len);
-	if (var_name[0] == '?')
-		env_var = "";		//TODO: get prev exit code
-	else
-		env_var = ms_get_env(var_name, "");
+	var_name = ms_substr(str, *i + 1, len);
+	env_var = ms_env_get(var_name, "");
 	new_str = slice_and_dice(str, *i, len + 1, env_var);
 	*i = *i + ft_strlen(env_var);
-	free(var_name);
+	ft_free(var_name);
 	return (new_str);
 }
 
@@ -79,11 +63,11 @@ char	*expand_var(char *str)
 		else if (str[i] == '$')
 		{
 			if (single_q == true)
-			 i++;
+				i++;
 			else
 			{
 				str = expand(str, &i);
-				continue;
+				continue ;
 			}
 		}
 		i++;
@@ -110,5 +94,4 @@ void	ms_expand(t_token **list)
 			current->value = remove_quote(current->value);
 		current = current->next;
 	}
-	ms_print_tokens(*list);
 }

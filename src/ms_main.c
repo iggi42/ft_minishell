@@ -13,16 +13,16 @@
 #include "ms_env.h"
 #include "ms_repl.h"
 #include <libft_io.h>
-#include <unistd.h>
-#include <readline/history.h>
+#include <stdio.h> // TODO keep for nix bs, remove on campus
+#include <readline/readline.h>
 
 int	main(int argc, char **argv)
 {
 	if (argc != 1)
 		return ((void)argv, -1);
-	ms_load_env(__environ);
+	ms_env_init(argv[0]);
 	ms_repl();
-	clear_history();
+	rl_clear_history();
 	ms_env_free();
 	ft_gnl(-1);
 }

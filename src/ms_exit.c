@@ -1,3 +1,4 @@
+#include "ms_exit.h"
 #include "bw.h"
 #include "kg.h"
 #include <libft_io.h>
@@ -5,18 +6,18 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h> // TODO remove me for eval
-#include <readline/history.h>
+#include <readline/readline.h>
 
 void	ms_exit(int exit_code)
 {
-	clear_history();
+	rl_clear_history();
 	ft_bw_cleanup();
 	kg_cleanup(true);
 	ft_m3_cleanup();
 	exit(exit_code);
 }
 
-void	ms_error_out(int exit_code, char *msg, int error_code)
+void ms_complain(char *msg, int error_code)
 {
 	if (msg != NULL)
 	{
@@ -27,6 +28,11 @@ void	ms_error_out(int exit_code, char *msg, int error_code)
 	if (error_code != 0)
 		ft_putstr_fd(strerror(error_code), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
+}
+
+void	ms_error_out(int exit_code, char *msg, int error_code)
+{
+	ms_complain(msg, error_code);
 	ms_exit(exit_code);
 }
 

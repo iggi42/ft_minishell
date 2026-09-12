@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 #include "libft_char.h"
 #include "libft_str.h"
-#include <stdbool.h>
 
 static bool	ft_isspace(const char c)
 {

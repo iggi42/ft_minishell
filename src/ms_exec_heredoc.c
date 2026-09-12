@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+//TODO: CLEAN ME UP LOL
 #include "bw.h"
-#include "ms_utils.h"
+#include "ms_exit.h"
+#include "ms_safe.h"
 #include "ms_exec_utils.h"
 #include <errno.h>
 #include <libft_io.h>
@@ -76,7 +78,7 @@ static char	*stdin_gnl(void)
 	return (ft_gnl(STDIN_FILENO));
 }
 
-int	fill_here_doc(char *delimiter, pid_t *writer)
+int	ms_fill_here_doc(char *delimiter, pid_t *writer)
 {
 	char	**lines;
 

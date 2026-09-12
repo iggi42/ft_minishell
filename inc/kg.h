@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bw.h                                               :+:      :+:    :+:   */
+/*   kg.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,20 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BW_H
-# define BW_H
+#ifndef KG_H
+# define KG_H
 # include <stdbool.h>
+# include <unistd.h>
 
-// @brief add fd to structure, bool to check if it worked
-void	ft_bw_add(int fd);
+// @brief add pid to structure, bool to check if it worked
+void	kg_add(pid_t new_pid);
 
-// @brief remove a fd from m3
-bool	ft_bw_rm(int fd);
+// @brief remove a pid from the kindergarden
+bool	kg_rm(pid_t existing_pid);
 
 // @brief call the apply function against each stored pointer
-void	ft_bw_each(void (*apply)(int fd));
+void	kg_each(void (*apply)(pid_t stored_pid));
 
-// @brief closes all stored the fds and frees the internal data structure
-void	ft_bw_cleanup(void);
+// @brief waits for all stored pids and frees the internal data structure
+// only waits for stored pids if they wait is true (use with false after forking)
+void	kg_cleanup(bool wait);
 
 #endif

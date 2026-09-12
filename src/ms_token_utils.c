@@ -1,5 +1,5 @@
 #include "ms_token.h"
-#include "ms_utils.h"
+#include "ms_safe.h"
 #include <libft_mem.h>
 
 t_token	*new_token(char *value, enum e_token_type kind)

@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   io_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/26 17:54:18 by fkruger           #+#    #+#             */
-/*   Updated: 2026/07/26 17:54:27 by fkruger          ###   ########.fr       */
+/*   Created: 2026/06/05 20:57:44 by fkruger           #+#    #+#             */
+/*   Updated: 2026/06/05 20:57:46 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_utils.h"
-#include <libft_io.h>
-#include <libft_mem.h>
-#include <unistd.h>
+#define _GNU_SOURCE
+#include "ms_safe.h"
+#include <fcntl.h>
 
-void	*ms_malloc(size_t size)
+int	ms_open_infile(char *infile_path)
 {
-	void	*result;
-
-	result = ft_malloc(size);
-	if (result)
-		return (result);
-	ft_putendl_fd("\nOUT OF MEMORY\n", STDERR_FILENO);
-	ms_exit(EXIT_FAILURE);
-	return (NULL);
+	return (ms_open(infile_path, O_RDONLY | O_CLOEXEC));
 }
 
+int	ms_open_outfile(char *outfile_path)
+{
+	return (ms_open(outfile_path, O_CREAT | O_TRUNC | O_WRONLY | O_CLOEXEC));
+}
 
+int	ms_open_outappfile(char *outfile_path)
+{
+	return (ms_open(outfile_path, O_CREAT | O_WRONLY | O_APPEND | O_CLOEXEC));
+}

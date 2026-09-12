@@ -9,5 +9,7 @@ void	ms_cmd_free(t_ms_cmd *cmd)
 		return ;
 	ft_arr_each((t_arr) (cmd->reds), (void (*)(t_arr_el))redi_free);
 	ft_arr_each((t_arr) (cmd->argv), (void (*)(t_arr_el))ft_free);
+	ft_free(cmd->reds);
+	ft_free(cmd->argv);
 	ft_free(cmd);
 }

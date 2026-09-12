@@ -11,33 +11,25 @@
 
 NAME = minishell
 
-# top level apis
-SRCS += ms_repl.c ms_parsing.c ms_exec.c
-## data structures
-SRCS += ms_redi.c ms_cmd.c
-
-# execution
-SRCS += ms_exec_heredoc.c ms_exec_utils.c
 SRCS += ms_cmd_free.c
-
-# parsing
-SRCS += ms_expander.c ms_expander_utils.c  
-SRCS += ms_token.c ms_token_utils.c
-SRCS += ms_parsing_utils.c
-SRCS += ms_free_parser_result.c
-
-# printf Debuging tools
 SRCS += ms_dbg.c
 
-# utils
+SRCS += ms_env_core.c ms_env_crud.c ms_env_environ.c ms_env_special.c
+SRCS += ms_exec_builtins.c ms_exec_builtins_cd.c ms_exec_builtins_echo.c ms_exec_builtins_env.c
+SRCS += ms_exec_builtins_exit.c ms_exec_builtins_export.c ms_exec_builtins_pwd.c ms_exec_builtins_unset.c
+SRCS += ms_exec.c ms_exec_cmd.c ms_exec_heredoc.c ms_exec_pipe.c
+SRCS += ms_redi.c ms_exec_fs.c ms_exec_utils.c ms_is_path.c
 
-## environment variables handling
-SRCS += ms_env.c
-
-## resources trackers and clean
-SRCS += ms_utils_exit.c
-SRCS += ms_utils_malloc.c bw_core.c
-
+SRCS += ms_expander.c ms_expander_utils.c
+SRCS += ms_parsing_getlen.c
+SRCS += ms_parsing.c ms_parsing_free_result.c ms_parsing_utils.c
+SRCS += ms_repl.c
+SRCS += ms_safe_fd.c bw_core.c
+SRCS += ms_safe_mem.c
+SRCS += ms_safe_os.c kg_core.c
+SRCS += ms_token.c
+SRCS += ms_token_utils.c
+SRCS += ms_exit.c
 
 SRC_DIR = src
 BIN_DIR = bin
@@ -63,5 +55,5 @@ GIT_IGNORE += $(NAME)
 $(NAME): $(OBJS) $(LIBFT_A)
 	$(CC) $(CFLAGS) $(LDLIBS) -o $@ $+
 
-pipex: $(NAME)
-	cp $(NAME) pipex
+# pipex: $(NAME)
+# 	cp $(NAME) pipex

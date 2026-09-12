@@ -13,21 +13,28 @@
 #ifndef MS_ENV_H
 # define MS_ENV_H
 
-void		ms_load_env(char **environ);
-const char	**ms_get_environ(void);
+# include <libft_byte_t.h>
+# include <stdbool.h>
+
+void	ms_env_environ_import(char **environ);
+char	**ms_env_environ_export(void);
 
 // set an environment variable, copies the string into an key value storage.
-void		ms_set_env(char *name, const char *value);
+void	ms_env_set(char *name, char *value);
 
-void		ms_unset_env(char *name);
+bool	ms_env_unset(char *name);
 
 // get an environment variable, freeing it directly is not your job
-char		*ms_get_env(char *name, const char *fallback);
+char	*ms_env_get(char *name, char *fallback);
 
-void		ms_env_each(void (*fold)(void *acc, char *name, char *value),
-				void *acc);
+void	ms_env_each(void (*fold)(void *acc, char *name, char *value),
+			void *acc);
+
+void	ms_env_inc_shlvl(void);
+void	ms_env_init(char *shell);
+void	ms_env_set_status(t_byte status_code);
 
 // free the storage of environment variables
-void		ms_env_free(void);
+void	ms_env_free(void);
 
 #endif

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_utils.h                                         :+:      :+:    :+:   */
+/*   ms_exit.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_UTILS_H
-# define MS_UTILS_H
+#ifndef MS_EXIT_H
+# define MS_EXIT_H
+# define MS_MEM_ERR "malloc failed"
 
-# include <stdbool.h>
+void	ms_exit(int exit_code);
 
-bool	ms_is_path(char *cmd);
+void	ms_complain(char *msg, int error_code);
+
+void	ms_error_out(int exit_code, char *msg, int error_code);
+
+// ms_exit_if(ft_malloc(size), "malloc failed");
+void	*ms_exit_if(void *cond, char *error_msg);
+
+// exit clean with memory allocation error if cond is NULL,
+//	otherwise return cond
+void	*ms_protect(void *cond);
 
 #endif

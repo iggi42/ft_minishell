@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_exec.h                                          :+:      :+:    :+:   */
+/*   ms_exec_builtins_unset.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/15 19:04:07 by fkruger           #+#    #+#             */
-/*   Updated: 2026/05/15 19:04:08 by fkruger          ###   ########.fr       */
+/*   Created: 2026/08/05 22:29:49 by fkruger           #+#    #+#             */
+/*   Updated: 2026/08/05 22:29:50 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_EXEC_H
-# define MS_EXEC_H
-# include "ms_cmd_t.h"
+#include "ms_env.h"
+#include <libft_arr.h>
 
-t_byte			ms_exec(t_ms_cmd **run_me);
-// run an array of cmds in a pipe. don't use for 1 cmd.
-t_byte			ms_exec_pipe(t_ms_cmd **full_pipe);
+static void	*folding_unset(void *acc, t_arr_el el)
+{
+	if (!ms_env_unset((char *)el))
+		*(t_byte *)acc = 1;
+	return (acc);
+}
 
-// runs a single and doesn't fork for all of them
-t_byte			ms_exec_cmd(t_ms_cmd *run_me);
+t_byte	ms_exec_builtin_unset(char **argv)
+{
+	t_byte	result;
 
-#endif
+	if (argv[0] == NULL)
+		return (-1);
+	result = 0;
+	ft_arr_fold((t_arr)(argv + 1), folding_unset, &result);
+	return (result);
+}
