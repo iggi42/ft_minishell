@@ -45,13 +45,14 @@ NAME = minishell
 SRCS += ms_cmd_free.c
 SRCS += ms_dbg.c
 
-SRCS += ms_env.c
+SRCS += ms_env_core.c ms_env_crud.c ms_env_environ.c ms_env_special.c
 SRCS += ms_exec_builtins.c ms_exec_builtins_cd.c ms_exec_builtins_echo.c ms_exec_builtins_env.c
 SRCS += ms_exec_builtins_exit.c ms_exec_builtins_export.c ms_exec_builtins_pwd.c ms_exec_builtins_unset.c
 SRCS += ms_exec.c ms_exec_cmd.c ms_exec_heredoc.c ms_exec_pipe.c
-SRCS += ms_redi.c ms_exec_fs.c ms_exec_utils.c
+SRCS += ms_redi.c ms_exec_fs.c ms_exec_utils.c ms_is_path.c
 
 SRCS += ms_expander.c ms_expander_utils.c
+SRCS += ms_parsing_getlen.c
 SRCS += ms_parsing.c ms_parsing_free_result.c ms_parsing_utils.c
 SRCS += ms_repl.c
 SRCS += ms_safe_fd.c bw_core.c 
@@ -59,7 +60,7 @@ SRCS += ms_safe_mem.c
 SRCS += ms_safe_os.c kg_core.c
 SRCS += ms_token.c
 SRCS += ms_token_utils.c
-SRCS += ms_utils_exit.c
+SRCS += ms_exit.c
 
 SRC_DIR = src
 BIN_DIR = bin

@@ -1,9 +1,8 @@
-#include "ms_token.h"
-#include "ms_utils.h"
-#include <libft_mem.h>
-#include <stddef.h>
-#include <stdbool.h>
 #include "ms_safe.h"
+#include "ms_token.h"
+#include <libft_mem.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 int	unquote_len(char *str)
 {
@@ -50,7 +49,7 @@ void	unquote_cpy(char *str, char *new_str)
 			new_str[j++] = str[i];
 		i++;
 	}
-	new_str[j] = 0;	
+	new_str[j] = 0;
 }
 
 char	*remove_quote(char *str)
@@ -58,7 +57,7 @@ char	*remove_quote(char *str)
 	char	*new_str;
 
 	if (!str)
-		return(NULL);
+		return (NULL);
 	new_str = ms_malloc(unquote_len(str) + 1);
 	unquote_cpy(str, new_str);
 	ft_free(str);
@@ -76,7 +75,7 @@ t_token	*remove_token(t_token **list, t_token *previous, t_token *current)
 		*list = next_token;
 	ft_free(current->value);
 	ft_free(current);
-	return next_token;
+	return (next_token);
 }
 
 void	del_empty_token(t_token **list)

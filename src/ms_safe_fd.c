@@ -2,12 +2,13 @@
 // 	close, dup, pipe, etc
 
 #include "bw.h"
-#include "ms_utils.h"
-#include "unistd.h"
+#include "ms_exit.h"
+#include <unistd.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdlib.h>
 
+// this is too aggressive
 int ms_open(char *path, int flags)
 {
 	int fd;

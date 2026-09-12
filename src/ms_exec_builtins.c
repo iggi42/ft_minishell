@@ -12,6 +12,7 @@
 
 #include "ms_exec_builtins.h"
 #include <libft_str.h>
+#include <libft_io.h>
 
 ms_builtin		ms_get_builtin_frk(char *name)
 {
@@ -29,7 +30,7 @@ ms_builtin		ms_get_builtin_nofrk(char *name)
 	if(ft_str_eq("cd", name))
 		return ms_exec_builtin_cd;
 	if(ft_str_eq("exit", name))
-		return ms_exec_builtin_export;
+		return ms_exec_builtin_exit;
 	if(ft_str_eq("export", name))
 		return ms_exec_builtin_export;
 	if(ft_str_eq("unset", name))
@@ -44,5 +45,5 @@ ms_builtin		ms_get_builtin(char *name)
 	res = ms_get_builtin_nofrk(name);
 	if(res != NULL)
 		return res;
-	return ms_get_builtin_nofrk(name);
+	return ms_get_builtin_frk(name);
 }

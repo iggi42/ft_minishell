@@ -11,18 +11,18 @@
 /* ************************************************************************** */
 
 #include "libft_io.h"
+#include "ms_exit.h"
 #include <libft_byte_t.h>
-#include <linux/limits.h>
-#include <unistd.h>
 #include <limits.h>
+#include <unistd.h>
 
-t_byte			ms_exec_builtin_pwd(char **argv)
+t_byte	ms_exec_builtin_pwd(char **argv)
 {
-	(void) argv;
-	char s[PATH_MAX];
-	//TODO react to failure
-	(void) getcwd(s, PATH_MAX);
-	ft_putendl_fd(s, STDOUT_FILENO);
-	return -1;
-}
+	char	cwd[PATH_MAX];
 
+	(void)argv;
+	// TODO check how to handle errors correctly
+	ms_exit_if(getcwd(cwd, PATH_MAX), "getpwd failed");
+	ft_putendl_fd(cwd, STDOUT_FILENO);
+	return (0);
+}

@@ -1,7 +1,7 @@
 // this needs to have all the protected versions of calls that deal with os processes like fork and wait
 
 #include "kg.h"
-#include "ms_utils.h"
+#include "ms_exit.h"
 #include <errno.h>
 #include <libft_byte_t.h>
 #include <libft_os.h>

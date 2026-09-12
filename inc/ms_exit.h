@@ -16,6 +16,8 @@
 
 void	ms_exit(int exit_code);
 
+void	ms_complain(char *msg, int error_code);
+
 void	ms_error_out(int exit_code, char *msg, int error_code);
 
 // ms_exit_if(ft_malloc(size), "malloc failed");

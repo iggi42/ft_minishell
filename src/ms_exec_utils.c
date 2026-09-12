@@ -10,32 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_safe.h"
 #include "ms_env.h"
-#include "ms_exit.h"
-#include "unistd.h"
 #include "ms_exec_utils.h"
-#include <libft_str.h>
+#include "ms_exit.h"
+#include "ms_safe.h"
+#include "ms_utils.h"
+#include "unistd.h"
 #include <libft_arr.h>
 #include <libft_mem.h>
+#include <libft_str.h>
 
-void ms_apply_stdenv(int stdenv[2])
+void	ms_apply_stdenv(int stdenv[2])
 {
 	ms_dup2(stdenv[R], STDIN_FILENO);
 	ms_dup2(stdenv[W], STDOUT_FILENO);
-}
-
-bool	is_path(char *cmd)
-{
-	while (cmd != NULL)
-	{
-		if (*cmd == '/')
-			return (true);
-		if (*cmd == '\0')
-			return (false);
-		cmd++;
-	}
-	return (false);
 }
 
 static char	*default_str(char *normal, char *fallback)
@@ -54,8 +42,8 @@ static char	*ms_search_path(char *cmd0)
 
 	if (cmd0 == NULL || *cmd0 == '\0')
 		return (NULL);
-	//TODO handle getting PATH='::' (basically any amount of just ':')
-	paths = ms_protect(ft_split(ms_get_env("PATH", "."), ':'));
+	// TODO handle getting PATH='::' (basically any amount of just ':')
+	paths = ms_protect(ft_split(ms_env_get("PATH", "."), ':'));
 	i = 0;
 	sub_optimal = NULL;
 	while (paths != NULL && paths[i])
@@ -79,7 +67,7 @@ char	*ms_find_exec_file(char *cmd0)
 {
 	char	*path;
 
-	if (!is_path(cmd0))
+	if (!ms_is_path(cmd0))
 		path = ms_search_path(cmd0);
 	else
 		path = ms_strdup(cmd0);

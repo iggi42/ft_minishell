@@ -11,12 +11,12 @@
 /* ************************************************************************** */
 
 #include "ms_cmd_t.h"
+#include "ms_exit.h"
 #include "ms_parsing.h"
 #include "ms_parsing_utils.h"
 #include "ms_redi_t.h"
-#include "ms_token.h"
 #include "ms_safe.h"
-#include "ms_utils.h"
+#include "ms_token.h"
 #include <libft_arr.h>
 #include <libft_io.h>
 #include <libft_ll.h>
@@ -72,10 +72,10 @@ static void	build_cmd_struct(t_ms_cmd **new_cmd, t_token **inputs)
 	*new_cmd = ms_malloc(sizeof(t_ms_cmd));
 	(*new_cmd)->argv = (char **)ms_protect(ft_lst2arr(arg_stck));
 	(*new_cmd)->reds = (t_ms_redi **)ms_protect(ft_lst2arr(redi_stck));
+	ft_lstclear(&arg_stck, ft_void);
+	ft_lstclear(&redi_stck, ft_void);
 	ft_arr_rev((t_arr)(*new_cmd)->argv);
 	ft_arr_rev((t_arr)(*new_cmd)->reds);
-	// ms_print_cmd("lol", *new_cmd);
-	// ms_print_tokens(*inputs);
 }
 
 static t_ms_cmd	**build_cmd_arr(t_token *tkn)
@@ -99,6 +99,8 @@ static t_ms_cmd	**build_cmd_arr(t_token *tkn)
 	return (result);
 }
 
+#include "ms_dbg.h"
+
 t_ms_parse_res	*ms_parse(char *input)
 {
 	t_ms_parse_res	*result;
@@ -108,10 +110,12 @@ t_ms_parse_res	*ms_parse(char *input)
 	result = ms_malloc(sizeof(t_ms_parse_res));
 	result->source.error_msg = ms_syntax_check(tkns);
 	result->success = (result->source.error_msg == NULL);
-	if (!result->success)
-		return (result);
-	ms_expand(&tkns);
-	result->source.cmds = build_cmd_arr(tkns);
+	if (result->success)
+	{
+		ms_expand(&tkns);
+		ms_print_tokens(tkns);
+		result->source.cmds = build_cmd_arr(tkns);
+	}
 	free_token_list(tkns);
 	return (result);
 }

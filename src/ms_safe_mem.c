@@ -1,12 +1,9 @@
 // put protected calls for memory allocation here, ms_malloc, ms_strdup, etc
 
-#include "ms_utils.h"
+#include "ms_exit.h"
 #include <errno.h>
-#include <libft_io.h>
 #include <libft_mem.h>
 #include <libft_str.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 void	*ms_protect(void *cond)
 {

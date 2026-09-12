@@ -1,23 +1,14 @@
-#include "ms_token.h"
-#include "ms_safe.h"
 #include "ms_env.h"
-#include "ms_utils.h"
-#include <libft_str.h>
-#include <libft_mem.h>
+#include "ms_exit.h"
+#include "ms_safe.h"
+#include "ms_token.h"
 #include <libft_char.h>
+#include <libft_io.h>
+#include <libft_mem.h>
+#include <libft_str.h>
+#include "ms_parsing_getlen.h"
 #include <stdbool.h>
-
-static int		get_len(char *str)
-{
-	int	len;
-	
-	len = 0;
-	if (str[len] == '?')
-		return (len);
-	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'))
-			len++;
-	return (len);
-}
+#include <unistd.h>
 
 static char	*slice_and_dice(char *str, int start, int len, char *var)
 {
@@ -44,17 +35,14 @@ char	*expand(char *str, int *i)
 	char	*new_str;
 	int		len;
 
-	len = get_len(str + *i + 1);
+	len = ms_parsing_varname(str + *i + 1);
 	if (len == 0)
 	{
 		(*i)++;
 		return (str);
 	}
 	var_name = ms_substr(str, *i + 1, len);
-	if (var_name[0] == '?')
-		env_var = "";		//TODO: get prev exit code
-	else
-		env_var = ms_get_env(var_name, "");
+	env_var = ms_env_get(var_name, "");
 	new_str = slice_and_dice(str, *i, len + 1, env_var);
 	*i = *i + ft_strlen(env_var);
 	ft_free(var_name);
@@ -79,11 +67,11 @@ char	*expand_var(char *str)
 		else if (str[i] == '$')
 		{
 			if (single_q == true)
-			 i++;
+				i++;
 			else
 			{
 				str = expand(str, &i);
-				continue;
+				continue ;
 			}
 		}
 		i++;
@@ -110,5 +98,4 @@ void	ms_expand(t_token **list)
 			current->value = remove_quote(current->value);
 		current = current->next;
 	}
-	// ms_print_tokens(*list);
 }

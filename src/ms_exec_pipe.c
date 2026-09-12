@@ -12,11 +12,12 @@
 
 #include "bw.h"
 #include "ms_cmd_t.h"
+#include "ms_env.h"
 #include "ms_exec_builtins.h"
 #include "ms_exec_utils.h"
 #include "ms_redi.h"
 #include "ms_safe.h"
-#include "ms_utils.h"
+#include "ms_exit.h"
 #include <errno.h>
 #include <libft_arr.h>
 #include <libft_ll.h>
@@ -37,7 +38,7 @@ static void	exec_cmd(t_ms_cmd *cmd, int stdenv[2])
 	if (built_in != NULL)
 		ms_exit(built_in(cmd->argv));
 	else
-		execve(path, cmd->argv, __environ);
+		execve(path, cmd->argv, ms_protect(ms_env_environ_export()));
 	ms_error_out(EXIT_NO_EXEC_PERM, path, errno);
 }
 

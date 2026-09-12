@@ -10,11 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft_byte_t.h>
+#include "ms_env.h"
+#include <libft_arr.h>
 
-t_byte			ms_exec_builtin_unset(char **argv)
+static void	*folding_unset(void *acc, t_arr_el el)
 {
-	(void) argv;
-	return -1;
+	if (!ms_env_unset((char *)el))
+		*(t_byte *)acc = 1;
+	return (acc);
 }
 
+t_byte	ms_exec_builtin_unset(char **argv)
+{
+	t_byte	result;
+
+	if (argv[0] == NULL)
+		return (-1);
+	result = 0;
+	ft_arr_fold((t_arr)(argv + 1), folding_unset, &result);
+	return (result);
+}
