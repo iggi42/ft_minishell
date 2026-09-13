@@ -8,10 +8,18 @@
 #include <stdio.h> // TODO remove me for eval
 #include <readline/readline.h>
 
+static void close_stdenv(void)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+}
+
 void	ms_exit(int exit_code)
 {
 	rl_clear_history();
 	ft_bw_cleanup();
+	close_stdenv();
 	kg_cleanup(true);
 	ft_m3_cleanup();
 	exit(exit_code);

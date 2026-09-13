@@ -13,7 +13,7 @@
 #include "bw.h"
 #include "libft_byte_t.h"
 #include "ms_cmd_t.h"
-#include "ms_dbg.h"
+// #include "ms_dbg.h"
 #include "ms_env.h"
 #include "ms_exec_builtins.h"
 #include "ms_exec_utils.h"
@@ -60,7 +60,7 @@ static pid_t	spawn_cmd(t_ms_cmd *cmd)
 	return (fr);
 }
 
-#include <ms_dbg.h>
+// #include <ms_dbg.h>
 
 // this returns true for builtins which can not be done in a fork
 // if such a builtin for cmd->argv[0] is found it is run and its exit_code stored
@@ -85,7 +85,7 @@ t_byte	ms_exec_cmd(t_ms_cmd *cmd)
 	pid_t	pid;
 	t_byte	result;
 
-	ms_print_cmd("single cmd", cmd);
+	// ms_print_cmd("single cmd", cmd);
 	if (ms_exec_maybe_run_builtin(cmd, &result))
 		return (result);
 	pid = spawn_cmd(cmd);

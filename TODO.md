@@ -18,6 +18,7 @@ TODO on the lst_functions where we can't ms_protect properly we need to react to
      you will have to use errno instead
 TODO funcheck and valgrind this bitch
 TODO ft_arr_new shouldn't return a pointer to an array, maybe?
+TODO cd - returns to OLDPWD
 
 for on campus:
  - builtins: export without arguments ??

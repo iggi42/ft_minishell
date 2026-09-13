@@ -42,7 +42,10 @@ t_byte	import_var(char *arg)
 		var_name = ms_substr(arg, 0, var_name_len);
 	else
 		var_name = ms_strdup("");
-	ms_env_set(var_name, &arg[var_name_len + 1]);
+	if(arg[var_name_len] == '\0')
+		ms_env_set(var_name, "");
+	else
+		ms_env_set(var_name, &arg[var_name_len + 1]);
 	ft_free(var_name);
 	return (0);
 }

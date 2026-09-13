@@ -71,7 +71,7 @@ char	*ms_find_exec_file(char *cmd0)
 		path = ms_search_path(cmd0);
 	else
 		path = ms_strdup(cmd0);
-	if (access(path, F_OK))
+	if (path == NULL || access(path, F_OK))
 	{
 		path = ft_strf("%s: command not found", cmd0);
 		ms_error_out(EXIT_CMD_NOT_FOUND, path, 0);

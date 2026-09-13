@@ -37,10 +37,10 @@ static char	*ms_cut_nl(char *s)
 			s[i] = '\0';
 		i++;
 	}
-	if (s == NULL) // I think we might just want to exit out here, don't we?
-		printf("end of gnl with last status [%d]\n", ms_env_get_status());
-	else
-		printf("gnl [%s]\n", s);
+	// if (s == NULL) // I think we might just want to exit out here, don't we?
+	// 	printf("end of gnl with last status [%d]\n", ms_env_get_status());
+	// else
+	// 	printf("gnl [%s]\n", s);
 	return (s);
 }
 
@@ -54,14 +54,17 @@ char	*ms_gnl(ms_repl_prompt_get prompt_getter)
 	if (line == NULL)
 		return (NULL);
 	if (!ft_m3_add(line))
-		return (ms_error_out(EXIT_FAILURE, NULL, errno), NULL);
+	{
+		free(line);
+		ms_error_out(EXIT_FAILURE, NULL, errno);
+	}
 	return (line);
 }
 
 // maybe only clear the cache of the used fd one day
 // for now just remeber to ft_gnl(-1) before exiting
 // this is good enough for now
-int	ms_repl(void)
+t_byte	ms_repl(void)
 {
 	char				*line;
 	t_ms_parse_res		*parsing_result;
@@ -87,6 +90,5 @@ int	ms_repl(void)
 		ft_free(line);
 		ms_free_parser_result(parsing_result);
 	}
-	ms_exit(ms_env_get_status());
-	return (-1);
+	return ms_env_get_status();
 }

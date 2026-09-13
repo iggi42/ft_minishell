@@ -16,6 +16,13 @@
 
 typedef t_arr_el	(*ft_iter)(void *);
 
+// void print_line(void *s)
+// {
+// 	if(s == NULL)
+// 		return;
+// 	ft_printf("hd: [%s]\n",s );
+// }
+
 t_arr	*build_arr_from_iter(ft_iter itr, void *iter_arg)
 {
 	t_arr		*result;
@@ -33,6 +40,7 @@ t_arr	*build_arr_from_iter(ft_iter itr, void *iter_arg)
 	result = ft_lst2arr(cache);
 	ft_lstclear(&cache, ft_void);
 	ft_arr_rev((t_arr)result);
+	// ft_arr_each((t_arr)result, print_line);
 	return (result);
 }
 
@@ -69,6 +77,7 @@ static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
 			{
 				ft_arr_each((t_arr)doc_info->value.lines, ft_free);
 				ft_free(doc_info->value.lines);
+				doc_info->value.lines = NULL;
 			}
 			doc_info->value.lines = ms_heredoc_readin((*rest_redis)->source.path);
 			doc_info->state = HEREDOC_READY;
@@ -83,7 +92,7 @@ static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
 static void	be_hdoc_writer(int *pipe, char **write_me)
 {
 	ms_close(pipe[R]);
-	while (write_me != NULL)
+	while (write_me != NULL && *write_me != NULL)
 	{
 		// TODO clean write useage (in chunks smaller than pipe buffer please,
 		//	and ms_exit on error)
@@ -109,6 +118,7 @@ static void	bootup_heredoc_writer(t_ms_heredoc *active_heredoc)
 	ms_redi_set_fd(active_heredoc->source_redi, hdoc_pipe[R]);
 	active_heredoc->source_redi->kind = REDI_IN;
 	active_heredoc->state = HEREDOC_RUNNING;
+	active_heredoc->value.writer = writer;
 }
 
 void	ms_heredocs_prepare(t_ms_cmd *cmd)
@@ -121,6 +131,7 @@ static void	ms_heredoc_cleanup_running(t_ms_heredoc *chd)
 {
 	if (chd->state != HEREDOC_RUNNING)
 		return ;
+	ft_printf_fd(STDERR_FILENO, "Trying to wait for here doc writer [%d]\n", chd->value.writer);
 	if (chd->value.writer > 0)
 		ms_wait(chd->value.writer);
 	chd->value.writer = 0;
@@ -133,6 +144,7 @@ static void	ms_heredoc_cleanup_ready(t_ms_heredoc *chd)
 		return ;
 	ft_arr_each((t_arr)chd->value.lines, ft_free);
 	ft_free(chd->value.lines);
+	chd->value.lines = NULL;
 	chd->state = HEREDOC_NO;
 }
 

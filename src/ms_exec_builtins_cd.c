@@ -13,6 +13,7 @@
 #include "ms_env.h"
 #include "ms_exit.h"
 #include <errno.h>
+#include <libft_arr.h>
 #include <libft_byte_t.h>
 #include <libft_io.h>
 #include <libft_mem.h>
@@ -39,13 +40,25 @@ t_byte	ms_exec_builtin_cd(char **argv)
 {
 	char	*target;
 	char	cwd[PATH_MAX];
+	size_t	argc;
 
-	if (argv[1] != NULL)
-		target = argv[1];
+	argc = ft_arr_len((t_arr)argv);
+	if (argc > 2)
+		return (ft_putendl_fd("minishell: cd: too many arguments",
+				STDERR_FILENO), 1);
+	if(argc < 2)
+	{
+		target =  ms_env_get("HOME", NULL);
+		if(target == NULL)
+			return (ms_complain("cd: HOME not set", 0), 1);
+	}
+	else if (ft_str_eq("-", argv[1]))
+	{
+		target = ms_env_get("OLDPWD", NULL);
+		ft_printf("%s\n", target);
+	}
 	else
-		target = ms_env_get("HOME", NULL);
-	if (!target)
-		ms_complain("cd: HOME not set", 0);
+		target = argv[1];
 	if (ms_chdir(target) == 0)
 	{
 		// TODO check how to handle errors correctly

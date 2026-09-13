@@ -32,5 +32,5 @@ t_byte			ms_exec_builtin_env(char **argv)
 	ft_arr_each((t_arr) my_environ, print_line);
 	ft_arr_each((t_arr) my_environ, ft_free);
 	ft_free(my_environ);
-	return -1;
+	return 0;
 }

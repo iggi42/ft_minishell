@@ -12,15 +12,15 @@
 
 #ifndef MS_REPL_H
 # define MS_REPL_H
+# include <libft_byte_t.h>
 
 typedef char* (*ms_repl_prompt_get)(void);
 
-// run repl with readline
-int	ms_repl(void);
+// run repl (with readline in interactive)
+t_byte	ms_repl(void);
 
 // read and exec line by from the fd
 int	ms_run_from_fd(int fd);
-
 
 // repl utils (also used by heredoc)
 char	*ms_gnl(ms_repl_prompt_get prompt_getter);
