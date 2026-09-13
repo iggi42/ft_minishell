@@ -22,5 +22,6 @@ t_byte	ms_exec_pipe(t_ms_cmd **full_pipe);
 t_byte	ms_exec_cmd(t_ms_cmd *run_me);
 
 void	ms_heredocs_prepare(t_ms_cmd *cmd);
+void	ms_heredoc_cleanup(t_ms_cmd *cmd);
 
 #endif

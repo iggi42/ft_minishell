@@ -3,10 +3,10 @@
 #include "ms_cmd_t.h"
 #include "ms_exec_utils.h"
 #include "ms_exit.h"
-#include "ms_safe.h"
 #include "ms_redi.h"
 #include "ms_redi_t.h"
 #include "ms_repl.h"
+#include "ms_safe.h"
 #include <libft_arr.h>
 #include <libft_io.h>
 #include <libft_ll.h>
@@ -32,7 +32,7 @@ t_arr	*build_arr_from_iter(ft_iter itr, void *iter_arg)
 	}
 	result = ft_lst2arr(cache);
 	ft_lstclear(&cache, ft_void);
-	ft_arr_rev((t_arr) result);
+	ft_arr_rev((t_arr)result);
 	return (result);
 }
 
@@ -41,7 +41,7 @@ char	*ms_gnl_heredoc(char *delimiter)
 	char	*line;
 
 	line = ms_gnl(ms_repl_prompt_heredoc);
-	if(ft_str_eq(line, delimiter))
+	if (ft_str_eq(line, delimiter))
 		return (ft_free(line), NULL);
 	// TODO replace env vars in line if delimiter is not quoted
 	// ft_printf_fd(STDERR_FILENO, " heredoc line: [%s]\n", line);
@@ -50,7 +50,7 @@ char	*ms_gnl_heredoc(char *delimiter)
 
 char	**ms_heredoc_readin(char *delimiter)
 {
-	return (char **) build_arr_from_iter((ft_iter)ms_gnl_heredoc, delimiter);
+	return (char **)build_arr_from_iter((ft_iter)ms_gnl_heredoc, delimiter);
 }
 
 static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
@@ -60,7 +60,8 @@ static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
 		return ;
 	if ((*rest_redis)->kind == REDI_HERE_DOC)
 	{
-		// TODO remove this "if" sanity check after development, should always be true
+		// TODO remove this "if" sanity check after development,
+		// should always be true
 		if ((*rest_redis)->source_kind == REDI_SOURCE_PATH)
 		{
 			ms_redi_turnoff(doc_info->source_redi);
@@ -79,12 +80,13 @@ static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
 	reduce_heredocs_to_inputs(rest_redis + 1, doc_info);
 }
 
-static void be_hdoc_writer(int *pipe, char **write_me)
+static void	be_hdoc_writer(int *pipe, char **write_me)
 {
 	ms_close(pipe[R]);
 	while (write_me != NULL)
 	{
-		// TODO clean write useage (in chunks smaller than pipe buffer please, and ms_exit on error)
+		// TODO clean write useage (in chunks smaller than pipe buffer please,
+		//	and ms_exit on error)
 		ft_putendl_fd(*write_me, pipe[W]);
 		write_me++;
 	}
@@ -92,20 +94,21 @@ static void be_hdoc_writer(int *pipe, char **write_me)
 	ms_exit(EXIT_SUCCESS);
 }
 
-static void bootup_heredoc_writer(t_ms_heredoc *active_heredoc)
+static void	bootup_heredoc_writer(t_ms_heredoc *active_heredoc)
 {
-	pid_t writer;
-	int hdoc_pipe[2];
+	pid_t	writer;
+	int		hdoc_pipe[2];
 
-	if(active_heredoc == NULL || active_heredoc->state != HEREDOC_READY)
+	if (active_heredoc == NULL || active_heredoc->state != HEREDOC_READY)
 		return ;
 	ms_pipe((int *)&hdoc_pipe);
 	writer = ms_fork();
-	if(writer == 0)
+	if (writer == 0)
 		be_hdoc_writer(hdoc_pipe, active_heredoc->value.lines);
 	ms_close(hdoc_pipe[W]);
 	ms_redi_set_fd(active_heredoc->source_redi, hdoc_pipe[R]);
 	active_heredoc->source_redi->kind = REDI_IN;
+	active_heredoc->state = HEREDOC_RUNNING;
 }
 
 void	ms_heredocs_prepare(t_ms_cmd *cmd)
@@ -114,10 +117,32 @@ void	ms_heredocs_prepare(t_ms_cmd *cmd)
 	bootup_heredoc_writer(&cmd->active_heredoc);
 }
 
-void cleanup_heredoc_writer(t_ms_heredoc *active_heredoc)
+static void	ms_heredoc_cleanup_running(t_ms_heredoc *chd)
 {
-	if (active_heredoc == NULL || active_heredoc->state != HEREDOC_RUNNING)
+	if (chd->state != HEREDOC_RUNNING)
 		return ;
-	// I think this should not be enough?, but I am too tired now.
-	ms_wait(active_heredoc->value.writer);
+	if (chd->value.writer > 0)
+		ms_wait(chd->value.writer);
+	chd->value.writer = 0;
+	chd->state = HEREDOC_NO;
+}
+
+static void	ms_heredoc_cleanup_ready(t_ms_heredoc *chd)
+{
+	if (chd->state != HEREDOC_READY)
+		return ;
+	ft_arr_each((t_arr)chd->value.lines, ft_free);
+	ft_free(chd->value.lines);
+	chd->state = HEREDOC_NO;
+}
+
+// this does not free!
+// it just reset the heredoc and cleans up associated resources of the struct
+// depending on the indicated state of it
+void	ms_heredoc_cleanup(t_ms_cmd *cmd)
+{
+	if (cmd == NULL)
+		return ;
+	ms_heredoc_cleanup_ready(&cmd->active_heredoc);
+	ms_heredoc_cleanup_running(&cmd->active_heredoc);
 }

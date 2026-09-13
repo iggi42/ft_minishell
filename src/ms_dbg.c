@@ -64,7 +64,7 @@ void ms_print_heredoc(t_ms_heredoc *hd)
 	if(hd->state == HEREDOC_READY)
 		ft_arr_each((t_arr) hd->value.lines, (void (*)(t_arr_el)) print_heredoc_line);
 	if(hd->state == HEREDOC_RUNNING)
-		ft_printf("heredoc writer pid: [%d]\n", hd->value.writer);
+		ft_printf("heredoc writer pid: [%d] [%d]\n", hd->value.writer, ((pid_t) -1) /4 );
 }
 
 void	ms_print_cmd(char *prefix, t_ms_cmd *cmd)

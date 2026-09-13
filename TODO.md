@@ -24,4 +24,5 @@ for on campus:
  - builtins: cd: does it correctly set PWD ?
  - check every 42 header for the email (write a sed script)
 
+TODO implement comments # (wenn dir fad ist)
 TODO (maybe): why does my gnl not like it when you heredoc into it?
