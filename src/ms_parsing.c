@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ms_cmd_t.h"
+#include "ms_dbg.h"
 #include "ms_exit.h"
 #include "ms_parsing.h"
 #include "ms_parsing_utils.h"
@@ -41,8 +42,8 @@ static t_nxt_el	get_next_elemnt(t_token **tkn_start, bool *is_redi)
 		nxt_el.arg = ms_strdup((*tkn_start)->value);
 		*tkn_start = (*tkn_start)->next;
 	}
-	else if ((*tkn_start)->next != NULL && ((*tkn_start)->kind == T_IN
-			|| (*tkn_start)->kind == T_OUT
+	else if ((*tkn_start)->next != NULL && ((*tkn_start)->kind == T_IN 
+			|| (*tkn_start)->kind == T_OUT || (*tkn_start)->kind  == T_HERE_DOC
 			|| (*tkn_start)->kind == T_OUT_APPEND))
 	{
 		nxt_el.redi = redi_builder(ms_strdup((*tkn_start)->next->value),
@@ -69,13 +70,9 @@ static void	build_cmd_struct(t_ms_cmd **new_cmd, t_token **inputs)
 		else
 			ft_lst_push(&arg_stck, nxt_el.arg);
 	}
-	*new_cmd = ms_malloc(sizeof(t_ms_cmd));
-	(*new_cmd)->argv = (char **)ms_protect(ft_lst2arr(arg_stck));
-	(*new_cmd)->reds = (t_ms_redi **)ms_protect(ft_lst2arr(redi_stck));
+	*new_cmd = ms_cmd_new(redi_stck, arg_stck);
 	ft_lstclear(&arg_stck, ft_void);
 	ft_lstclear(&redi_stck, ft_void);
-	ft_arr_rev((t_arr)(*new_cmd)->argv);
-	ft_arr_rev((t_arr)(*new_cmd)->reds);
 }
 
 static t_ms_cmd	**build_cmd_arr(t_token *tkn)

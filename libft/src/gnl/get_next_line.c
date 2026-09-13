@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "fd_cache.h"
+#include "libft_io.h"
 #include "get_next_line.h"
 #include <libft_mem.h>
 
@@ -65,6 +66,11 @@ void	ft_buf_free(t_buf **b)
 	*b = NULL;
 }
 
+//TODO check why ft_gnl doesn't like when you here doc into it via interactive bash
+// cat <<EOF | ./minishell
+// echo test
+// EOF
+// does not work as expected
 char	*ft_gnl(int fd)
 {
 	t_buf	*line_buf;

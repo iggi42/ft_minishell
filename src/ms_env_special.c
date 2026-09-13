@@ -1,4 +1,4 @@
-#include "libft_io.h"
+#include "libft_byte_t.h"
 #include "ms_env.h"
 #include "ms_exit.h"
 #include "ms_safe.h"
@@ -9,11 +9,24 @@
 #include <libft_toa.h>
 #include <unistd.h>
 
+t_byte	*lsc(void)
+{
+	static t_byte	code;
+
+	return (&code);
+}
+
+t_byte ms_env_get_status(void)
+{
+	return *lsc();
+}
+
 void	ms_env_set_status(t_byte status_code)
 {
 	char	*toa;
 
-	toa = ms_protect(ft_btoa(status_code));
+	*lsc() = status_code;
+	toa = ms_protect(ft_itoa(status_code));
 	ms_env_set("?", toa);
 	ft_free(toa);
 }
@@ -29,11 +42,10 @@ void	ms_env_inc_shlvl(void)
 
 // TODO init PWD special variable correct
 
-void ms_env_init(char *shell)
+void	ms_env_init(char *shell)
 {
 	ms_env_environ_import(__environ);
 	ms_env_set_status(0);
 	ms_env_set("SHELL", shell);
 	ms_env_inc_shlvl();
 }
-

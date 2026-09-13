@@ -14,66 +14,49 @@
 #include "ms_exit.h"
 #include "ms_exec_utils.h"
 #include "ms_redi.h"
+#include "ms_redi_t.h"
 #include "ms_safe.h"
 #include <errno.h>
 #include <libft_io.h>
 #include <libft_mem.h>
 #include <libft_str.h>
 
-static int	(*get_opn(enum e_ms_redi_kind k))(char *target)
+void ms_redi_turnoff(t_ms_redi *redi)
 {
-	if (k == REDI_IN)
-		return (ms_open_infile);
-	if (k == REDI_OUT)
-		return (ms_open_outfile);
-	if (k == REDI_OUT_APPEND)
-		return (ms_open_outappfile);
-	ms_error_out(EXIT_FAILURE, "unexpected redirector kind", 0);
-	return (NULL);
+	if (redi == NULL || redi->kind == REDI_INVALID)
+		return;
+	if(redi->source_kind == REDI_SOURCE_PATH)
+		redi->source.path = (ft_free(redi->source.path), NULL);
+	if(redi->source_kind == REDI_SOURCE_FD && redi->source.fd >= 0)
+		redi->source.fd = (ms_close(redi->source.fd), -1);
+	redi->kind = REDI_INVALID;
 }
 
-void redi_free(t_ms_redi *redi)
+// do we also want to close the fds with that? probably, right?
+void ms_redi_free(t_ms_redi *redi)
 {
 	if(redi == NULL)
 		return;
-	if(redi->source_kind == REDI_SOURCE_PATH)
-		ft_free(redi);
+	ms_redi_turnoff(redi);
+	ft_free(redi);
 }
 
-void	redi_set_path(t_ms_redi *r, char *path)
+void	ms_redi_set_path(t_ms_redi *r, char *path)
 {
 	if (r == NULL)
 		return ;
+	ms_redi_turnoff(r);
 	r->source_kind = REDI_SOURCE_PATH;
 	r->source.path = path;
 }
 
-void	redi_set_fd(t_ms_redi *r, int fd)
+void	ms_redi_set_fd(t_ms_redi *r, int fd)
 {
 	if (r == NULL)
 		return ;
+	ms_redi_turnoff(r);
 	r->source_kind = REDI_SOURCE_FD;
 	r->source.fd = fd;
 }
 
-void	apply_redi(t_ms_redi *apply_me)
-{
-	int	fd;
-	int	target;
 
-	if (apply_me == NULL)
-		return ;
-	errno = 0;
-	if (apply_me->source_kind == REDI_SOURCE_FD)
-		fd = apply_me->source.fd;
-	else if (apply_me->source_kind == REDI_SOURCE_PATH)
-		fd = get_opn(apply_me->kind)(apply_me->source.path);
-	else
-		fd = (ms_error_out(EXIT_FAILURE, ERR_MSG_REDI_SRC, 0), -1);
-	ft_bw_add(fd);
-	if (apply_me->kind == REDI_OUT || apply_me->kind == REDI_OUT_APPEND)
-		target = STDOUT_FILENO;
-	else
-		target = STDIN_FILENO;
-	ms_dup2(fd, target);
-}

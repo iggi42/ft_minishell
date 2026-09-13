@@ -32,6 +32,8 @@ void	ms_env_each(void (*fold)(void *acc, char *name, char *value),
 
 void	ms_env_inc_shlvl(void);
 void	ms_env_init(char *shell);
+
+t_byte	ms_env_get_status(void);
 void	ms_env_set_status(t_byte status_code);
 
 // free the storage of environment variables

@@ -2,7 +2,7 @@
 #include "ms_redi_t.h"
 #include "ms_safe.h"
 #include "ms_token.h"
-#include <stdlib.h>
+#include <libft_mem.h>
 
 size_t	ms_parsing_count_cmds(t_token *tokens)
 {
@@ -51,7 +51,7 @@ int	alloc_cmd_array(t_ms_cmd *cmds, t_token *tokens)
 		return (0);
 	cmds->reds = ms_malloc(sizeof(t_ms_redi) * (reds_count + 1));
 	if (!cmds->reds)
-		return (free(cmds->argv), 0);
+		return (ft_free(cmds->argv), 0);
 	cmds->argv[args_count] = NULL;
 	cmds->reds[reds_count] = NULL;
 	return (1);

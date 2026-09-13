@@ -14,11 +14,13 @@
 # define MS_EXEC_H
 # include "ms_cmd_t.h"
 
-t_byte			ms_exec(t_ms_cmd **run_me);
+t_byte	ms_exec(t_ms_cmd **run_me);
 // run an array of cmds in a pipe. don't use for 1 cmd.
-t_byte			ms_exec_pipe(t_ms_cmd **full_pipe);
+t_byte	ms_exec_pipe(t_ms_cmd **full_pipe);
 
 // runs a single and doesn't fork for all of them
-t_byte			ms_exec_cmd(t_ms_cmd *run_me);
+t_byte	ms_exec_cmd(t_ms_cmd *run_me);
+
+void	ms_heredocs_prepare(t_ms_cmd *cmd);
 
 #endif

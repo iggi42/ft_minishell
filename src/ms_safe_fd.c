@@ -8,16 +8,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-// this is too aggressive
 int	ms_open(char *path, int flags)
 {
 	int	fd;
 
 	errno = 0;
 	fd = open(path, flags, 0644);
-	if (fd > 0 || errno != 0)
-		return (ft_bw_add(fd), fd);
-	return (fd);
+	if (fd < 0)
+		return (fd);
+	return (ft_bw_add(fd), fd);
 }
 
 void	ms_close(int fd)

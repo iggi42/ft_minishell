@@ -29,7 +29,7 @@ static void	exec_cmd(t_ms_cmd *cmd, int stdenv[2])
 	ms_builtin	built_in;
 
 	ms_apply_stdenv(stdenv);
-	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))apply_redi);
+	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))ms_redi_apply);
 	if (cmd->argv[0] == NULL)
 		ms_exit(EXIT_SUCCESS);
 	built_in = ms_get_builtin(cmd->argv[0]);
@@ -38,7 +38,7 @@ static void	exec_cmd(t_ms_cmd *cmd, int stdenv[2])
 	if (built_in != NULL)
 		ms_exit(built_in(cmd->argv));
 	else
-		execve(path, cmd->argv, ms_protect(ms_env_environ_export()));
+		execve(path, cmd->argv, ms_env_environ_export());
 	ms_error_out(EXIT_NO_EXEC_PERM, path, errno);
 }
 

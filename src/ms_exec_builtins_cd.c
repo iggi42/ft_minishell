@@ -17,8 +17,8 @@
 #include <libft_io.h>
 #include <libft_mem.h>
 #include <libft_str.h>
-#include <unistd.h>
 #include <limits.h>
+#include <unistd.h>
 
 static t_byte	ms_chdir(char *s)
 {
@@ -44,14 +44,15 @@ t_byte	ms_exec_builtin_cd(char **argv)
 		target = argv[1];
 	else
 		target = ms_env_get("HOME", NULL);
-	ms_exit_if(target, "cd: HOME not set");
-	if(ms_chdir(target) == 0)
+	if (!target)
+		ms_complain("cd: HOME not set", 0);
+	if (ms_chdir(target) == 0)
 	{
 		// TODO check how to handle errors correctly
 		ms_exit_if(getcwd(cwd, PATH_MAX), "getpwd failed");
 		ms_env_set("OLDPWD", ms_env_get("PWD", ""));
-		ms_env_set("PWD", (char *) &cwd);
-		return 0;
+		ms_env_set("PWD", (char *)&cwd);
+		return (0);
 	}
-	return 1;
+	return (1);
 }
