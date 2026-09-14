@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "kg_priv_t.h"
-#include "libft_io.h"
 #include "ms_safe.h"
+#include "ms_exit.h"
 #include "unistd.h"
 #include <libft_os.h>
 #include <libft_mem.h>
@@ -33,7 +33,12 @@ void	kg_add(pid_t new_pid)
 		return ;
 	// TODO wait for new_pid even if this fails
 	// ft_printf_fd(STDERR_FILENO, "new child tracked: [%d]\n", new_pid);
-	new_head = ms_malloc(sizeof(t_kg_el));
+	new_head = ft_malloc(sizeof(t_kg_el));
+	if (new_head == NULL)
+	{
+		ft_wait(new_pid);
+		ms_protect(NULL);
+	}
 	new_head->next = *head();
 	new_head->pid = new_pid;
 	*head() = new_head;

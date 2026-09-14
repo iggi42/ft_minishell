@@ -9,7 +9,7 @@ valgrind \
 	--show-leak-kinds=all \
 	--suppressions=readline.supp \
 	--trace-children=yes \
-	--trace-children-skip="$(echo /bin/* /usr/bin/* /usr/sbin/* $(which norminette) | tr ' ' ',')" \
+	--trace-children-skip="$(echo /bin/* /usr/bin/* /usr/sbin/* $(which norminette) $(which cat) $(which bash) | tr ' ' ',')" \
 	--track-fds=all \
 	--track-origins=yes \
 	./minishell

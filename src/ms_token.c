@@ -98,7 +98,7 @@ t_token	*ms_tokenize(char *input)
 		{
 			i = handle_arg(input, i, &tokens);
 			if (i == -1)
-				return (NULL); // TODO: free token list function? print smth?
+				return (free_token_list(tokens), NULL);
 		}
 	}
 	return (tokens);

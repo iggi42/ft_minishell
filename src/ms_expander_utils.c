@@ -2,7 +2,7 @@
 #include "ms_token.h"
 #include <libft_mem.h>
 
-int	unquote_len(char *str)
+static size_t unquote_len(char *str)
 {
 	int		i;
 	int		len;
@@ -26,7 +26,7 @@ int	unquote_len(char *str)
 	return (len);
 }
 
-void	unquote_cpy(char *str, char *new_str)
+static void	unquote_cpy(char *str, char *new_str)
 {
 	int		i;
 	int		j;

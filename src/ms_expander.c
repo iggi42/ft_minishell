@@ -46,7 +46,7 @@ char	*expand(char *str, int *i)
 }
 
 
-char	*ms_expand_var(char *str)
+char	*ms_expand_var(char *str, bool care_about_quotes)
 {
 	int		i;
 	bool	single_q;
@@ -57,9 +57,9 @@ char	*ms_expand_var(char *str)
 	double_q = false;
 	while (str[i])
 	{
-		if (str[i] == '\'' && double_q == false)
+		if (care_about_quotes && str[i] == '\'' && double_q == false)
 			single_q = !single_q;
-		else if (str[i] == '\"' && single_q == false)
+		else if (care_about_quotes && str[i] == '\"' && single_q == false)
 			double_q = !double_q;
 		else if (str[i] == '$')
 		{
@@ -79,20 +79,24 @@ char	*ms_expand_var(char *str)
 void	ms_expand(t_token **list)
 {
 	t_token	*current;
+	t_token *prev_token;
 
 	current = *list;
+	prev_token = NULL;
 	while (current)
 	{
 		if (current->kind == T_WORD)
-			current->value = ms_expand_var(current->value);
+			current->value = ms_expand_var(current->value, true);
 		current = current->next;
 	}
 	del_empty_token(list);
 	current = *list;
+	prev_token = NULL;
 	while (current)
 	{
-		if (current->kind == T_WORD)
+		if (current->kind == T_WORD && prev_token != NULL && prev_token->kind != T_HERE_DOC)
 			current->value = remove_quote(current->value);
+		prev_token = current;
 		current = current->next;
 	}
 }

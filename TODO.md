@@ -20,6 +20,11 @@ TODO funcheck and valgrind this bitch
 TODO ft_arr_new shouldn't return a pointer to an array, maybe?
 TODO cd - returns to OLDPWD
 
+TODO test how minishell actually crashes with limited memory!
+  => if the cleanup functions calls ft_malloc (and it keeps failling we risk an endless recursion)
+
+TODO memory leaks & exit_codes
+
 for on campus:
  - builtins: export without arguments ??
  - builtins: cd: does it correctly set PWD ?
@@ -29,16 +34,3 @@ TODO implement comments # (wenn dir fad ist)
 TODO (maybe): why does my gnl not like it when you heredoc into it?
 
 
-TODO make a valgrind script for this 
-VALGRIND_FLAGS=(
-	--errors-for-leak-kinds=all
-	--leak-check=full
-	--show-error-list=yes
-	--show-leak-kinds=all
-	--suppressions="$UTILS/minishell.supp"
-	--trace-children=yes
-	--trace-children-skip="$(echo /bin/* /usr/bin/* /usr/sbin/* $(which norminette) | tr ' ' ',')"
-	--track-fds=all
-	--track-origins=yes
-	--log-file="$TMP_OUTDIR/tmp_valgrind_out"
-	)
