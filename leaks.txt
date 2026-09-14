@@ -1,0 +1,32 @@
+  12:	STD_OUT: ❌  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/10_parsing_hell.sh:32  
+  14:	STD_OUT: ❌  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/10_parsing_hell.sh:40  
+  15:	STD_OUT: ❌  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/10_parsing_hell.sh:45  
+  127:	STD_OUT: ✅  STD_ERR: ❌  EXIT_CODE: ❌ [ minishell(0) bash(1) ]  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/10_parsing_hell.sh:327  
+  4:	STD_OUT: ✅  STD_ERR: ❌  EXIT_CODE: ❌ [ minishell(0) bash(2) ]  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_builtins_exit.sh:11  
+  25:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ❌ [ minishell(0) bash(1) ]  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_pipelines.sh:55  
+  26:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_pipelines.sh:59  
+  27:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_pipelines.sh:68  
+  28:	STD_OUT: ❌  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_pipelines.sh:84  
+  29:	STD_OUT: ✅  STD_ERR: ❌  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_pipelines.sh:96  
+  30:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_pipelines.sh:110  
+  38:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_pipelines.sh:153  
+  39:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_pipelines.sh:158  
+  40:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_pipelines.sh:163  
+  10:	STD_OUT: ✅  STD_ERR: ❌  EXIT_CODE: ❌ [ minishell(0) bash(1) ]  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:22  
+  80:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:187  
+  81:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:196  
+  82:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:205  
+  83:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:209  
+  84:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:218  
+  85:	STD_OUT: ❌  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:224  
+  86:	STD_OUT: ❌  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:230  
+  87:	STD_OUT: ❌  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:236  
+  88:	STD_OUT: ❌  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:242  
+  93:	STD_OUT: ✅  STD_ERR: ❌  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:261  
+  94:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_redirs.sh:263  
+  20:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/1_variables.sh:50  
+  19:	STD_OUT: ✅  STD_ERR: ❌  EXIT_CODE: ❌ [ minishell(0) bash(2) ]  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/2_correction.sh:43  
+  68:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/2_correction.sh:145  
+  99:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/2_correction.sh:239  
+  100:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/2_correction.sh:243  
+  7:	STD_OUT: ✅  STD_ERR: ✅  EXIT_CODE: ✅  CRASH: ✅  LEAKS: ❌ /home/fkruger/42_minishell_tester/cmds/mand/9_go_wild.sh:22  

@@ -16,11 +16,16 @@
 #include "ms_env.h"
 #include "ms_exit.h"
 #include <libft_io.h>
+#include <libft_arr.h>
 
 t_byte			ms_exec_builtin_exit(char **argv)
 {
 	t_byte exit_code;
+	size_t argc;
 
+	argc = ft_arr_len((t_arr)argv);
+	if(argc > 2)
+		return (2);
 	if(argv[0] == NULL)
 		ms_exit(EXIT_FAILURE);
 	if(argv[1] == NULL)

@@ -61,7 +61,6 @@ t_byte	ms_exec_builtin_cd(char **argv)
 		target = argv[1];
 	if (ms_chdir(target) == 0)
 	{
-		// TODO check how to handle errors correctly
 		ms_exit_if(getcwd(cwd, PATH_MAX), "getpwd failed");
 		ms_env_set("OLDPWD", ms_env_get("PWD", ""));
 		ms_env_set("PWD", (char *)&cwd);

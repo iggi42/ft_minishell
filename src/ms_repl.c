@@ -15,6 +15,7 @@
 #include "ms_env.h"
 #include "ms_exec.h"
 #include "ms_exit.h"
+#include "ms_signal.h"
 #include "ms_parsing.h"
 #include "ms_repl.h"
 #include <errno.h>
@@ -45,6 +46,7 @@ char	*ms_repl_readline(ms_repl_prompt_get prompt_getter)
 	if (!isatty(STDIN_FILENO))
 		return (ms_cut_nl(ft_gnl(STDIN_FILENO)));
 	line = readline(prompt_getter());
+	ms_signal_hook();
 	if (line == NULL)
 		return (NULL);
 	if (!ft_m3_add(line))

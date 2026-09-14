@@ -12,6 +12,7 @@
 
 #include "ms_env.h"
 #include "ms_repl.h"
+#include "ms_signal.h"
 #include <libft_io.h>
 #include <stdio.h> // TODO keep for nix bs, remove on campus
 #include <readline/readline.h>
@@ -20,9 +21,10 @@ int	main(int argc, char **argv)
 {
 	if (argc != 1)
 		return ((void)argv, -1);
-	ms_env_init(argv[0]);
+	ms_env_init();
+	ms_signal_init();
 	ms_repl();
-	rl_clear_history();
+	ms_repl_history_clear();
 	ms_env_free();
 	ft_gnl(-1);
 }

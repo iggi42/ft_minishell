@@ -60,8 +60,6 @@ static pid_t	spawn_cmd(t_ms_cmd *cmd)
 	return (fr);
 }
 
-// #include <ms_dbg.h>
-
 // this returns true for builtins which can not be done in a fork
 // if such a builtin for cmd->argv[0] is found it is run and its exit_code stored
 static bool	ms_exec_maybe_run_builtin(t_ms_cmd *cmd, t_byte *exit_code)

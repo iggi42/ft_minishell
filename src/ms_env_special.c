@@ -1,5 +1,6 @@
 #include "libft_byte_t.h"
 #include "ms_env.h"
+#include "ms_utils.h"
 #include "ms_exit.h"
 #include "ms_safe.h"
 #include <libft_arr.h>
@@ -40,12 +41,11 @@ void	ms_env_inc_shlvl(void)
 	ft_free(new_shlvl);
 }
 
-// TODO init PWD special variable correct
-
-void	ms_env_init(char *shell)
+void	ms_env_init(void)
 {
 	ms_env_environ_import(__environ);
 	ms_env_set_status(0);
-	ms_env_set("SHELL", shell);
+	ms_env_set("SHELL", "minishell");
+	ms_env_set("PWD", ms_pwd());
 	ms_env_inc_shlvl();
 }
