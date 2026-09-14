@@ -1,5 +1,6 @@
 #include "ms_exit.h"
 #include "bw.h"
+#include "ms_repl.h"
 #include "kg.h"
 #include <libft_io.h>
 #include <libft_merle.h>

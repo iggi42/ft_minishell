@@ -22,7 +22,6 @@
 #include <libft_mem.h>
 #include <stdio.h> // TODO REMOVE ME for EVAL
 #include <readline/readline.h>
-#include <stdlib.h>
 #include <unistd.h>
 
 static char	*ms_cut_nl(char *s)
@@ -69,7 +68,7 @@ t_byte	ms_repl(void)
 		line = ms_repl_readline(ms_repl_prompt_shell);
 		if (line == NULL)
 			break ;
-		ms_repl_add_history(line);
+		ms_repl_history_add(line);
 		parsing_result = ms_parse(line);
 		if (!parsing_result->success)
 		{

@@ -20,6 +20,7 @@
 #include "ms_exit.h"
 #include <errno.h>
 #include <libft_arr.h>
+#include <libft_mem.h>
 #include <libft_ll.h>
 
 // this _never_ returns
@@ -82,16 +83,19 @@ static t_list	*spawn_pipe(t_ms_cmd **cmds)
 // not defined for an empty pipe, needs at least 1 element!
 t_byte	ms_exec_pipe(t_ms_cmd **full_pipe)
 {
-	t_list	*pids;
+	t_list	*current_pids;
+	t_list *start_pids;
 	t_byte	result;
 
-	pids = spawn_pipe(full_pipe);
+	start_pids = spawn_pipe(full_pipe);
+	current_pids = start_pids;
 	ft_bw_cleanup();
 	result = 0;
-	while (pids)
+	while (current_pids)
 	{
-		result = ms_wait(*(int *)pids->content);
-		pids = pids->next;
+		result = ms_wait(*(int *)current_pids->content);
+		current_pids = current_pids->next;
 	}
+	ft_lstclear(&start_pids, ft_free);
 	return (result);
 }
