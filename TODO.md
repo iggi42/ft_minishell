@@ -33,4 +33,4 @@ for on campus:
 TODO implement comments # (wenn dir fad ist)
 TODO (maybe): why does my gnl not like it when you heredoc into it?
 
-
+TODO arr export function for every pointer in gnl, ms_env store and added via ms_repl_history_add

@@ -21,7 +21,6 @@
 #include <libft_char.h>
 #include <libft_mem.h>
 #include <stdio.h> // TODO REMOVE ME for EVAL
-#include <readline/history.h>
 #include <readline/readline.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -37,14 +36,10 @@ static char	*ms_cut_nl(char *s)
 			s[i] = '\0';
 		i++;
 	}
-	// if (s == NULL) // I think we might just want to exit out here, don't we?
-	// 	printf("end of gnl with last status [%d]\n", ms_env_get_status());
-	// else
-	// 	printf("gnl [%s]\n", s);
 	return (s);
 }
 
-char	*ms_gnl(ms_repl_prompt_get prompt_getter)
+char	*ms_repl_readline(ms_repl_prompt_get prompt_getter)
 {
 	char	*line;
 
@@ -66,15 +61,15 @@ char	*ms_gnl(ms_repl_prompt_get prompt_getter)
 // this is good enough for now
 t_byte	ms_repl(void)
 {
-	char				*line;
-	t_ms_parse_res		*parsing_result;
+	char			*line;
+	t_ms_parse_res	*parsing_result;
 
 	while (true)
 	{
-		line = ms_gnl(ms_repl_prompt_shell);
+		line = ms_repl_readline(ms_repl_prompt_shell);
 		if (line == NULL)
 			break ;
-		add_history(line);
+		ms_repl_add_history(line);
 		parsing_result = ms_parse(line);
 		if (!parsing_result->success)
 		{
@@ -89,6 +84,7 @@ t_byte	ms_repl(void)
 			ms_exec(parsing_result->source.cmds);
 		ft_free(line);
 		ms_free_parser_result(parsing_result);
+		// ms_clean(); THIS collects potenial leftovers from parsing + execution
 	}
-	return ms_env_get_status();
+	return (ms_env_get_status());
 }

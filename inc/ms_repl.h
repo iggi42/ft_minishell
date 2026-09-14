@@ -14,18 +14,19 @@
 # define MS_REPL_H
 # include <libft_byte_t.h>
 
-typedef char* (*ms_repl_prompt_get)(void);
+typedef char	*(*ms_repl_prompt_get)(void);
 
 // run repl (with readline in interactive)
-t_byte	ms_repl(void);
-
-// read and exec line by from the fd
-int	ms_run_from_fd(int fd);
+t_byte			ms_repl(void);
 
 // repl utils (also used by heredoc)
-char	*ms_gnl(ms_repl_prompt_get prompt_getter);
+char			*ms_repl_readline(ms_repl_prompt_get prompt_getter);
 
-char *ms_repl_prompt_shell(void);
-char *ms_repl_prompt_heredoc(void);
+// add the line to the readline history
+void			ms_repl_history_add(char *line);
+void			ms_repl_history_clear(void);
+
+char			*ms_repl_prompt_shell(void);
+char			*ms_repl_prompt_heredoc(void);
 
 #endif

@@ -29,7 +29,7 @@ static char	*unquoted_delimiter(char *delimiter)
 	if (delimiter == NULL)
 		return (NULL);
 	input_len = ft_strlen(delimiter);
-	if (input_len > 2 && (is_quote(delimiter[0]) && delimiter[0] == delimiter[input_len - 1]))
+	if (input_len > 2 && is_quote(delimiter[0] && delimiter[0] == delimiter[input_len - 1]))
 		return ms_substr(delimiter, 1, input_len - 2);
 	return (NULL);
 }
@@ -41,7 +41,7 @@ char	*ms_gnl_heredoc(char *delimiter)
 	char	*unq_deli;
 
 	unq_deli = unquoted_delimiter(delimiter);
-	line = ms_gnl(ms_repl_prompt_heredoc);
+	line = ms_repl_readline(ms_repl_prompt_heredoc);
 	if(line == NULL)
 		return (ft_free(unq_deli), NULL);
 	if (unq_deli == NULL && ft_str_eq(line, delimiter))

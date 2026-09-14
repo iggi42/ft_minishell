@@ -62,6 +62,21 @@ bool	ft_m3_rm(void *ptr)
 	return (result);
 }
 
+// if decider returns true, then mem_ptr is ft_freed 
+void ft_m3_free_if(bool (*decider)(void *mem_ptr, void *arg), void *arg)
+{
+	t_ms	*curr;
+
+	curr = *head();
+	while (curr)
+	{
+		if(decider(curr->ptr, arg) && ft_m3_rm(curr->ptr))
+			curr = *head();
+		else
+			curr = curr->next;
+	}
+}
+
 void	ft_m3_each(void (*apply)(void *ptr))
 {
 	t_ms	*curr;

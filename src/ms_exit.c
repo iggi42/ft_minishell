@@ -5,8 +5,6 @@
 #include <libft_merle.h>
 #include <unistd.h>
 #include <string.h>
-#include <stdio.h> // TODO remove me for eval
-#include <readline/readline.h>
 
 static void close_stdenv(void)
 {
@@ -17,7 +15,7 @@ static void close_stdenv(void)
 
 void	ms_exit(int exit_code)
 {
-	rl_clear_history();
+	ms_repl_history_clear();
 	ft_bw_cleanup();
 	close_stdenv();
 	kg_cleanup(true);
