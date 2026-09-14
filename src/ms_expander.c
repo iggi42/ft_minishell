@@ -6,7 +6,7 @@
 #include <libft_mem.h>
 #include <libft_str.h>
 
-static char	*slice_and_dice(char *str, int start, int len, char *var)
+static char	*slice_and_dice(char *str, size_t start, size_t len, char *var)
 {
 	char	*before;
 	char	*after;
@@ -45,7 +45,8 @@ char	*expand(char *str, int *i)
 	return (new_str);
 }
 
-char	*expand_var(char *str)
+
+char	*ms_expand_var(char *str)
 {
 	int		i;
 	bool	single_q;
@@ -83,7 +84,7 @@ void	ms_expand(t_token **list)
 	while (current)
 	{
 		if (current->kind == T_WORD)
-			current->value = expand_var(current->value);
+			current->value = ms_expand_var(current->value);
 		current = current->next;
 	}
 	del_empty_token(list);

@@ -3,6 +3,7 @@
 #include "ms_cmd_t.h"
 #include "ms_exec_utils.h"
 #include "ms_exit.h"
+#include "ms_parsing.h"
 #include "ms_redi.h"
 #include "ms_redi_t.h"
 #include "ms_repl.h"
@@ -14,51 +15,37 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-typedef t_arr_el	(*ft_iter)(void *);
-
-// void print_line(void *s)
-// {
-// 	if(s == NULL)
-// 		return;
-// 	ft_printf("hd: [%s]\n",s );
-// }
-
-t_arr	*build_arr_from_iter(ft_iter itr, void *iter_arg)
+static bool	is_quote(char c)
 {
-	t_arr		*result;
-	t_list		*cache;
-	t_arr_el	new;
+	return (c == '"' || c == '\'');
+}
 
-	cache = NULL;
-	while (42)
-	{
-		new = itr(iter_arg);
-		if (new == NULL)
-			break ;
-		ft_lst_push(&cache, new);
-	}
-	result = ft_lst2arr(cache);
-	ft_lstclear(&cache, ft_void);
-	ft_arr_rev((t_arr)result);
-	// ft_arr_each((t_arr)result, print_line);
-	return (result);
+static bool	is_quoted(char *delimiter)
+{
+	if (delimiter == NULL)
+		return (true);
+	return (is_quote(delimiter[0])
+		&& delimiter[0] == delimiter[ft_strlen(delimiter)]);
 }
 
 char	*ms_gnl_heredoc(char *delimiter)
 {
 	char	*line;
+	char	*expanded;
 
 	line = ms_gnl(ms_repl_prompt_heredoc);
 	if (ft_str_eq(line, delimiter))
 		return (ft_free(line), NULL);
-	// TODO replace env vars in line if delimiter is not quoted
-	// ft_printf_fd(STDERR_FILENO, " heredoc line: [%s]\n", line);
-	return (line);
+	if (is_quoted(delimiter))
+		return (line);
+	expanded = ms_expand_var(line);
+	ft_free(line);
+	return (expanded);
 }
 
 char	**ms_heredoc_readin(char *delimiter)
 {
-	return (char **)build_arr_from_iter((ft_iter)ms_gnl_heredoc, delimiter);
+	return (char **)ft_arr_from_iter((ft_iter)ms_gnl_heredoc, delimiter);
 }
 
 static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
@@ -131,7 +118,6 @@ static void	ms_heredoc_cleanup_running(t_ms_heredoc *chd)
 {
 	if (chd->state != HEREDOC_RUNNING)
 		return ;
-	ft_printf_fd(STDERR_FILENO, "Trying to wait for here doc writer [%d]\n", chd->value.writer);
 	if (chd->value.writer > 0)
 		ms_wait(chd->value.writer);
 	chd->value.writer = 0;

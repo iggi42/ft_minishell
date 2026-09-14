@@ -27,3 +27,18 @@ for on campus:
 
 TODO implement comments # (wenn dir fad ist)
 TODO (maybe): why does my gnl not like it when you heredoc into it?
+
+
+TODO make a valgrind script for this 
+VALGRIND_FLAGS=(
+	--errors-for-leak-kinds=all
+	--leak-check=full
+	--show-error-list=yes
+	--show-leak-kinds=all
+	--suppressions="$UTILS/minishell.supp"
+	--trace-children=yes
+	--trace-children-skip="$(echo /bin/* /usr/bin/* /usr/sbin/* $(which norminette) | tr ' ' ',')"
+	--track-fds=all
+	--track-origins=yes
+	--log-file="$TMP_OUTDIR/tmp_valgrind_out"
+	)

@@ -31,7 +31,7 @@ void				ms_free_parser_result(t_ms_parse_res *res);
 t_ms_parse_res		*ms_parse(char *input);
 
 // returns always a freeable string
-char				*ms_expand_vars(char *text_with_vars);
+char				*ms_expand_var(char *text_with_vars);
 
 bool				ms_is_metachar(char c);
 
