@@ -53,7 +53,7 @@ static t_nxt_el	get_next_elemnt(t_token **tkn_start, bool *is_redi)
 	return (nxt_el);
 }
 
-static void	build_cmd_struct(t_ms_cmd **new_cmd, t_token **inputs)
+static bool build_cmd_struct(t_ms_cmd **new_cmd, t_token **inputs)
 {
 	bool		is_redi;
 	t_nxt_el	nxt_el;
@@ -65,6 +65,13 @@ static void	build_cmd_struct(t_ms_cmd **new_cmd, t_token **inputs)
 	while (*inputs != NULL && (*inputs)->kind != T_PIPE)
 	{
 		nxt_el = get_next_elemnt(inputs, &is_redi);
+		if(nxt_el.arg == NULL)
+		{
+			if(*inputs == NULL)
+				break;
+			else
+				return false;
+		}
 		if (is_redi)
 			ft_lst_push(&redi_stck, nxt_el.redi);
 		else
@@ -73,6 +80,7 @@ static void	build_cmd_struct(t_ms_cmd **new_cmd, t_token **inputs)
 	*new_cmd = ms_cmd_new(redi_stck, arg_stck);
 	ft_lstclear(&arg_stck, ft_void);
 	ft_lstclear(&redi_stck, ft_void);
+	return true;
 }
 
 static t_ms_cmd	**build_cmd_arr(t_token *tkn)
@@ -87,7 +95,12 @@ static t_ms_cmd	**build_cmd_arr(t_token *tkn)
 	result = (t_ms_cmd **)ms_protect(ft_arr_new(amount));
 	while (i < amount && tkn != NULL)
 	{
-		build_cmd_struct(&result[i++], &tkn);
+		if(!build_cmd_struct(&result[i++], &tkn))
+		{
+			ft_arr_each((t_arr) result , (void (*)(t_arr_el)) ms_cmd_free);
+			ft_free(result);
+			return (NULL);
+		}
 		if (tkn == NULL)
 			break ;
 		tkn = tkn->next;
@@ -108,6 +121,11 @@ t_ms_parse_res	*ms_parse(char *input)
 	{
 		ms_expand(&tkns);
 		result->source.cmds = build_cmd_arr(tkns);
+		if(result->source.cmds == NULL)
+		{
+			result->success = false;
+			result->source.error_msg = ms_strdup("syntax error");
+		}
 	}
 	free_token_list(tkns);
 	return (result);

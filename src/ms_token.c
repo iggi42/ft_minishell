@@ -1,4 +1,7 @@
 #include "ms_token.h"
+#include "libft_str.h"
+#include "ms_dbg.h"
+#include "ms_exit.h"
 #include "ms_safe.h"
 
 int	handle_operator(char *str, int i, t_token **tokens)
@@ -69,7 +72,7 @@ char	*ms_syntax_check(t_token *tokens)
 		if (is_redirect(current->kind))
 		{
 			if (!current->next || current->next->kind != T_WORD)
-				return (ms_strdup("syntax error near unexpected sign 'newline'"));
+				return (ms_protect(ft_strf("syntax error near unexpected sign '%s'", current->value)));
 		}
 		if (current->kind == T_PIPE)
 		{
