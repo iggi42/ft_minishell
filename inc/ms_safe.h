@@ -17,6 +17,7 @@ bool	ms_clean_keep(void *keep_me);
 // fd safety
 int		ms_open(char *path, int flags);
 void	ms_close(int fd);
+int ms_dup(int from);
 void	ms_dup2(int from, int to);
 int		*ms_pipe(int *new_pipe);
 

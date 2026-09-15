@@ -27,7 +27,6 @@ void ms_signal_init(void)
 {
 	struct sigaction s_sig;
 
-	// rl_catch_signals = 0;		// <- der bre MUSS weg, wir WOLLEN das rl die signals catcht
 	sigemptyset(&s_sig.sa_mask);
 	s_sig.sa_handler = ms_sig_handler;
 	s_sig.sa_flags = 0;
@@ -35,7 +34,7 @@ void ms_signal_init(void)
 	sigaction(SIGQUIT, &s_sig, NULL);
 }
 
-void ms_signal_child(void)		// <- call den da in ms_fork DIREKT nach fork()
+void ms_signal_child(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

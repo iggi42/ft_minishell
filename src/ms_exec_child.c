@@ -1,4 +1,5 @@
 #include "bw.h"
+#include "libft_arr_t.h"
 #include "ms_cmd_t.h"
 #include "ms_env.h"
 #include "ms_exec.h"
@@ -7,6 +8,7 @@
 #include "ms_exit.h"
 #include "ms_redi.h"
 #include "ms_safe.h"
+#include "ms_dbg.h"
 #include <errno.h>
 #include <libft_arr.h>
 #include <libft_str.h>
@@ -20,8 +22,11 @@ void	ms_stdenv_apply(int stdenv[2])
 
 static void	ms_execve(char *path, char **argv)
 {
+	char *error_msg;
+	
 	execve(path, argv, ms_env_environ_export());
-	ms_error_out(EXIT_NO_EXEC_PERM, "[ missing ]", 0);
+	error_msg = ms_protect(ft_strf("%s: cmd not found"));
+	ms_error_out(EXIT_NO_EXEC_PERM, error_msg, 0);
 }
 
 static void	ms_exec_do_cmd(char **argv)
@@ -44,7 +49,7 @@ static void	ms_exec_do_cmd(char **argv)
 void	ms_exec_child(t_ms_cmd *cmd, int stdenv[2])
 {
 	ms_stdenv_apply(stdenv);
-	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))ms_redi_apply);
+	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el)) ms_redi_apply);
 	ft_bw_cleanup();
 	ms_exec_do_cmd(cmd->argv);
 }
