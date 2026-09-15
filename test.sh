@@ -1,4 +1,1 @@
-cat << $USER
-why
-not
-$USER
+/bin/echo '$'$

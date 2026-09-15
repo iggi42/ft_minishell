@@ -18,9 +18,10 @@ SRCS += ms_dbg.c
 SRCS += ms_env_core.c ms_env_crud.c ms_env_environ.c ms_env_special.c
 SRCS += ms_exec_builtins.c ms_exec_builtins_cd.c ms_exec_builtins_echo.c ms_exec_builtins_env.c
 SRCS += ms_exec_builtins_exit.c ms_exec_builtins_export.c ms_exec_builtins_pwd.c ms_exec_builtins_unset.c
+
 SRCS += ms_exec.c ms_exec_cmd.c ms_exec_pipe.c ms_exec_child.c
-SRCS += ms_signals.c ms_rl.c
 SRCS += ms_exec_fs.c ms_exec_utils.c ms_is_path.c ms_pwd.c
+SRCS += ms_signals.c ms_rl.c
 
 SRCS += ms_expander.c ms_expander_utils.c
 SRCS += ms_parsing_getlen.c

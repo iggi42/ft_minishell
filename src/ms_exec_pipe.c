@@ -23,6 +23,7 @@
 #include <libft_mem.h>
 #include <libft_ll.h>
 
+/*
 // this _never_ returns
 // DELETE ME if ms_exec_child is done
 void	exec_cmd_2(t_ms_cmd *cmd, int stdenv[2])
@@ -42,7 +43,7 @@ void	exec_cmd_2(t_ms_cmd *cmd, int stdenv[2])
 	else
 		execve(path, cmd->argv, ms_env_environ_export());
 	ms_error_out(EXIT_NO_EXEC_PERM, path, errno);
-}
+} */
 
 static void	add_pid(t_list **pids, pid_t pid)
 {

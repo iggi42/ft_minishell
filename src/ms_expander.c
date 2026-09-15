@@ -48,13 +48,6 @@ char	*expand(char *str, int *i)
 
 #include <libft_io.h>
 
-static char *print_chain(char *s, size_t i)
-{
-	ft_printf_fd(STDERR_FILENO, "expand(\"%s\", %d)\n", s, i);
-	return s;
-}
-
-
 char	*ms_expand_var(char *str, bool care_about_quotes)
 {
 	int		i;
@@ -72,11 +65,11 @@ char	*ms_expand_var(char *str, bool care_about_quotes)
 			double_q = !double_q;
 		else if (str[i] == '$')
 		{
-			if (single_q == true)
-				i++;
+			if (single_q == true && str[++i] == '\0')
+				break;
 			else
 			{
-				str = print_chain(expand(str, &i), i);
+				str = expand(str, &i);
 				continue ;
 			}
 		}

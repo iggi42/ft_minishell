@@ -35,7 +35,7 @@ void	exec_1_cmd(t_ms_cmd *cmd, int stdenv[2])
 	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))ms_redi_apply);
 	if (cmd->argv[0] == NULL)
 		ms_exit(EXIT_SUCCESS);
-	built_in = ms_get_builtin(cmd->argv[0]);
+	built_in = ms_builtin_get(cmd->argv[0]);
 	path = ms_find_exec_file(cmd->argv[0]);
 	ft_bw_cleanup();
 	if (built_in != NULL)
@@ -58,7 +58,7 @@ static bool	ms_exec_maybe_run_builtin(t_ms_cmd *cmd, t_byte *exit_code)
 
 	if (cmd->argv[0] == NULL)
 		return (false);
-	builtin = ms_get_builtin_nofrk(cmd->argv[0]);
+	builtin = ms_builtin_get_frk(cmd->argv[0]);
 	if (builtin == NULL)
 		return (false);
 	*exit_code = builtin(cmd->argv);

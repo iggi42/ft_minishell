@@ -18,10 +18,9 @@
 typedef t_byte	(*ms_builtin)(char **argv);
 
 // getters to find a builtin
-ms_builtin		ms_get_builtin(char *name);
-ms_builtin		ms_get_builtin_frk(char *name);
-ms_builtin		ms_get_builtin_nofrk(char *name);
-
+ms_builtin		ms_builtin_get(char *name);
+ms_builtin		ms_builtin_get_frk(char *name);
+ms_builtin		ms_builtin_get_nofrk(char *name);
 
 // builtin implementations
 t_byte			ms_exec_builtin_cd(char **argv);
