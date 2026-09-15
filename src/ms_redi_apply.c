@@ -2,7 +2,6 @@
 #include "ms_redi.h"
 #include "ms_safe.h"
 #include "ms_exec_utils.h"
-#include <errno.h>
 
 static int	(*get_opn(enum e_ms_redi_kind k))(char *target)
 {
@@ -23,7 +22,6 @@ void	ms_redi_apply(t_ms_redi *apply_me)
 
 	if (apply_me == NULL || apply_me->kind == REDI_INVALID)
 		return ;
-	errno = 0;
 	if (apply_me->source_kind == REDI_SOURCE_FD)
 		fd = apply_me->source.fd;
 	else if (apply_me->source_kind == REDI_SOURCE_PATH)

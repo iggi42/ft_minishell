@@ -10,21 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_env.h"
-#include "ms_exec_utils.h"
-#include "ms_exit.h"
 #include "ms_safe.h"
+#include "ms_exit.h"
+#include "ms_env.h"
 #include "ms_utils.h"
-#include "unistd.h"
-#include <libft_arr.h>
+#include <unistd.h>
 #include <libft_mem.h>
+#include <libft_arr.h>
 #include <libft_str.h>
-
-void	ms_apply_stdenv(int stdenv[2])
-{
-	ms_dup2(stdenv[R], STDIN_FILENO);
-	ms_dup2(stdenv[W], STDOUT_FILENO);
-}
 
 static char	*default_str(char *normal, char *fallback)
 {
@@ -71,10 +64,5 @@ char	*ms_find_exec_file(char *cmd0)
 		path = ms_search_path(cmd0);
 	else
 		path = ms_strdup(cmd0);
-	if (path == NULL || access(path, F_OK))
-	{
-		path = ft_strf("%s: command not found", cmd0);
-		ms_error_out(EXIT_CMD_NOT_FOUND, path, 0);
-	}
 	return (path);
 }

@@ -12,10 +12,9 @@
 
 #ifndef MS_CMD_T_H
 # define MS_CMD_T_H
-# include "fcntl.h"
-# include "libft_ll.h"
 # include "ms_redi_t.h"
 # include <libft_byte_t.h>
+# include <libft_ll.h>
 # include <unistd.h>
 
 typedef enum e_ms_heredoc_state

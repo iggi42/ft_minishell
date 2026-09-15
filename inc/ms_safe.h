@@ -1,4 +1,3 @@
-
 #include <libft_byte_t.h>
 #include <stdbool.h>
 #include <stdlib.h>

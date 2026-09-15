@@ -11,21 +11,46 @@
 /* ************************************************************************** */
 #include "libft_mem.h"
 #include "libft_str.h"
+#include <stddef.h>
+
+// requires input to have strlen of at least n
+static char	*ft_first_n_chars(const char *input, size_t n)
+{
+	char	*result;
+
+	result = ft_str_alloc(n);
+	return (ft_memcpy(result, input, n));
+}
 
 char	*ft_substr(const char *s, size_t start, size_t len)
 {
-	char *wip = ft_strdup(s);
-	char *result;
-	if(!wip)
-		return NULL;
-	if(ft_strlen(wip) <= start)
+	size_t	input_len;
+
+	if (s == NULL)
+		return (NULL);
+	input_len = ft_strlen(s);
+	if (start > input_len)
+		return (ft_strdup(""));
+	if (start + len > input_len)
+		return (ft_strdup(s + start));
+	return (ft_first_n_chars(s + start, len));
+}
+/*
+{
+	char	*wip;
+	char	*result;
+
+	wip = ft_strdup(s);
+	if (!wip)
+		return (NULL);
+	if (ft_strlen(wip) <= start)
 		return (ft_free(wip), ft_strdup(""));
-	if(ft_strlen(wip) > start + len)
+	if (ft_strlen(wip) > start + len)
 		wip[start + len] = '\0';
 	result = ft_strdup(wip + start);
 	ft_free(wip);
-	return result;
-}
+	return (result);
+} */
 
 /*
 // returns the size of the substring
