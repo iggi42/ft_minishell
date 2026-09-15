@@ -3,6 +3,7 @@
 #include "ms_parsing_getlen.h"
 #include "ms_safe.h"
 #include "ms_token.h"
+#include "unistd.h"
 #include <libft_mem.h>
 #include <libft_str.h>
 
@@ -45,6 +46,14 @@ char	*expand(char *str, int *i)
 	return (new_str);
 }
 
+#include <libft_io.h>
+
+static char *print_chain(char *s, size_t i)
+{
+	ft_printf_fd(STDERR_FILENO, "expand(\"%s\", %d)\n", s, i);
+	return s;
+}
+
 
 char	*ms_expand_var(char *str, bool care_about_quotes)
 {
@@ -67,7 +76,7 @@ char	*ms_expand_var(char *str, bool care_about_quotes)
 				i++;
 			else
 			{
-				str = expand(str, &i);
+				str = print_chain(expand(str, &i), i);
 				continue ;
 			}
 		}
@@ -85,8 +94,9 @@ void	ms_expand(t_token **list)
 	prev_token = NULL;
 	while (current)
 	{
-		if (current->kind == T_WORD)
+		if (current->kind == T_WORD && prev_token != NULL && prev_token->kind != T_HERE_DOC )
 			current->value = ms_expand_var(current->value, true);
+		prev_token = current;
 		current = current->next;
 	}
 	del_empty_token(list);

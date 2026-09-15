@@ -17,6 +17,27 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+
+static void	ms_heredoc_cleanup_running(t_ms_heredoc *chd)
+{
+	if (chd->state != HEREDOC_RUNNING)
+		return ;
+	if (chd->value.writer > 0)
+		ms_wait(chd->value.writer);
+	chd->value.writer = 0;
+	chd->state = HEREDOC_NO;
+}
+
+static void	ms_heredoc_cleanup_ready(t_ms_heredoc *chd)
+{
+	if (chd->state != HEREDOC_READY)
+		return ;
+	ft_arr_each((t_arr)chd->value.lines, ft_free);
+	ft_free(chd->value.lines);
+	chd->value.lines = NULL;
+	chd->state = HEREDOC_NO;
+}
+
 static bool	is_quote(char c)
 {
 	return (c == '"' || c == '\'');
@@ -40,6 +61,7 @@ char	*ms_gnl_heredoc(char *delimiter)
 	char	*line;
 	char	*expanded;
 	char	*unq_deli;
+	char *expander_cache;
 
 	line = ms_repl_readline(ms_repl_prompt_heredoc);
 	if(line == NULL)
@@ -48,7 +70,7 @@ char	*ms_gnl_heredoc(char *delimiter)
 
 	// abort if input deli unquoted and line == delimiter
 	if (unq_deli == NULL && ft_str_eq(line, delimiter))
-		return (ft_free(line), NULL);
+		return (ft_free(line), ft_free(unq_deli), NULL);
 
 	// abort if input deli was quoted and the unquoted version == line
 	if (unq_deli != NULL && ft_str_eq(line, unq_deli))
@@ -56,8 +78,10 @@ char	*ms_gnl_heredoc(char *delimiter)
 	// if delimiter is not in quotes
 	if(unq_deli == NULL)
 	{
-		expanded = ms_strdup(ms_expand_var(line, false));
+		expander_cache = ms_expand_var(line, false);
+		expanded = ms_strdup(expander_cache);
 		ft_free(line);
+		ft_free(expander_cache);
 		return expanded;
 	}
 	// else if delimer is in quotes
@@ -82,6 +106,8 @@ static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
 		if ((*rest_redis)->source_kind == REDI_SOURCE_PATH)
 		{
 			ms_redi_turnoff(doc_info->source_redi);
+			ms_heredoc_cleanup_ready(doc_info);
+
 			if (doc_info->state == HEREDOC_READY)
 			{
 				ft_arr_each((t_arr)doc_info->value.lines, ft_free);
@@ -124,6 +150,7 @@ static void	bootup_heredoc_writer(t_ms_heredoc *active_heredoc)
 	if (writer == 0)
 		be_hdoc_writer(hdoc_pipe, active_heredoc->value.lines);
 	ms_close(hdoc_pipe[W]);
+	ms_heredoc_cleanup_ready(active_heredoc);
 	ms_redi_set_fd(active_heredoc->source_redi, hdoc_pipe[R]);
 	active_heredoc->source_redi->kind = REDI_IN;
 	active_heredoc->state = HEREDOC_RUNNING;
@@ -134,26 +161,6 @@ void	ms_heredocs_prepare(t_ms_cmd *cmd)
 {
 	reduce_heredocs_to_inputs(cmd->reds, &cmd->active_heredoc);
 	bootup_heredoc_writer(&cmd->active_heredoc);
-}
-
-static void	ms_heredoc_cleanup_running(t_ms_heredoc *chd)
-{
-	if (chd->state != HEREDOC_RUNNING)
-		return ;
-	if (chd->value.writer > 0)
-		ms_wait(chd->value.writer);
-	chd->value.writer = 0;
-	chd->state = HEREDOC_NO;
-}
-
-static void	ms_heredoc_cleanup_ready(t_ms_heredoc *chd)
-{
-	if (chd->state != HEREDOC_READY)
-		return ;
-	ft_arr_each((t_arr)chd->value.lines, ft_free);
-	ft_free(chd->value.lines);
-	chd->value.lines = NULL;
-	chd->state = HEREDOC_NO;
 }
 
 // this does not free!
