@@ -13,6 +13,7 @@
 #include <libft_ll.h>
 #include <libft_mem.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -29,7 +30,7 @@ static char	*unquoted_delimiter(char *delimiter)
 	if (delimiter == NULL)
 		return (NULL);
 	input_len = ft_strlen(delimiter);
-	if (input_len > 2 && is_quote(delimiter[0] && delimiter[0] == delimiter[input_len - 1]))
+	if (input_len > 2 && is_quote(delimiter[0]) && delimiter[0] == delimiter[input_len - 1])
 		return ms_substr(delimiter, 1, input_len - 2);
 	return (NULL);
 }
@@ -40,20 +41,26 @@ char	*ms_gnl_heredoc(char *delimiter)
 	char	*expanded;
 	char	*unq_deli;
 
-	unq_deli = unquoted_delimiter(delimiter);
 	line = ms_repl_readline(ms_repl_prompt_heredoc);
 	if(line == NULL)
-		return (ft_free(unq_deli), NULL);
+		return (NULL);
+	unq_deli = unquoted_delimiter(delimiter);
+
+	// abort if input deli unquoted and line == delimiter
 	if (unq_deli == NULL && ft_str_eq(line, delimiter))
 		return (ft_free(line), NULL);
+
+	// abort if input deli was quoted and the unquoted version == line
 	if (unq_deli != NULL && ft_str_eq(line, unq_deli))
-		return (ft_free(line), NULL);
+		return (ft_free(line), ft_free(unq_deli), NULL);
+	// if delimiter is not in quotes
 	if(unq_deli == NULL)
 	{
 		expanded = ms_strdup(ms_expand_var(line, false));
 		ft_free(line);
 		return expanded;
 	}
+	// else if delimer is in quotes
 	ft_free(unq_deli);
 	return (line);
 }
