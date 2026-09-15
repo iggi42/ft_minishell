@@ -24,12 +24,13 @@
 #include <libft_ll.h>
 
 // this _never_ returns
-static void	exec_cmd(t_ms_cmd *cmd, int stdenv[2])
+// DELETE ME if ms_exec_child is done
+void	exec_cmd_2(t_ms_cmd *cmd, int stdenv[2])
 {
 	char		*path;
 	ms_builtin	built_in;
 
-	ms_apply_stdenv(stdenv);
+	ms_stdenv_apply(stdenv);
 	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))ms_redi_apply);
 	if (cmd->argv[0] == NULL)
 		ms_exit(EXIT_SUCCESS);
@@ -73,7 +74,7 @@ static t_list	*spawn_pipe(t_ms_cmd **cmds)
 			stdenv[W] = STDOUT_FILENO;
 		fr = ms_fork();
 		if (fr == 0)
-			exec_cmd(cmds[0], stdenv);
+			ms_exec_child(cmds[0], stdenv);
 		add_pid(&result, fr);
 		cmds++;
 	}
