@@ -4,6 +4,7 @@
 #include "ms_exit.h"
 #include <errno.h>
 #include <libft_byte_t.h>
+#include "ms_signal.h"
 #include <libft_os.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -21,6 +22,7 @@ pid_t	ms_fork(void)
 		kg_add(result);
 		return (result);
 	}
+	ms_signal_child();			// <- den da mal, damit eben cat und so 'normal reagiert'
 	kg_cleanup(false);
 	return (0);
 }

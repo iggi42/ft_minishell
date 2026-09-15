@@ -22,6 +22,8 @@ t_byte			ms_repl(void);
 // repl utils (also used by heredoc)
 char			*ms_repl_readline(ms_repl_prompt_get prompt_getter);
 
+char			*ms_repl_rl_wrapper(char *prompt);
+
 // add the line to the readline history
 void			ms_repl_history_add(char *line);
 void			ms_repl_history_clear(void);

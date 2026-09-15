@@ -21,8 +21,6 @@
 #include <errno.h>
 #include <libft_char.h>
 #include <libft_mem.h>
-#include <stdio.h> // TODO REMOVE ME for EVAL
-#include <readline/readline.h>
 #include <unistd.h>
 
 static char	*ms_cut_nl(char *s)
@@ -45,8 +43,7 @@ char	*ms_repl_readline(ms_repl_prompt_get prompt_getter)
 
 	if (!isatty(STDIN_FILENO))
 		return (ms_cut_nl(ft_gnl(STDIN_FILENO)));
-	line = readline(prompt_getter());
-	ms_signal_hook();
+	line = ms_repl_rl_wrapper(prompt_getter());
 	if (line == NULL)
 		return (NULL);
 	if (!ft_m3_add(line))
