@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "bw.h"
+#include "libft_byte_t.h"
 #include "ms_cmd_t.h"
 #include "ms_env.h"
 #include "ms_exec_builtins.h"
@@ -23,28 +24,6 @@
 #include <libft_mem.h>
 #include <libft_ll.h>
 
-/*
-// this _never_ returns
-// DELETE ME if ms_exec_child is done
-void	exec_cmd_2(t_ms_cmd *cmd, int stdenv[2])
-{
-	char		*path;
-	ms_builtin	built_in;
-
-	ms_stdenv_apply(stdenv);
-	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))ms_redi_apply);
-	if (cmd->argv[0] == NULL)
-		ms_exit(EXIT_SUCCESS);
-	built_in = ms_get_builtin(cmd->argv[0]);
-	path = ms_find_exec_file(cmd->argv[0]);
-	ft_bw_cleanup();
-	if (built_in != NULL)
-		ms_exit(built_in(cmd->argv));
-	else
-		execve(path, cmd->argv, ms_env_environ_export());
-	ms_error_out(EXIT_NO_EXEC_PERM, path, errno);
-} */
-
 static void	add_pid(t_list **pids, pid_t pid)
 {
 	t_list	*new_el;
@@ -52,7 +31,7 @@ static void	add_pid(t_list **pids, pid_t pid)
 
 	new_content = ms_malloc(sizeof(pid_t));
 	*new_content = pid;
-	new_el = ft_lstnew(new_content);
+	new_el = ms_protect(ft_lstnew(new_content));
 	ft_lstadd_back(pids, new_el);
 }
 
@@ -83,11 +62,10 @@ static t_list	*spawn_pipe(t_ms_cmd **cmds)
 }
 
 // not defined for an empty pipe, needs at least 1 element!
-t_byte	ms_exec_pipe(t_ms_cmd **full_pipe)
+void ms_exec_pipe(t_ms_cmd **full_pipe, t_byte *result)
 {
 	t_list	*current_pids;
 	t_list *start_pids;
-	t_byte	result;
 
 	start_pids = spawn_pipe(full_pipe);
 	current_pids = start_pids;
@@ -95,9 +73,8 @@ t_byte	ms_exec_pipe(t_ms_cmd **full_pipe)
 	result = 0;
 	while (current_pids)
 	{
-		result = ms_wait(*(int *)current_pids->content);
+		*result = ms_wait(*(int *)current_pids->content);
 		current_pids = current_pids->next;
 	}
 	ft_lstclear(&start_pids, ft_free);
-	return (result);
 }

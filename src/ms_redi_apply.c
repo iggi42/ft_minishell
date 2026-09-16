@@ -19,6 +19,9 @@ static int (*get_opn(enum e_ms_redi_kind k))(char *target)
 	return (NULL);
 }
 
+// TODO set status code according to if the applying worked out
+// should only be needed in the parent, in the forked versions we can just exit out directly
+
 void	ms_redi_apply_parent(t_ms_redi *apply_me)
 {
 	int	fd;

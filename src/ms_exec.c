@@ -9,27 +9,27 @@
 /*   Updated: 2026/05/15 18:52:01 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft_arr_t.h"
-#include "ms_cmd_t.h"
-// #include "ms_dbg.h"
+
 #include "ms_env.h"
 #include "ms_exec.h"
 #include "ms_safe.h"
 #include <libft_arr.h>
 #include <libft_byte_t.h>
 
-t_byte	ms_exec(t_ms_cmd **run_me)
+void ms_exec(t_ms_cmd **run_me, t_byte *status_code)
 {
-	t_byte	result;
-
 	if (*run_me == NULL)
-		return (0);
+		return ;
+	if(*status_code != 0)
+		return;
 	ft_arr_each((t_arr)run_me, (void (*)(t_arr_el))ms_heredocs_prepare);
-	if (*(run_me + 1) == NULL)
-		result = ms_exec_cmd(*run_me);
-	else
-		result = ms_exec_pipe(run_me);
+	if(*status_code == 0)
+	{
+		if (*(run_me + 1) == NULL)
+			ms_exec_cmd(*run_me, status_code);
+		else
+			 ms_exec_pipe(run_me, status_code);
+	}
 	ft_arr_each((t_arr)run_me, (void (*)(t_arr_el))ms_heredoc_cleanup);
-	ms_env_set_status(result);
-	return (result);
+	ms_env_set_status(*status_code);
 }

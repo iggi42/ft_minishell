@@ -15,9 +15,9 @@
 #include "ms_env.h"
 #include "ms_exec.h"
 #include "ms_exit.h"
-#include "ms_signal.h"
 #include "ms_parsing.h"
 #include "ms_repl.h"
+#include "ms_signal.h"
 #include <errno.h>
 #include <libft_char.h>
 #include <libft_mem.h>
@@ -61,27 +61,27 @@ t_byte	ms_repl(void)
 {
 	char			*line;
 	t_ms_parse_res	*parsing_result;
+	int				status_code;
 
 	while (true)
 	{
+		status_code = 0;
 		line = ms_repl_readline(ms_repl_prompt_shell);
 		if (line == NULL)
 			break ;
 		ms_repl_history_add(line);
 		parsing_result = ms_parse(line);
 		if (!parsing_result->success)
-		{
-			ft_printf_fd(STDERR_FILENO, "minishell: %s\n",
-				parsing_result->source.error_msg);
-			if (!isatty(STDIN_FILENO))
-				ms_exit(2);
-			else
-				ms_env_set_status(2);
-		}
+			status_code = (ft_printf_fd(STDERR_FILENO, "minishell: %s\n",
+						parsing_result->source.error_msg), 2);
 		else
-			ms_exec(parsing_result->source.cmds);
+			ms_exec(parsing_result->source.cmds, &status_code);
 		ft_free(line);
 		ms_free_parser_result(parsing_result);
+		if (!isatty(STDIN_FILENO))
+			ms_exit(status_code);
+		else
+			ms_env_set_status(status_code);
 	}
 	return (ms_env_get_status());
 }
