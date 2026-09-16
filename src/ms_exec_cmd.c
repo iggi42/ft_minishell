@@ -32,7 +32,7 @@ static bool	ms_exec_maybe_run_builtin(t_ms_cmd *cmd, t_byte *exit_code)
 
 	stdenv[STDIN_FILENO] = ms_dup(STDIN_FILENO);
 	stdenv[STDOUT_FILENO] = ms_dup(STDOUT_FILENO);
-	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))ms_redi_apply_interactive);
+	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))ms_redi_apply_parent);
 	if (cmd->argv[0] == NULL)
 		return (false);
 	builtin = ms_builtin_get_nofrk(cmd->argv[0]);
