@@ -17,10 +17,8 @@
 #include "ms_env.h"
 #include "ms_exec_builtins.h"
 #include "ms_exec_utils.h"
-#include "ms_exit.h"
 #include "ms_redi.h"
 #include "ms_safe.h"
-#include <errno.h>
 #include <libft_arr.h>
 #include <libft_ll.h>
 #include <libft_str.h>
@@ -30,13 +28,20 @@
 static bool	ms_exec_maybe_run_builtin(t_ms_cmd *cmd, t_byte *exit_code)
 {
 	ms_builtin	builtin;
+	int stdenv[2];
 
+	stdenv[STDIN_FILENO] = ms_dup(STDIN_FILENO);
+	stdenv[STDOUT_FILENO] = ms_dup(STDOUT_FILENO);
+	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))ms_redi_apply_interactive);
 	if (cmd->argv[0] == NULL)
 		return (false);
 	builtin = ms_builtin_get_nofrk(cmd->argv[0]);
 	if (builtin == NULL)
 		return (false);
+	ms_env_set_status(0);
 	*exit_code = builtin(cmd->argv);
+	ms_stdenv_apply(stdenv);
+	ft_bw_cleanup();
 	return (true);
 }
 
