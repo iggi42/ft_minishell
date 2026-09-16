@@ -133,7 +133,7 @@ static void	be_hdoc_writer(int *pipe, char **write_me)
 		ms_signal_consume();
 	}
 	ms_close(pipe[W]);
-	ms_exit(EXIT_SUCCESS);
+	ms_exit(42);
 }
 
 static void	bootup_heredoc_writer(t_ms_heredoc *active_heredoc)

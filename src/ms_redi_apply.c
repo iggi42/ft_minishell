@@ -42,7 +42,10 @@ void	ms_redi_apply_parent(t_ms_redi *apply_me)
 		target = STDOUT_FILENO;
 	else
 		target = STDIN_FILENO;
-	ms_dup2(fd, target);
+	if (fd < 0 && apply_me->source_kind == REDI_SOURCE_PATH)
+		ms_env_set_status(EXIT_FAILURE);
+	else
+		ms_dup2(fd, target);
 }
 
 void	ms_redi_apply(t_ms_redi *apply_me)
@@ -66,5 +69,7 @@ void	ms_redi_apply(t_ms_redi *apply_me)
 		target = STDOUT_FILENO;
 	else
 		target = STDIN_FILENO;
+	if (fd < 0 && apply_me->source_kind == REDI_SOURCE_PATH)
+		ms_error_out(EXIT_FAILURE, apply_me->source.path, errno);
 	ms_dup2(fd, target);
 }

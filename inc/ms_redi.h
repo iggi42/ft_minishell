@@ -25,6 +25,5 @@ void	ms_redi_free(t_ms_redi *redi);
 // applies a redirector the current process
 void	ms_redi_apply(t_ms_redi *apply_me);
 
-// applies them too but is hacky cause it happens without forking
-void ms_redi_apply_parent(t_ms_redi *apply_me);
+void	ms_redi_apply_parent(t_ms_redi *apply_me);
 #endif

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "libft_arr_t.h"
 #include "ms_cmd_t.h"
-// #include "ms_dbg.h"
+#include "ms_dbg.h"
 #include "ms_env.h"
 #include "ms_exec.h"
 #include "ms_safe.h"
@@ -24,6 +24,7 @@ t_byte	ms_exec(t_ms_cmd **run_me)
 
 	if (*run_me == NULL)
 		return (0);
+	ms_env_set_status(0);
 	ft_arr_each((t_arr)run_me, (void (*)(t_arr_el))ms_heredocs_prepare);
 	if (*(run_me + 1) == NULL)
 		result = ms_exec_cmd(*run_me);

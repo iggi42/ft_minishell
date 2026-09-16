@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "ms_env.h"
+#include "ms_exec_utils.h"
+#include "ms_exit.h"
 #include "ms_repl.h"
 #include "ms_signal.h"
 #include <libft_io.h>
@@ -27,4 +29,6 @@ int	main(int argc, char **argv)
 	ms_repl_history_clear();
 	ms_env_free();
 	ft_gnl(-1);
+	ms_stdenv_close();
+	return (ms_env_get_status());
 }
