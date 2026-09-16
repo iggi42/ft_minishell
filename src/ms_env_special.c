@@ -17,6 +17,7 @@ t_byte	*lsc(void)
 	return (&code);
 }
 
+// this still needs to work after a cleanup
 t_byte ms_env_get_status(void)
 {
 	return *lsc();

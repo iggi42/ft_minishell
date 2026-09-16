@@ -23,28 +23,6 @@
 #include <libft_mem.h>
 #include <libft_ll.h>
 
-/*
-// this _never_ returns
-// DELETE ME if ms_exec_child is done
-void	exec_cmd_2(t_ms_cmd *cmd, int stdenv[2])
-{
-	char		*path;
-	ms_builtin	built_in;
-
-	ms_stdenv_apply(stdenv);
-	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))ms_redi_apply);
-	if (cmd->argv[0] == NULL)
-		ms_exit(EXIT_SUCCESS);
-	built_in = ms_get_builtin(cmd->argv[0]);
-	path = ms_find_exec_file(cmd->argv[0]);
-	ft_bw_cleanup();
-	if (built_in != NULL)
-		ms_exit(built_in(cmd->argv));
-	else
-		execve(path, cmd->argv, ms_env_environ_export());
-	ms_error_out(EXIT_NO_EXEC_PERM, path, errno);
-} */
-
 static void	add_pid(t_list **pids, pid_t pid)
 {
 	t_list	*new_el;

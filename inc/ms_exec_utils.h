@@ -25,6 +25,9 @@ enum	e_pipe_end
 
 void	ms_stdenv_apply(int stdenv[2]);
 
+void ms_stdenv_close(void);
+
+
 // applys the fds in stdenv and then execs into the cmd
 // or a builtin, or errors out with the appropate exit code
 void	ms_exec_child(t_ms_cmd *cmd, int stdenv[2]);

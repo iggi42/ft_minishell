@@ -14,6 +14,13 @@
 #include <libft_str.h>
 #include <unistd.h>
 
+void ms_stdenv_close(void)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+}
+
 void	ms_stdenv_apply(int stdenv[2])
 {
 	ms_dup2(stdenv[R], STDIN_FILENO);

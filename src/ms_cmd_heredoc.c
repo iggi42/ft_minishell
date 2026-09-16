@@ -107,8 +107,7 @@ static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
 		{
 			ms_redi_turnoff(doc_info->source_redi);
 			ms_heredoc_cleanup_ready(doc_info);
-
-			if (doc_info->state == HEREDOC_READY)
+ 			if (doc_info->state == HEREDOC_READY)
 			{
 				ft_arr_each((t_arr)doc_info->value.lines, ft_free);
 				ft_free(doc_info->value.lines);
@@ -118,8 +117,6 @@ static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
 			doc_info->state = HEREDOC_READY;
 			doc_info->source_redi = *rest_redis;
 		}
-		else
-			(void)write(2, "WTF!\n", 5);
 	}
 	reduce_heredocs_to_inputs(rest_redis + 1, doc_info);
 }

@@ -1,4 +1,5 @@
 #include "ms_exit.h"
+#include "ms_exec_utils.h"
 #include "bw.h"
 #include "ms_repl.h"
 #include "kg.h"
@@ -7,18 +8,11 @@
 #include <unistd.h>
 #include <string.h>
 
-static void close_stdenv(void)
-{
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
-}
-
 void	ms_exit(int exit_code)
 {
 	ms_repl_history_clear();
 	ft_bw_cleanup();
-	close_stdenv();
+	ms_stdenv_close();
 	kg_cleanup(true);
 	ft_m3_cleanup();
 	exit(exit_code);

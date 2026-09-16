@@ -2,6 +2,7 @@
 // 	close, dup, pipe, etc
 
 #include "bw.h"
+#include "libft_io.h"
 #include "ms_exit.h"
 #include <errno.h>
 #include <fcntl.h>
@@ -34,9 +35,10 @@ int ms_dup(int from)
 {
 	int new_fd;
 
+	// ft_printf_fd(STDERR_FILENO, "ms_dup(%d)\n", from);
 	errno = 0;
 	new_fd = dup(from);
-	if (new_fd > 0)
+	if (new_fd >= 0)
 		return (ft_bw_add(new_fd), new_fd);
 	ms_error_out(EXIT_FAILURE, NULL, errno);
 	return -1;
@@ -46,7 +48,10 @@ void	ms_dup2(int from, int to)
 {
 	errno = 0;
 	if (dup2(from, to) == to)
+	{
+		// ft_printf_fd(STDERR_FILENO, "ms_dup2(%d, %d)\n", from, to);
 		return (ft_bw_add(to));
+	}
 	ms_error_out(EXIT_FAILURE, NULL, errno);
 }
 
