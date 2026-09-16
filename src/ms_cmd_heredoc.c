@@ -3,6 +3,7 @@
 #include "ms_cmd_t.h"
 #include "ms_exec_utils.h"
 #include "ms_exit.h"
+#include "ms_signal.h"
 #include "ms_parsing.h"
 #include "ms_redi.h"
 #include "ms_redi_t.h"
@@ -107,7 +108,6 @@ static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
 		{
 			ms_redi_turnoff(doc_info->source_redi);
 			ms_heredoc_cleanup_ready(doc_info);
-
 			if (doc_info->state == HEREDOC_READY)
 			{
 				ft_arr_each((t_arr)doc_info->value.lines, ft_free);
@@ -118,8 +118,6 @@ static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
 			doc_info->state = HEREDOC_READY;
 			doc_info->source_redi = *rest_redis;
 		}
-		else
-			(void)write(2, "WTF!\n", 5);
 	}
 	reduce_heredocs_to_inputs(rest_redis + 1, doc_info);
 }
@@ -129,10 +127,10 @@ static void	be_hdoc_writer(int *pipe, char **write_me)
 	ms_close(pipe[R]);
 	while (write_me != NULL && *write_me != NULL)
 	{
-		// TODO clean write useage (in chunks smaller than pipe buffer please,
-		//	and ms_exit on error)
+		// TODO clean write useage (in chunks smaller than pipe buffer please)
 		ft_putendl_fd(*write_me, pipe[W]);
 		write_me++;
+		ms_signal_consume();
 	}
 	ms_close(pipe[W]);
 	ms_exit(EXIT_SUCCESS);

@@ -1,8 +1,9 @@
 
-#include <signal.h>
 
-extern volatile sig_atomic_t	g_ms_signal;
+typedef void	(*ms_sig_handler)(int);
 
-void							ms_signal_init(void);
-void							ms_signal_child(void);
-int								ms_signal_consume(void);
+void			ms_signal_init(void);
+void			ms_signal_child(void);
+
+void			ms_signal_set_handler(int sig, ms_sig_handler dab);
+int				ms_signal_consume(void);

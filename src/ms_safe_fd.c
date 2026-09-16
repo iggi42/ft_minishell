@@ -30,6 +30,18 @@ void	ms_close(int fd)
 	}
 }
 
+int ms_dup(int from)
+{
+	int new_fd;
+
+	errno = 0;
+	new_fd = dup(from);
+	if (new_fd > 0)
+		return (ft_bw_add(new_fd), new_fd);
+	ms_error_out(EXIT_FAILURE, NULL, errno);
+	return -1;
+}
+
 void	ms_dup2(int from, int to)
 {
 	errno = 0;

@@ -82,7 +82,6 @@ t_byte	ms_repl(void)
 			ms_exec(parsing_result->source.cmds);
 		ft_free(line);
 		ms_free_parser_result(parsing_result);
-		// ms_clean(); THIS collects potenial leftovers from parsing + execution
 	}
 	return (ms_env_get_status());
 }

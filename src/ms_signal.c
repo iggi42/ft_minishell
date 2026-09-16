@@ -1,43 +1,28 @@
+// #include "ms_exit.h"
 #include "ms_exit.h"
-#include <stdio.h>
-#include <readline/readline.h>
+#include "ms_signal.h"
 #include <signal.h>
-#include <string.h>
-#include <stdlib.h>
 #include <libft_io.h>
-#include <unistd.h>
 
-volatile sig_atomic_t g_ms_signal;
-
-static void ms_sig_handler(int sig)
+void ms_signal_exit(int sig)
 {
-	g_ms_signal = sig;
+	ms_exit(128 + sig);
 }
 
-int ms_signal_consume(void)
+void ms_signal_void(int sig)
 {
-	int sig;
-
-	sig = g_ms_signal;
-	g_ms_signal = 0;
-	return sig;
+	(void) sig;
 }
 
-void ms_signal_init(void)
+void	ms_signal_init(void)
 {
-	struct sigaction s_sig;
-
-	// rl_catch_signals = 0;		// <- der bre MUSS weg, wir WOLLEN das rl die signals catcht
-	sigemptyset(&s_sig.sa_mask);
-	s_sig.sa_handler = ms_sig_handler;
-	s_sig.sa_flags = 0;
-	sigaction(SIGINT, &s_sig, NULL);
-	sigaction(SIGQUIT, &s_sig, NULL);
+	ms_signal_set_handler(-1, NULL);
+	ms_signal_set_handler(SIGINT, ms_signal_void);
+	ms_signal_set_handler(SIGPIPE, ms_signal_exit);
+	ms_signal_set_handler(SIGQUIT, ms_signal_exit);
 }
 
-void ms_signal_child(void)		// <- call den da in ms_fork DIREKT nach fork()
+void	ms_signal_child(void)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	ms_signal_set_handler(SIGINT, ms_signal_exit);
 }
-

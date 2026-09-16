@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include "libft_str.h"
 #include "ms_env.h"
+#include "ms_utils.h"
 #include "ms_exit.h"
 #include <libft_io.h>
 #include <libft_arr.h>
@@ -31,7 +32,7 @@ t_byte			ms_exec_builtin_exit(char **argv)
 	if(argv[1] == NULL)
 		exit_code = ms_env_get_status();
 	else
-		exit_code = ft_atoi(argv[1]);
+		exit_code = ms_atoi(argv[1]);
 	ms_exit(exit_code);
 	return -1;
 }
