@@ -18,6 +18,7 @@
 #include "ms_rl_hooks.h"
 #include "ms_safe.h"
 #include "ms_signal.h"
+#include "ms_token.h"
 #include <libft_arr.h>
 #include <libft_arr_t.h>
 #include <libft_io.h>
@@ -47,23 +48,18 @@ static void	ms_heredoc_cleanup_ready(t_ms_heredoc *chd)
 	chd->state = HEREDOC_NO;
 }
 
-static bool	is_quote(char c)
-{
-	return (c == '"' || c == '\'');
-}
-
-// returns NULL if the input delimter was not quoted
+// returns NULL if the input delimiter carried no quotes at all,
+// otherwise the delimiter with every quote removed
 static char	*unquoted_delimiter(char *delimiter)
 {
-	size_t	input_len;
+	char	*unquoted;
 
 	if (delimiter == NULL)
 		return (NULL);
-	input_len = ft_strlen(delimiter);
-	if (input_len > 2 && is_quote(delimiter[0])
-		&& delimiter[0] == delimiter[input_len - 1])
-		return (ms_substr(delimiter, 1, input_len - 2));
-	return (NULL);
+	unquoted = remove_quote(ms_strdup(delimiter));
+	if (ft_strlen(unquoted) != ft_strlen(delimiter))
+		return (unquoted);
+	return (ft_free(unquoted), NULL);
 }
 
 char	*ms_gnl_heredoc(char *delimiter)

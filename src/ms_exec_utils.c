@@ -18,6 +18,7 @@
 #include <libft_mem.h>
 #include <libft_arr.h>
 #include <libft_str.h>
+#include <sys/stat.h>
 
 static char	*default_str(char *normal, char *fallback)
 {
@@ -86,12 +87,25 @@ static char	*ms_search_path(char *cmd0)
 	return (ft_free(paths), sub_optimal);
 }
 
+// a directory is X_OK for access(), but it is not a command:
+// dropping it here lets the caller report 127, like bash does
+static char	*drop_dir(char *path)
+{
+	struct stat	info;
+
+	if (path == NULL || stat(path, &info) != 0)
+		return (path);
+	if (!S_ISDIR(info.st_mode))
+		return (path);
+	return (ft_free(path), NULL);
+}
+
 char	*ms_find_exec_file(char *cmd0)
 {
 	char	*path;
 
 	if (!ms_is_path(cmd0))
-		path = ms_search_path(cmd0);
+		path = drop_dir(ms_search_path(cmd0));
 	else
 		path = ms_strdup(cmd0);
 	return (path);

@@ -41,6 +41,8 @@ void	ms_stdenv_apply(int stdenv[2])
 static void	ms_execve(char *path, char **argv)
 {
 	execve(path, argv, ms_env_environ_export());
+	if (errno == ENOENT)
+		ms_error_out(EXIT_CMD_NOT_FOUND, path, errno);
 	ms_error_out(EXIT_NO_EXEC_PERM, path, errno);
 }
 
