@@ -31,7 +31,6 @@ void	ft_bw_add(int new_fd)
 
 	if (new_fd < 2)
 		return ;
-	// TODO close new_fd even if this fails
 	new_head = ft_malloc(sizeof(t_bw_el));
 	if (new_head == NULL)
 	{

@@ -25,7 +25,8 @@ bool	kg_rm(pid_t existing_pid);
 void	kg_each(void (*apply)(pid_t stored_pid));
 
 // @brief waits for all stored pids and frees the internal data structure
-// only waits for stored pids if they wait is true (use with false after forking)
+// only waits for stored pids if they wait is true
+// (use with false after forking)
 void	kg_cleanup(bool wait);
 
 #endif

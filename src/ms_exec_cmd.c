@@ -19,8 +19,8 @@
 #include "ms_redi.h"
 #include "ms_safe.h"
 #include <libft_arr.h>
-#include <libft_ll.h>
 #include <libft_io.h>
+#include <libft_ll.h>
 #include <libft_str.h>
 #include <unistd.h>
 
@@ -28,8 +28,8 @@
 // if such a builtin for cmd->argv[0] is found it is run and its exit_code stored
 static bool	ms_exec_maybe_run_builtin(t_ms_cmd *cmd)
 {
-	ms_builtin	builtin;
-	int stdenv[2];
+	t_ms_builtin	builtin;
+	int				stdenv[2];
 
 	builtin = ms_builtin_get_nofrk(cmd->argv[0]);
 	stdenv[STDIN_FILENO] = ms_dup(STDIN_FILENO);
@@ -39,7 +39,7 @@ static bool	ms_exec_maybe_run_builtin(t_ms_cmd *cmd)
 	if (builtin == NULL)
 		return (false);
 	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))ms_redi_apply_parent);
-	if(ms_env_get_status() == 0)
+	if (ms_env_get_status() == 0)
 		ms_env_set_status(builtin(cmd->argv));
 	ms_stdenv_apply(stdenv);
 	ms_close(stdenv[0]);

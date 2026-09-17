@@ -1,8 +1,19 @@
-#include "ms_token.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_token.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 11:28:41 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 11:28:42 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft_str.h"
-#include "ms_dbg.h"
 #include "ms_exit.h"
 #include "ms_safe.h"
+#include "ms_token.h"
 
 int	handle_operator(char *str, int i, t_token **tokens)
 {
@@ -72,7 +83,8 @@ char	*ms_syntax_check(t_token *tokens)
 		if (is_redirect(current->kind))
 		{
 			if (!current->next || current->next->kind != T_WORD)
-				return (ms_protect(ft_strf("syntax error near unexpected sign '%s'", current->value)));
+				return (ms_protect(ft_strf("syntax error near unexpected sign '%s'",
+							current->value)));
 		}
 		if (current->kind == T_PIPE)
 		{

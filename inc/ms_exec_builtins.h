@@ -15,12 +15,12 @@
 # include <libft_byte_t.h>
 
 // every builtin implementation has this form
-typedef t_byte	(*ms_builtin)(char **argv);
+typedef t_byte	(*t_ms_builtin)(char **argv);
 
 // getters to find a builtin
-ms_builtin		ms_builtin_get(char *name);
-ms_builtin		ms_builtin_get_frk(char *name);
-ms_builtin		ms_builtin_get_nofrk(char *name);
+t_ms_builtin	ms_builtin_get(char *name);
+t_ms_builtin	ms_builtin_get_frk(char *name);
+t_ms_builtin	ms_builtin_get_nofrk(char *name);
 
 // builtin implementations
 t_byte			ms_exec_builtin_cd(char **argv);

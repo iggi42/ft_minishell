@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BW_PRIV_T_H
-# define BW_PRIV_T_H
+#ifndef KG_PRIV_T_H
+# define KG_PRIV_T_H
 # include <unistd.h>
 
 typedef struct s_kg_el

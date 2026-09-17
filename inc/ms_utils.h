@@ -23,5 +23,4 @@ char	*ms_pwd(void);
 
 t_byte	ms_atoi(char *str);
 
-
 #endif

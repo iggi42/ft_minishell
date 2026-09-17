@@ -38,11 +38,11 @@ t_byte	import_var(char *arg)
 		ft_free(var_name);
 		return (1);
 	}
-	if(arg[var_name_len] == '=')
+	if (arg[var_name_len] == '=')
 		var_name = ms_substr(arg, 0, var_name_len);
 	else
 		var_name = ms_strdup("");
-	if(arg[var_name_len] == '\0')
+	if (arg[var_name_len] == '\0')
 		ms_env_set(var_name, "");
 	else
 		ms_env_set(var_name, &arg[var_name_len + 1]);
@@ -58,9 +58,9 @@ t_byte	import_vars(char **arg)
 	return (import_var(*arg) | import_vars(arg + 1));
 }
 
-void print_export(char *name, char *key)
+void	print_export(char *name, char *key)
 {
-	if(!ft_str_eq(name, "?"))
+	if (!ft_str_eq(name, "?"))
 		ft_printf("export '%s=%s'\n", name, key);
 }
 

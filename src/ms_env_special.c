@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_env_special.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 11:54:35 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 11:54:36 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft_byte_t.h"
 #include "ms_env.h"
-#include "ms_utils.h"
 #include "ms_exit.h"
 #include "ms_safe.h"
+#include "ms_utils.h"
 #include <libft_arr.h>
 #include <libft_kv.h>
 #include <libft_mem.h>
@@ -18,9 +30,9 @@ t_byte	*lsc(void)
 }
 
 // this still needs to work after a cleanup
-t_byte ms_env_get_status(void)
+t_byte	ms_env_get_status(void)
 {
-	return *lsc();
+	return (*lsc());
 }
 
 void	ms_env_set_status(t_byte status_code)

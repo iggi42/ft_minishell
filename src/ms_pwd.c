@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_pwd.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 11:25:57 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 11:26:00 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms_env.h"
 #include "ms_exit.h"
 #include <errno.h>
 #include <limits.h>
 #include <unistd.h>
-
 
 // also gets called by cd, not just the pwd builtin
 // so don't aggressively error out
@@ -12,7 +23,7 @@ char	*ms_pwd(void)
 	static char	cwd[PATH_MAX];
 
 	errno = 0;
-	if(getcwd(cwd, PATH_MAX) == NULL)
+	if (getcwd(cwd, PATH_MAX) == NULL)
 	{
 		ms_complain("getpwd failed", errno);
 		ms_env_set_status(1);

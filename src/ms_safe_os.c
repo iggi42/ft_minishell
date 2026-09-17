@@ -1,10 +1,23 @@
-// this needs to have all the protected versions of calls that deal with os processes like fork and wait
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_safe_os.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 11:46:08 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 11:46:10 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+// this needs to have all the protected versions of calls
+// that deal with os processes like fork and wait
 
 #include "kg.h"
 #include "ms_exit.h"
+#include "ms_signal.h"
 #include <errno.h>
 #include <libft_byte_t.h>
-#include "ms_signal.h"
 #include <libft_os.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -22,7 +35,7 @@ pid_t	ms_fork(void)
 		kg_add(result);
 		return (result);
 	}
-	ms_signal_child();			// <- den da mal, damit eben cat und so 'normal reagiert'
+	ms_signal_child();
 	kg_cleanup(false);
 	return (0);
 }

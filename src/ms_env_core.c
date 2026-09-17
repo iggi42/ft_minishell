@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_env_core.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 11:43:30 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 11:43:31 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ms_exit.h"
 #include <libft_kv.h>
@@ -26,11 +37,11 @@ static t_kv	*env_core(int op)
 // get an key value store, configured to store environment variables
 t_kv	*ms_env_core_get(void)
 {
-	return env_core(2);
+	return (env_core(2));
 }
 
 // free the storage of environment variables
-void		ms_env_free(void)
+void	ms_env_free(void)
 {
 	env_core(1);
 }

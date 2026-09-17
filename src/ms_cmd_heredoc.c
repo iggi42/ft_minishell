@@ -1,26 +1,32 @@
-#include "libft_arr_t.h"
-#include "libft_str.h"
-#include "ms_rl_hooks.h"
-#include "ms_cmd_t.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_cmd_heredoc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 11:49:49 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 11:49:50 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ms_env.h"
 #include "ms_exec_utils.h"
 #include "ms_exit.h"
-#include "ms_signal.h"
 #include "ms_parsing.h"
 #include "ms_redi.h"
-#include "ms_env.h"
-#include "ms_redi_t.h"
 #include "ms_repl.h"
+#include "ms_rl_hooks.h"
 #include "ms_safe.h"
+#include "ms_signal.h"
 #include <libft_arr.h>
+#include <libft_arr_t.h>
 #include <libft_io.h>
 #include <libft_ll.h>
 #include <libft_mem.h>
+#include <libft_str.h>
 #include <signal.h>
-#include <stddef.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-
 
 static void	ms_heredoc_cleanup_running(t_ms_heredoc *chd)
 {
@@ -50,13 +56,14 @@ static bool	is_quote(char c)
 // returns NULL if the input delimter was not quoted
 static char	*unquoted_delimiter(char *delimiter)
 {
-	size_t input_len;
+	size_t	input_len;
 
 	if (delimiter == NULL)
 		return (NULL);
 	input_len = ft_strlen(delimiter);
-	if (input_len > 2 && is_quote(delimiter[0]) && delimiter[0] == delimiter[input_len - 1])
-		return ms_substr(delimiter, 1, input_len - 2);
+	if (input_len > 2 && is_quote(delimiter[0])
+		&& delimiter[0] == delimiter[input_len - 1])
+		return (ms_substr(delimiter, 1, input_len - 2));
 	return (NULL);
 }
 
@@ -65,26 +72,20 @@ char	*ms_gnl_heredoc(char *delimiter)
 	char	*line;
 	char	*unq_deli;
 
-	if(ms_signal_last() == SIGINT)
+	if (ms_signal_last() == SIGINT)
 		return (NULL);
 	line = ms_repl_readline(ms_repl_prompt_heredoc, ms_rl_heredoc_event_hook);
-	if(ms_env_get_status() != 0)
+	if (ms_env_get_status() != 0)
 		return (NULL);
-	if(line == NULL || ms_signal_last() == SIGINT)
+	if (line == NULL || ms_signal_last() == SIGINT)
 		return (NULL);
-
 	unq_deli = unquoted_delimiter(delimiter);
-	// abort if input deli unquoted and line == delimiter
 	if (unq_deli == NULL && ft_str_eq(line, delimiter))
 		return (ft_free(line), ft_free(unq_deli), NULL);
-
-	// abort if input deli was quoted and the unquoted version == line
 	if (unq_deli != NULL && ft_str_eq(line, unq_deli))
 		return (ft_free(line), ft_free(unq_deli), NULL);
-	// if delimiter is not in quotes
-	if(unq_deli == NULL)
+	if (unq_deli == NULL)
 		ms_expand_var(&line, false);
-	// else if delimer is in quotes
 	ft_free(unq_deli);
 	return (line);
 }
@@ -99,24 +100,20 @@ static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,
 {
 	if (*rest_redis == NULL)
 		return ;
-	if ((*rest_redis)->kind == REDI_HERE_DOC)
+	if ((*rest_redis)->kind == REDI_HERE_DOC
+		&& (*rest_redis)->source_kind == REDI_SOURCE_PATH)
 	{
-		// TODO remove this "if" sanity check after development,
-		// should always be true
-		if ((*rest_redis)->source_kind == REDI_SOURCE_PATH)
+		ms_redi_turnoff(doc_info->source_redi);
+		ms_heredoc_cleanup_ready(doc_info);
+		if (doc_info->state == HEREDOC_READY)
 		{
-			ms_redi_turnoff(doc_info->source_redi);
-			ms_heredoc_cleanup_ready(doc_info);
-			if (doc_info->state == HEREDOC_READY)
-			{
-				ft_arr_each((t_arr)doc_info->value.lines, ft_free);
-				ft_free(doc_info->value.lines);
-				doc_info->value.lines = NULL;
-			}
-			doc_info->value.lines = ms_heredoc_readin((*rest_redis)->source.path);
-			doc_info->state = HEREDOC_READY;
-			doc_info->source_redi = *rest_redis;
+			ft_arr_each((t_arr)doc_info->value.lines, ft_free);
+			ft_free(doc_info->value.lines);
+			doc_info->value.lines = NULL;
 		}
+		doc_info->value.lines = ms_heredoc_readin((*rest_redis)->source.path);
+		doc_info->state = HEREDOC_READY;
+		doc_info->source_redi = *rest_redis;
 	}
 	reduce_heredocs_to_inputs(rest_redis + 1, doc_info);
 }
@@ -126,13 +123,12 @@ static void	be_hdoc_writer(int *pipe, char **write_me)
 	ms_close(pipe[R]);
 	while (write_me != NULL && *write_me != NULL)
 	{
-		// TODO clean write useage (in chunks smaller than pipe buffer please)
 		ft_putendl_fd(*write_me, pipe[W]);
 		write_me++;
 		ms_signal_consume();
 	}
 	ms_close(pipe[W]);
-	ms_exit(42);
+	ms_exit(EXIT_SUCCESS);
 }
 
 static void	bootup_heredoc_writer(t_ms_heredoc *active_heredoc)

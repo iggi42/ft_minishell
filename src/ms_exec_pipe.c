@@ -11,17 +11,16 @@
 /* ************************************************************************** */
 
 #include "bw.h"
-#include "ms_cmd_t.h"
 #include "ms_env.h"
 #include "ms_exec_builtins.h"
 #include "ms_exec_utils.h"
+#include "ms_exit.h"
 #include "ms_redi.h"
 #include "ms_safe.h"
-#include "ms_exit.h"
 #include <errno.h>
 #include <libft_arr.h>
-#include <libft_mem.h>
 #include <libft_ll.h>
+#include <libft_mem.h>
 
 static void	add_pid(t_list **pids, pid_t pid)
 {
@@ -64,7 +63,7 @@ static t_list	*spawn_pipe(t_ms_cmd **cmds)
 t_byte	ms_exec_pipe(t_ms_cmd **full_pipe)
 {
 	t_list	*current_pids;
-	t_list *start_pids;
+	t_list	*start_pids;
 	t_byte	result;
 
 	start_pids = spawn_pipe(full_pipe);

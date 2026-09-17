@@ -46,10 +46,10 @@ t_byte	ms_exec_builtin_cd(char **argv)
 	if (argc > 2)
 		return (ft_putendl_fd("minishell: cd: too many arguments",
 				STDERR_FILENO), 1);
-	if(argc < 2)
+	if (argc < 2)
 	{
-		target =  ms_env_get("HOME", NULL);
-		if(target == NULL)
+		target = ms_env_get("HOME", NULL);
+		if (target == NULL)
 			return (ms_complain("cd: HOME not set", 0), 1);
 	}
 	else if (ft_str_eq("-", argv[1]))

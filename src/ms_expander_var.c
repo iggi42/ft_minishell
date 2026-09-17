@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_expander_var.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 11:44:39 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 11:44:42 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft_iol.h"
 #include "libft_ll.h"
 #include "ms_env.h"
@@ -5,7 +17,6 @@
 #include "ms_parsing_getlen.h"
 #include "ms_safe.h"
 #include "ms_token.h"
-// #include "ms_token.h"
 #include "unistd.h"
 #include <libft_io.h>
 #include <libft_mem.h>
@@ -27,7 +38,7 @@ size_t	ms_expander_next_el(char *str, bool care_about_quotes)
 			single_q = !single_q;
 		else if (care_about_quotes && str[i] == '\"' && single_q == false)
 			double_q = !double_q;
-		else if (str[i] == '$' && care_about_quotes && single_q == false)
+		else if (str[i] == '$' && (!care_about_quotes || single_q == false))
 			return (i);
 		i++;
 	}
@@ -41,9 +52,9 @@ static t_iol_el	*ms_exp_var_sect(char *s_dollar, size_t *consumed)
 
 	*consumed = ms_parsing_varname(s_dollar + 1);
 	result = ms_protect(ft_calloc(sizeof(t_iol_el), 1));
-	if(*consumed == 0)
+	if (*consumed == 0)
 	{
-		result->buffer = (char*) &"$";
+		result->buffer = (char *)&"$";
 		result->size = 1;
 	}
 	else
@@ -66,8 +77,8 @@ static t_iol_el	*ms_exp_nxt_sect(char *s, size_t *consumed, bool quotes)
 		return (NULL);
 	if (*s == '$')
 		result = ms_exp_var_sect(s, consumed);
-	if(result)
-		return result;
+	if (result)
+		return (result);
 	*consumed = ms_expander_next_el(s, quotes);
 	result = ms_protect(ft_calloc(sizeof(t_iol_el), 1));
 	result->buffer = s;

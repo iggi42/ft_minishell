@@ -11,11 +11,11 @@
 /* ************************************************************************** */
 
 #include "kg_priv_t.h"
-#include "ms_safe.h"
 #include "ms_exit.h"
+#include "ms_safe.h"
 #include "unistd.h"
-#include <libft_os.h>
 #include <libft_mem.h>
+#include <libft_os.h>
 #include <stdbool.h>
 
 static t_kg_el	**head(void)
@@ -31,8 +31,6 @@ void	kg_add(pid_t new_pid)
 
 	if (new_pid < 1)
 		return ;
-	// TODO wait for new_pid even if this fails
-	// ft_printf_fd(STDERR_FILENO, "new child tracked: [%d]\n", new_pid);
 	new_head = ft_malloc(sizeof(t_kg_el));
 	if (new_head == NULL)
 	{
@@ -50,8 +48,8 @@ bool	kg_rm(pid_t pid)
 	t_kg_el	*cache;
 	bool	result;
 
-	if (pid  < 1)
-		return false;
+	if (pid < 1)
+		return (false);
 	result = false;
 	curr = head();
 	while (*curr)
@@ -86,7 +84,7 @@ void	kg_cleanup(bool wait)
 	curr = *head();
 	while (curr)
 	{
-		if(wait)
+		if (wait)
 			ft_wait(curr->pid);
 		cache = curr;
 		curr = curr->next;

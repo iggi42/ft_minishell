@@ -15,10 +15,10 @@
 #include "ms_env.h"
 #include "ms_exec.h"
 #include "ms_exit.h"
-#include "ms_signal.h"
-#include "ms_rl_hooks.h"
 #include "ms_parsing.h"
 #include "ms_repl.h"
+#include "ms_rl_hooks.h"
+#include "ms_signal.h"
 #include <errno.h>
 #include <libft_char.h>
 #include <libft_mem.h>
@@ -38,7 +38,8 @@ static char	*ms_cut_nl(char *s)
 	return (s);
 }
 
-char	*ms_repl_readline(ms_repl_prompt_get prompt_getter, int (*ms_rl_hook)(void))
+char	*ms_repl_readline(t_ms_repl_prompt_get prompt_getter,
+		int (*ms_rl_hook)(void))
 {
 	char	*line;
 

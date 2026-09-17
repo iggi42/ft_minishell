@@ -12,6 +12,7 @@
 
 #ifndef MS_REDI_T_H
 # define MS_REDI_T_H
+
 enum						e_ms_redi_kind
 {
 	REDI_INVALID = -1,

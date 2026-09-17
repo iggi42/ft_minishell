@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_exec_child.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 11:42:22 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 11:42:24 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bw.h"
 #include "libft_arr_t.h"
 #include "ms_cmd_t.h"
@@ -8,13 +20,12 @@
 #include "ms_exit.h"
 #include "ms_redi.h"
 #include "ms_safe.h"
-#include "ms_dbg.h"
 #include <errno.h>
 #include <libft_arr.h>
 #include <libft_str.h>
 #include <unistd.h>
 
-void ms_stdenv_close(void)
+void	ms_stdenv_close(void)
 {
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
@@ -35,8 +46,8 @@ static void	ms_execve(char *path, char **argv)
 
 static void	ms_exec_do_cmd(char **argv)
 {
-	char		*path;
-	ms_builtin	bilt;
+	char			*path;
+	t_ms_builtin	bilt;
 
 	if (argv[0] == NULL)
 		ms_exit(EXIT_SUCCESS);
@@ -53,7 +64,7 @@ static void	ms_exec_do_cmd(char **argv)
 void	ms_exec_child(t_ms_cmd *cmd, int stdenv[2])
 {
 	ms_stdenv_apply(stdenv);
-	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el)) ms_redi_apply);
+	ft_arr_each((t_arr)(cmd->reds), (void (*)(t_arr_el))ms_redi_apply);
 	ft_bw_cleanup();
 	ms_exec_do_cmd(cmd->argv);
 }

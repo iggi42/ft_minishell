@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_safe_fd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 11:42:38 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 11:42:40 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 // This needs to have all the protected calls that deal with fds in here, open,
 // 	close, dup, pipe, etc
 
@@ -31,16 +43,16 @@ void	ms_close(int fd)
 	}
 }
 
-int ms_dup(int from)
+int	ms_dup(int from)
 {
-	int new_fd;
+	int	new_fd;
 
 	errno = 0;
 	new_fd = dup(from);
 	if (new_fd >= 0)
 		return (ft_bw_add(new_fd), new_fd);
 	ms_error_out(EXIT_FAILURE, NULL, errno);
-	return -1;
+	return (-1);
 }
 
 void	ms_dup2(int from, int to)

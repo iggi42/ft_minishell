@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_expander_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 11:49:26 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 11:49:28 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms_safe.h"
 #include "ms_token.h"
 #include <libft_mem.h>
 
-static size_t unquote_len(char *str)
+static size_t	unquote_len(char *str)
 {
 	int		i;
 	int		len;

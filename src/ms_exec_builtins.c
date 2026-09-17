@@ -14,7 +14,7 @@
 #include <libft_str.h>
 #include <libft_io.h>
 
-ms_builtin		ms_builtin_get_frk(char *name)
+t_ms_builtin		ms_builtin_get_frk(char *name)
 {
 	if(ft_str_eq("echo", name))
 		return ms_exec_builtin_echo;
@@ -25,7 +25,7 @@ ms_builtin		ms_builtin_get_frk(char *name)
 	return NULL;
 }
 
-ms_builtin		ms_builtin_get_nofrk(char *name)
+t_ms_builtin		ms_builtin_get_nofrk(char *name)
 {
 	if(ft_str_eq("cd", name))
 		return ms_exec_builtin_cd;
@@ -38,9 +38,9 @@ ms_builtin		ms_builtin_get_nofrk(char *name)
 	return NULL;
 }
 
-ms_builtin		ms_builtin_get(char *name)
+t_ms_builtin		ms_builtin_get(char *name)
 {
-	ms_builtin res;
+	t_ms_builtin res;
 
 	res = ms_builtin_get_nofrk(name);
 	if(res != NULL)
