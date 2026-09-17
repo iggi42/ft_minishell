@@ -79,18 +79,22 @@ static t_kv_pair	*new_kv_pair(t_kv_key key, t_kv_value v)
 t_kv_pair	*ft_kv_put(t_kv *root, t_kv_key key, t_kv_value v)
 {
 	t_kv_pair	*here;
+	t_kv_pair   *new;
 	t_list		**head;
 
 	if (root == NULL || key == NULL)
+		return (NULL);
+	new = new_kv_pair(key, v);
+	if(new == NULL)
 		return (NULL);
 	head = &root->_store;
 	while (*head != NULL)
 	{
 		here = kv_maybe_value((*head)->content, key, root->key_cmp);
 		if (here != NULL)
-			return ((*head)->content = new_kv_pair(key, v), here);
+			return ((*head)->content = new, here);
 		head = &((*head)->next);
 	}
-	*head = ft_lstnew(new_kv_pair(key, v));
+	*head = ft_lstnew(new);
 	return (NULL);
 }
