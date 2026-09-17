@@ -39,11 +39,12 @@ void	ms_signal_init(void)
 {
 	ms_signal_set_handler(-1, NULL);
 	ms_signal_set_handler(SIGINT, ms_signal_listen);
+	ms_signal_set_handler(SIGQUIT, ms_signal_listen);
 	ms_signal_set_handler(SIGPIPE, ms_signal_exit);
-	ms_signal_set_handler(SIGQUIT, ms_signal_exit);
 }
 
 void	ms_signal_child(void)
 {
 	ms_signal_set_handler(SIGINT, ms_signal_exit);
+	ms_signal_set_handler(SIGQUIT, ms_signal_exit);
 }

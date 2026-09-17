@@ -36,17 +36,18 @@ static t_byte	ms_chdir(char *s)
 	return (1);
 }
 
-static void	normi(char *cwd)
+static void	update_pwd(void)
 {
+	char	cwd[PATH_MAX];
+
 	ms_exit_if(getcwd(cwd, PATH_MAX), "getpwd failed");
 	ms_env_set("OLDPWD", ms_env_get("PWD", ""));
-	ms_env_set("PWD", (char *)&cwd);
+	ms_env_set("PWD", (char *) &cwd);
 }
 
 t_byte	ms_exec_builtin_cd(char **argv)
 {
 	char	*target;
-	char	cwd[PATH_MAX];
 	size_t	argc;
 
 	argc = ft_arr_len((t_arr)argv);
@@ -67,6 +68,6 @@ t_byte	ms_exec_builtin_cd(char **argv)
 	else
 		target = argv[1];
 	if (ms_chdir(target) == 0)
-		return (normi(cwd), 0);
+		return (update_pwd(), 0);
 	return (1);
 }
