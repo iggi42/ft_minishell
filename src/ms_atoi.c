@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <libft_byte_t.h>
+#include <stdbool.h>
 
 int	is_space(char c)
 {
@@ -32,6 +33,11 @@ int	invalid(char *str)
 	while (is_space(*str))
 		str++;
 	return (*str != '\0');
+}
+
+bool	ms_atoi_valid(char *str)
+{
+	return (!invalid(str));
 }
 
 t_byte	ms_atoi(char *str)

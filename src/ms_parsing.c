@@ -112,7 +112,10 @@ t_ms_parse_res	*ms_parse(char *input)
 
 	tkns = ms_tokenize(input);
 	result = ms_malloc(sizeof(t_ms_parse_res));
-	result->source.error_msg = ms_syntax_check(tkns);
+	if (tkns == NULL && !ms_line_is_blank(input))
+		result->source.error_msg = ms_strdup(ERR_MSG_UNCLOSED);
+	else
+		result->source.error_msg = ms_syntax_check(tkns);
 	result->success = (result->source.error_msg == NULL);
 	if (result->success)
 	{

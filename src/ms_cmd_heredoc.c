@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_env.h"
 #include "ms_exec_utils.h"
 #include "ms_exit.h"
 #include "ms_parsing.h"
@@ -75,8 +74,6 @@ char	*ms_gnl_heredoc(char *delimiter)
 	if (ms_signal_last() == SIGINT)
 		return (NULL);
 	line = ms_repl_readline(ms_repl_prompt_heredoc, ms_rl_heredoc_event_hook);
-	if (ms_env_get_status() != 0)
-		return (NULL);
 	if (line == NULL || ms_signal_last() == SIGINT)
 		return (NULL);
 	unq_deli = unquoted_delimiter(delimiter);
@@ -163,6 +160,7 @@ void	ms_heredoc_cleanup(t_ms_cmd *cmd)
 {
 	if (cmd == NULL)
 		return ;
+	ms_redi_turnoff(cmd->active_heredoc.source_redi);
 	ms_heredoc_cleanup_ready(&cmd->active_heredoc);
 	ms_heredoc_cleanup_running(&cmd->active_heredoc);
 }

@@ -24,6 +24,8 @@
 #include <errno.h>
 #include "ms_exit.h"
 
+// the prompt is reset here, so the SIGINT has to be forgotten too:
+// a heredoc typed on this same readline line is not interrupted by it
 int	ms_rl_main_event_hook(void)
 {
 	int	sig;
@@ -35,6 +37,7 @@ int	ms_rl_main_event_hook(void)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		ms_signal_listen(0);
 	}
 	return (0);
 }
@@ -45,7 +48,10 @@ int	ms_rl_heredoc_event_hook(void)
 
 	sig = ms_signal_consume();
 	if (sig == SIGINT)
+	{
+		(void)write(STDIN_FILENO, "\n", 1);
 		rl_done = 1;
+	}
 	return (0);
 }
 

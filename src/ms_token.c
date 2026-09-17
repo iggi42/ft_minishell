@@ -22,7 +22,7 @@ int	handle_operator(char *str, int i, t_token **tokens)
 	int					len;
 
 	len = 1;
-	if (str[i] == '>' && str[i + 1] == '>' && i++)
+	if (str[i] == '>' && str[i + 1] == '>' && ++i)
 		type = T_OUT_APPEND;
 	else if (str[i] == '<' && str[i + 1] == '<')
 	{
@@ -66,6 +66,17 @@ int	handle_arg(char *str, int i, t_token **tokens)
 	}
 	append_token(tokens, ms_substr(str, start, i - start), T_WORD);
 	return (i);
+}
+
+// tells an empty line apart from a line that failed to tokenize
+int	ms_line_is_blank(char *input)
+{
+	size_t	i;
+
+	i = 0;
+	while (input[i] == ' ' || input[i] == '\t')
+		i++;
+	return (input[i] == '\0');
 }
 
 char	*ms_syntax_check(t_token *tokens)

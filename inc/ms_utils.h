@@ -23,4 +23,7 @@ char	*ms_pwd(void);
 
 t_byte	ms_atoi(char *str);
 
+// false when the string is not a plain number
+bool	ms_atoi_valid(char *str);
+
 #endif

@@ -15,6 +15,7 @@
 #include "ms_signal.h"
 #include <libft_io.h>
 #include <signal.h>
+#include <unistd.h>
 
 static int	*last_signal_store(void)
 {
@@ -28,8 +29,11 @@ int	ms_signal_last(void)
 	return (*last_signal_store());
 }
 
+// resetting with 0 also drops a signal that nobody consumed yet
 void	ms_signal_listen(int sig)
 {
+	if (sig == 0 && ms_signal_consume() == SIGINT && isatty(STDIN_FILENO))
+		ft_putchar_fd('\n', STDERR_FILENO);
 	*last_signal_store() = sig;
 	if (sig != 0)
 		ms_env_set_status(128 + sig);

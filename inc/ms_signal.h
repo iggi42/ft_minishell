@@ -12,6 +12,8 @@
 
 #ifndef MS_SIGNAL_H
 # define MS_SIGNAL_H
+// one slot per t_byte, so every signal number fits
+# define MS_SIG_SLOTS 256
 
 typedef void	(*t_ms_sig_handler)(int);
 

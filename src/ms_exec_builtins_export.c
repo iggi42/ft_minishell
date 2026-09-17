@@ -30,7 +30,8 @@ t_byte	import_var(char *arg)
 	char	*var_name;
 
 	var_name_len = ms_parsing_varname(arg);
-	if (var_name_len == 0)
+	if (var_name_len == 0 || arg[0] == '?'
+		|| (arg[var_name_len] != '=' && arg[var_name_len] != '\0'))
 	{
 		var_name = ms_protect(ft_strf("export: `%s': not a valid identifier",
 					arg));
@@ -41,7 +42,7 @@ t_byte	import_var(char *arg)
 	if (arg[var_name_len] == '=')
 		var_name = ms_substr(arg, 0, var_name_len);
 	else
-		var_name = ms_strdup("");
+		var_name = ms_substr(arg, 0, var_name_len);
 	if (arg[var_name_len] == '\0')
 		ms_env_set(var_name, "");
 	else

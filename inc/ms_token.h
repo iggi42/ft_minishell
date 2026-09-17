@@ -13,6 +13,11 @@
 #ifndef MS_TOKEN_H
 # define MS_TOKEN_H
 # include <stddef.h>
+# define ERR_MSG_UNCLOSED "syntax error: unexpected end of file"
+// quote characters of a variable value wear these while they travel
+// through the quote removal pass
+# define MS_HIDDEN_SQ 1
+# define MS_HIDDEN_DQ 2
 
 typedef enum e_token_type
 {
@@ -52,6 +57,12 @@ char				*ms_syntax_check(t_token *tokens);
 void				ms_expand(t_token **list);
 
 char				*remove_quote(char *str);
+
+char				*ms_quote_hide(char *value);
+char				*ms_quote_show(char *str);
+
+// true when the line holds nothing but spaces and tabs
+int					ms_line_is_blank(char *input);
 
 int					is_redirect(t_toke_type kind);
 #endif

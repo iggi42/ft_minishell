@@ -26,6 +26,37 @@ static char	*default_str(char *normal, char *fallback)
 	return (normal);
 }
 
+// splits a PATH like string on ':' but keeps the empty entries,
+// so ":/bin" stays two entries and the current dir keeps its position
+static char	**ms_split_path(char *path)
+{
+	char	**result;
+	size_t	count;
+	size_t	i;
+	char	*sep;
+
+	count = 1;
+	i = 0;
+	while (path[i] != '\0')
+	{
+		if (path[i] == ':')
+			count++;
+		i++;
+	}
+	result = (char **)ms_protect(ft_arr_new(count));
+	i = 0;
+	while (i < count)
+	{
+		sep = ft_strchr(path, ':');
+		if (sep == NULL)
+			sep = path + ft_strlen(path);
+		result[i] = ms_substr(path, 0, sep - path);
+		path = sep + 1;
+		i++;
+	}
+	return (result);
+}
+
 static char	*ms_search_path(char *cmd0)
 {
 	char	**paths;
@@ -35,7 +66,7 @@ static char	*ms_search_path(char *cmd0)
 
 	if (cmd0 == NULL || *cmd0 == '\0')
 		return (NULL);
-	paths = ms_protect(ft_split(ms_env_get("PATH", "."), ':'));
+	paths = ms_split_path(ms_env_get("PATH", "."));
 	i = 0;
 	sub_optimal = NULL;
 	while (paths != NULL && paths[i])

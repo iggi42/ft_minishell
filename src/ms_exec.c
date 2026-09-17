@@ -15,18 +15,22 @@
 #include "ms_env.h"
 #include "ms_exec.h"
 #include "ms_safe.h"
+#include "ms_signal.h"
 #include <libft_arr.h>
 #include <libft_byte_t.h>
+#include <signal.h>
 
 t_byte	ms_exec(t_ms_cmd **run_me)
 {
 	t_byte	result;
 
+	ms_env_set_status(0);
 	if (*run_me == NULL)
 		return (0);
-	ms_env_set_status(0);
 	ft_arr_each((t_arr)run_me, (void (*)(t_arr_el))ms_heredocs_prepare);
-	if (*(run_me + 1) == NULL)
+	if (ms_signal_last() == SIGINT)
+		result = 128 + SIGINT;
+	else if (*(run_me + 1) == NULL)
 		result = ms_exec_cmd(*run_me);
 	else
 		result = ms_exec_pipe(run_me);
