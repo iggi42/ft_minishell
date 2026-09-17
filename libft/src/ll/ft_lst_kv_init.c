@@ -18,7 +18,7 @@ t_kv	*ft_kv_init(t_kv_key_cmp key_cmp)
 	t_kv	*result;
 
 	result = ft_malloc(sizeof(t_kv));
-	if(result == NULL)
+	if (result == NULL)
 		return (NULL);
 	result->_store = NULL;
 	result->key_cmp = key_cmp;

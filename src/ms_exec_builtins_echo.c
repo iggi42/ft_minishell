@@ -12,8 +12,8 @@
 
 #include "libft_io.h"
 #include "unistd.h"
-#include <stdbool.h>
 #include <libft_byte_t.h>
+#include <stdbool.h>
 #include <stddef.h>
 
 // flags have to be at the start
@@ -43,7 +43,7 @@ t_byte	ms_exec_builtin_echo(char **argv)
 	while (argv[n + i])
 	{
 		ft_putstr_fd(argv[n + i], STDOUT_FILENO);
-		if(argv[n + (++i)])
+		if (argv[n + (++i)])
 			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
 	if (n == 1)

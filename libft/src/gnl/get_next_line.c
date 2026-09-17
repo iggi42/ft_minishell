@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "fd_cache.h"
-#include "libft_io.h"
 #include "get_next_line.h"
+#include "libft_io.h"
 #include <libft_mem.h>
 
 char	*ft_buf_str(t_buf **b)
@@ -66,18 +66,13 @@ void	ft_buf_free(t_buf **b)
 	*b = NULL;
 }
 
-//TODO check why ft_gnl doesn't like when you here doc into it via interactive bash
-// cat <<EOF | ./minishell
-// echo test
-// EOF
-// does not work as expected
 char	*ft_gnl(int fd)
 {
 	t_buf	*line_buf;
 	t_buf	*block;
 	char	*line_eol;
 
-	if(fd < 0)
+	if (fd < 0)
 		return (fdc_cleanup(), NULL);
 	line_buf = fdc_pop(fd, (void *)(size_t)ft_buf_new, 0);
 	if (line_buf == NULL)

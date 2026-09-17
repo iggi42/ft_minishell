@@ -13,8 +13,8 @@
 
 void	ft_iol_del(t_list **l)
 {
-	if(l == NULL)
-		return;
-	ft_lstclear(l, (void (*)(void *)) ft_iol_el_free);
+	if (l == NULL)
+		return ;
+	ft_lstclear(l, (void (*)(void *))ft_iol_el_free);
 	*l = NULL;
 }

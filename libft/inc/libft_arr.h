@@ -16,11 +16,7 @@
 # include <stdbool.h>
 # include <stddef.h>
 
-// iterator (kinda like gnl), returns NULL when it ends,
-/// otherwise a pointer to *something*
-typedef t_arr_el	(*ft_iter)(void *);
-
-t_arr	*ft_arr_from_iter(ft_iter itr, void *iter_arg);
+t_arr		*ft_arr_from_iter(t_iter itr, void *iter_arg);
 
 t_arr		*ft_arr_new(size_t size);
 size_t		ft_arr_len(t_arr arr);

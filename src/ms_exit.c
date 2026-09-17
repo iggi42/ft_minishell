@@ -1,12 +1,24 @@
-#include "ms_exit.h"
-#include "ms_exec_utils.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 12:07:10 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 12:07:12 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bw.h"
-#include "ms_repl.h"
 #include "kg.h"
+#include "ms_exec_utils.h"
+#include "ms_exit.h"
+#include "ms_repl.h"
 #include <libft_io.h>
 #include <libft_merle.h>
-#include <unistd.h>
 #include <string.h>
+#include <unistd.h>
 
 void	ms_exit(int exit_code)
 {
@@ -18,7 +30,7 @@ void	ms_exit(int exit_code)
 	exit(exit_code);
 }
 
-void ms_complain(char *msg, int error_code)
+void	ms_complain(char *msg, int error_code)
 {
 	if (msg != NULL)
 	{
@@ -41,9 +53,8 @@ void	*ms_exit_if(void *cond, char *error_msg)
 {
 	if (cond)
 		return (cond);
-	if(error_msg)
+	if (error_msg)
 		ft_putendl_fd((char *)error_msg, STDERR_FILENO);
 	ms_exit(EXIT_FAILURE);
 	return (NULL);
 }
-

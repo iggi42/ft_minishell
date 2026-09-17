@@ -1,4 +1,15 @@
-// #include "ms_exit.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_signal.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 12:25:15 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 12:25:17 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms_env.h"
 #include "ms_exit.h"
 #include "ms_signal.h"
@@ -12,9 +23,9 @@ static int	*last_signal_store(void)
 	return (&last_signal);
 }
 
-int ms_signal_last(void)
+int	ms_signal_last(void)
 {
-	return *last_signal_store();
+	return (*last_signal_store());
 }
 
 void	ms_signal_exit(int sig)
@@ -25,7 +36,7 @@ void	ms_signal_exit(int sig)
 void	ms_signal_listen(int sig)
 {
 	*last_signal_store() = sig;
-	if(sig != 0)
+	if (sig != 0)
 		ms_env_set_status(128 + sig);
 }
 

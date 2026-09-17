@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_env_environ.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 12:10:47 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 12:10:54 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms_env.h"
 #include "ms_env_core.h"
 #include "ms_exit.h"
@@ -8,7 +20,7 @@
 #include <libft_str.h>
 #include <libft_toa.h>
 
-// this code is for interactions of our variable store with __environ from unistd
+// this code is for interactions of our variable store with __environ
 
 static void	*ms_env_fold(void *acc, void *el)
 {

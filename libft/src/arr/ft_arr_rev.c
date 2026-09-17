@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_arr_rev.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 12:21:47 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 12:21:51 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft_arr.h"
 
-static void ft_switch_ptr(void **a, void **b)
+static void	ft_switch_ptr(void **a, void **b)
 {
-	void *c;
+	void	*c;
 
 	c = *a;
 	*a = *b;
@@ -13,7 +24,9 @@ static void ft_switch_ptr(void **a, void **b)
 // reverse the first n elemnts of the array
 void	ft_arr_rev_n(t_arr_el *arr, size_t n)
 {
-	size_t i = 0;
+	size_t	i;
+
+	i = 0;
 	while (i < n / 2)
 	{
 		ft_switch_ptr(&arr[i], &arr[n - i - 1]);

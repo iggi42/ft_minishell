@@ -14,6 +14,12 @@
 # define MS_PARSING_UTILS_H
 # include "ms_cmd_t.h"
 
+typedef union e_nxt_el
+{
+	char		*arg;
+	t_ms_redi	*redi;
+}				t_nxt_el;
+
 t_ms_redi	*redi_builder(char *redi_path, int kind);
 
 #endif

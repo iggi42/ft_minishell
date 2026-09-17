@@ -18,19 +18,19 @@
 
 // env is not a bash builtin normaly, but a posix utility
 
-static void print_line(void *line)
+static void	print_line(void *line)
 {
 	ft_putendl_fd(line, STDOUT_FILENO);
 }
 
-t_byte			ms_exec_builtin_env(char **argv)
+t_byte	ms_exec_builtin_env(char **argv)
 {
-	char **my_environ;
-	(void) argv;
+	char	**my_environ;
 
+	(void)argv;
 	my_environ = ms_env_environ_export();
-	ft_arr_each((t_arr) my_environ, print_line);
-	ft_arr_each((t_arr) my_environ, ft_free);
+	ft_arr_each((t_arr)my_environ, print_line);
+	ft_arr_each((t_arr)my_environ, ft_free);
 	ft_free(my_environ);
-	return 0;
+	return (0);
 }

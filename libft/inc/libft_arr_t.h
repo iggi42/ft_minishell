@@ -17,4 +17,8 @@ typedef void		*t_arr_el;
 // typedef void	*arr_t;
 typedef t_arr_el	*t_arr;
 
+// iterator (kinda like gnl), returns NULL when it ends,
+/// otherwise a pointer to *something*
+typedef t_arr_el	(*t_iter)(void *);
+
 #endif

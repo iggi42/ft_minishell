@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_arr_from_iter.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 12:21:09 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 12:21:11 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <libft_arr.h>
 #include <libft_ll.h>
 #include <libft_mem.h>
 
-t_arr	*ft_arr_from_iter(ft_iter itr, void *iter_arg)
+t_arr	*ft_arr_from_iter(t_iter itr, void *iter_arg)
 {
 	t_arr		*result;
 	t_list		*cache;
@@ -21,4 +33,3 @@ t_arr	*ft_arr_from_iter(ft_iter itr, void *iter_arg)
 	ft_arr_rev((t_arr)result);
 	return (result);
 }
-

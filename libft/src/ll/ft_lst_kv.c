@@ -79,13 +79,13 @@ static t_kv_pair	*new_kv_pair(t_kv_key key, t_kv_value v)
 t_kv_pair	*ft_kv_put(t_kv *root, t_kv_key key, t_kv_value v)
 {
 	t_kv_pair	*here;
-	t_kv_pair   *new;
+	t_kv_pair	*new;
 	t_list		**head;
 
 	if (root == NULL || key == NULL)
 		return (NULL);
 	new = new_kv_pair(key, v);
-	if(new == NULL)
+	if (new == NULL)
 		return (NULL);
 	head = &root->_store;
 	while (*head != NULL)

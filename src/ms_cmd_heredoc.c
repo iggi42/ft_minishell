@@ -92,7 +92,7 @@ char	*ms_gnl_heredoc(char *delimiter)
 
 char	**ms_heredoc_readin(char *delimiter)
 {
-	return (char **)ft_arr_from_iter((ft_iter)ms_gnl_heredoc, delimiter);
+	return ((char **)ft_arr_from_iter((t_iter)ms_gnl_heredoc, delimiter));
 }
 
 static void	reduce_heredocs_to_inputs(t_ms_redi **rest_redis,

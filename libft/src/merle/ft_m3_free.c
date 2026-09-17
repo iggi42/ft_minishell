@@ -14,6 +14,6 @@
 
 void	ft_m3_free(void *ptr)
 {
-	if(ft_m3_rm(ptr))
+	if (ft_m3_rm(ptr))
 		free(ptr);
 }

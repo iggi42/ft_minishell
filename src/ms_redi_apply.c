@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_redi_apply.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 12:04:25 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 12:04:27 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms_env.h"
 #include "ms_exec_utils.h"
 #include "ms_exit.h"
@@ -7,7 +19,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
-static int (*get_opn(enum e_ms_redi_kind k))(char *target)
+static	int	(*get_opn(enum e_ms_redi_kind k))(char *target)
 {
 	if (k == REDI_IN)
 		return (ms_open_infile);

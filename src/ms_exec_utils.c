@@ -35,7 +35,6 @@ static char	*ms_search_path(char *cmd0)
 
 	if (cmd0 == NULL || *cmd0 == '\0')
 		return (NULL);
-	// TODO handle getting PATH='::' (basically any amount of just ':')
 	paths = ms_protect(ft_split(ms_env_get("PATH", "."), ':'));
 	i = 0;
 	sub_optimal = NULL;

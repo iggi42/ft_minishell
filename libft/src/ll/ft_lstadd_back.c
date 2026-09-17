@@ -12,7 +12,7 @@
 #include "libft_ll.h"
 #include <stdlib.h>
 
-void ft_lstadd_back(t_list **lst, t_list *new_l)
+void	ft_lstadd_back(t_list **lst, t_list *new_l)
 {
 	if (!new_l)
 		return ;

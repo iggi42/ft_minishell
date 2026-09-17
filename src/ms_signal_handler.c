@@ -1,9 +1,19 @@
-#include "libft_io.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_signal_handler.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 11:58:43 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 11:58:51 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms_signal.h"
 #include <libft_byte_t.h>
+#include <libft_io.h>
 #include <signal.h>
-#include <stdbool.h>
-#include <unistd.h>
 
 volatile sig_atomic_t	g_ms_signal;
 

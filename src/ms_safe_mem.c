@@ -1,5 +1,16 @@
-// put protected calls for memory allocation here, ms_malloc, ms_strdup, etc
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_safe_mem.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 12:03:02 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/17 12:03:07 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+// put protected calls for memory allocation here, ms_malloc, ms_strdup, etc
 #include "ms_exit.h"
 #include <errno.h>
 #include <libft_mem.h>
@@ -24,10 +35,10 @@ void	*ms_malloc(size_t size)
 
 char	*ms_strdup(char *copy_me)
 {
-	return ms_protect(ft_strdup(copy_me));
+	return (ms_protect(ft_strdup(copy_me)));
 }
 
 char	*ms_substr(const char *s, size_t start, size_t len)
 {
-	return ms_protect(ft_substr(s, start, len));
+	return (ms_protect(ft_substr(s, start, len)));
 }

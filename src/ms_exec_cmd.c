@@ -25,7 +25,8 @@
 #include <unistd.h>
 
 // this returns true for builtins which can not be done in a fork
-// if such a builtin for cmd->argv[0] is found it is run and its exit_code stored
+// if such a builtin for cmd->argv[0] is found it is run
+// and its exit_code stored
 static bool	ms_exec_maybe_run_builtin(t_ms_cmd *cmd)
 {
 	t_ms_builtin	builtin;
