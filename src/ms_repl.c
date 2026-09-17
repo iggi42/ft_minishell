@@ -78,8 +78,7 @@ t_byte	ms_repl(void)
 		}
 		else
 			ms_exec(parsing_result->source.cmds);
-		ft_free(line);
-		ms_free_parser_result(parsing_result);
+		ms_free_parser_result(parsing_result, line);
 	}
 	return (ms_env_get_status());
 }

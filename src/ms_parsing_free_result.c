@@ -14,8 +14,9 @@
 #include <libft_arr.h>
 #include <libft_mem.h>
 
-void	ms_free_parser_result(t_ms_parse_res *parsing_result)
+void	ms_free_parser_result(t_ms_parse_res *parsing_result, char *line)
 {
+	ft_free(line);
 	if (parsing_result == NULL)
 		return ;
 	if (parsing_result->success)
