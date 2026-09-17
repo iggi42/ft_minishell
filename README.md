@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by fkruger and &lt;GM&gt;stmuller.*
+*This project has been created as part of the 42 curriculum by [fkruger](https://github.com/iggi42) and [stmuller](https://github.com/cuteKittenArri).*
 
 # minishell
 
@@ -190,7 +190,7 @@ Documentation and references used while building the shell:
 *To be filled in by the authors.*
 
 ### 👤 Author
-- **GitHub:** [cuteKittenArri](https://github.com/cuteKittenArri)
-- **GitHub:** [iggi42](https://github.com/iggi42)
+- [cuteKittenArri](https://github.com/cuteKittenArri)
+- [iggi42](https://github.com/iggi42)
 
 <img src="mage.gif" alt="arri" style="max-width: 180px;">
