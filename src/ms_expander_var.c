@@ -40,10 +40,19 @@ static t_iol_el	*ms_exp_var_sect(char *s_dollar, size_t *consumed)
 	t_iol_el	*result;
 
 	*consumed = ms_parsing_varname(s_dollar + 1);
-	var_name = ms_substr(s_dollar, 1, *consumed);
 	result = ms_protect(ft_calloc(sizeof(t_iol_el), 1));
-	result->buffer = ms_env_get(var_name, "");
-	result->size = ft_strlen(result->buffer);
+	if(*consumed == 0)
+	{
+		result->buffer = (char*) &"$";
+		result->size = 1;
+	}
+	else
+	{
+		var_name = ms_substr(s_dollar, 1, *consumed);
+		result->buffer = ms_env_get(var_name, "");
+		result->size = ft_strlen(result->buffer);
+		ft_free(var_name);
+	}
 	(*consumed)++;
 	return (result);
 }
@@ -52,10 +61,13 @@ static t_iol_el	*ms_exp_nxt_sect(char *s, size_t *consumed, bool quotes)
 {
 	t_iol_el	*result;
 
+	result = NULL;
 	if (*s == '\0')
 		return (NULL);
 	if (*s == '$')
-		return (ms_exp_var_sect(s, consumed));
+		result = ms_exp_var_sect(s, consumed);
+	if(result)
+		return result;
 	*consumed = ms_expander_next_el(s, quotes);
 	result = ms_protect(ft_calloc(sizeof(t_iol_el), 1));
 	result->buffer = s;
