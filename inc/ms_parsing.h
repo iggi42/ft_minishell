@@ -26,7 +26,7 @@ typedef struct s_ms_parse_res
 	} source;
 }					t_ms_parse_res;
 
-void				ms_free_parser_result(t_ms_parse_res *res);
+void				ms_free_parser_result(t_ms_parse_res *res, char *line);
 
 t_ms_parse_res		*ms_parse(char *input);
 
