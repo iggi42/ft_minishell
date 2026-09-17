@@ -71,8 +71,7 @@ static bool	build_cmd_struct(t_ms_cmd **new_cmd, t_token **inputs)
 			ft_lst_push(&arg_stck, nxt_el.arg);
 	}
 	*new_cmd = ms_cmd_new(redi_stck, arg_stck);
-	ft_lstclear(&arg_stck, ft_void);
-	ft_lstclear(&redi_stck, ft_void);
+	ft_lstclear_all(&arg_stck, &redi_stck);
 	return (true);
 }
 
@@ -84,7 +83,6 @@ static t_ms_cmd	**build_cmd_arr(t_token *tkn)
 
 	amount = ms_parsing_count_cmds(tkn);
 	i = 0;
-	// u sure?
 	result = (t_ms_cmd **)ms_protect(ft_arr_new(amount));
 	while (i < amount && tkn != NULL)
 	{
@@ -122,4 +120,10 @@ t_ms_parse_res	*ms_parse(char *input)
 	}
 	free_token_list(tkns);
 	return (result);
+}
+
+void	ft_lstclear_all(t_list **arg_stck, t_list **redi_stck)
+{
+	ft_lstclear(arg_stck, ft_void);
+	ft_lstclear(redi_stck, ft_void);
 }
