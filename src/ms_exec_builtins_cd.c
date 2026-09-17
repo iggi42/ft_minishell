@@ -36,6 +36,13 @@ static t_byte	ms_chdir(char *s)
 	return (1);
 }
 
+static void	normi(char *cwd)
+{
+	ms_exit_if(getcwd(cwd, PATH_MAX), "getpwd failed");
+	ms_env_set("OLDPWD", ms_env_get("PWD", ""));
+	ms_env_set("PWD", (char *)&cwd);
+}
+
 t_byte	ms_exec_builtin_cd(char **argv)
 {
 	char	*target;
@@ -60,11 +67,6 @@ t_byte	ms_exec_builtin_cd(char **argv)
 	else
 		target = argv[1];
 	if (ms_chdir(target) == 0)
-	{
-		ms_exit_if(getcwd(cwd, PATH_MAX), "getpwd failed");
-		ms_env_set("OLDPWD", ms_env_get("PWD", ""));
-		ms_env_set("PWD", (char *)&cwd);
-		return (0);
-	}
+		return (normi(cwd), 0);
 	return (1);
 }
