@@ -15,6 +15,7 @@
 
 # include "libft_ll.h"
 # include <stdlib.h>
+# include <stdbool.h>
 
 //! @name io list
 //!@{
@@ -38,7 +39,7 @@ typedef struct s_iol_el
 void			ft_iol_pp(t_iol l);
 
 //! @append a buffer pointer with a size to an iol */
-void			ft_iol_append(t_iol *io_l, char *start, size_t size);
+bool			ft_iol_append(t_iol *io_l, char *start, size_t size);
 
 //! @brief write one io list to a fd
 ssize_t			ft_iol_write(t_iol l, int fd);

@@ -8,8 +8,6 @@
 #include <libft_str.h>
 #include <libft_io.h>
 
-
-// 
 static char	*slice_and_dice(char *str, size_t start, size_t len, char *var)
 {
 	char	*before;

@@ -22,7 +22,7 @@ SRCS += ms_exec.c ms_exec_cmd.c ms_exec_pipe.c ms_exec_child.c
 SRCS += ms_signal.c ms_signal_handler.c ms_rl.c ms_atoi.c
 SRCS += ms_exec_fs.c ms_exec_utils.c ms_is_path.c ms_pwd.c
 
-SRCS += ms_expander.c ms_expander_utils.c
+SRCS += ms_expander_var.c ms_expander_utils.c
 SRCS += ms_parsing_getlen.c
 SRCS += ms_parsing.c ms_parsing_free_result.c ms_parsing_utils.c
 SRCS += ms_repl.c ms_repl_prompt.c ms_repl_history.c

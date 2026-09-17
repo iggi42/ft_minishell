@@ -63,9 +63,7 @@ static char	*unquoted_delimiter(char *delimiter)
 char	*ms_gnl_heredoc(char *delimiter)
 {
 	char	*line;
-	char	*expanded;
 	char	*unq_deli;
-	char *expander_cache;
 
 	if(ms_signal_last() == SIGINT)
 		return (NULL);
@@ -85,13 +83,7 @@ char	*ms_gnl_heredoc(char *delimiter)
 		return (ft_free(line), ft_free(unq_deli), NULL);
 	// if delimiter is not in quotes
 	if(unq_deli == NULL)
-	{
-		expander_cache = ms_expand_var(line, false);
-		expanded = ms_strdup(expander_cache);
-		ft_free(line);
-		ft_free(expander_cache);
-		return expanded;
-	}
+		ms_expand_var(&line, false);
 	// else if delimer is in quotes
 	ft_free(unq_deli);
 	return (line);

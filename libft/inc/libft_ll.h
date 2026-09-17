@@ -14,6 +14,7 @@
 # define LIBFT_LL_H
 
 # include "libft_arr_t.h"
+# include <stdbool.h>
 
 //! @name linked list
 //!@{
