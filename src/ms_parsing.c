@@ -46,6 +46,12 @@ static t_nxt_el	get_next_elemnt(t_token **tkn_start, bool *is_redi)
 	return (nxt_el);
 }
 
+void	ft_lstclear_all(t_list **arg_stck, t_list **redi_stck)
+{
+	ft_lstclear(arg_stck, ft_void);
+	ft_lstclear(redi_stck, ft_void);
+}
+
 static bool	build_cmd_struct(t_ms_cmd **new_cmd, t_token **inputs)
 {
 	bool		is_redi;
@@ -120,10 +126,4 @@ t_ms_parse_res	*ms_parse(char *input)
 	}
 	free_token_list(tkns);
 	return (result);
-}
-
-void	ft_lstclear_all(t_list **arg_stck, t_list **redi_stck)
-{
-	ft_lstclear(arg_stck, ft_void);
-	ft_lstclear(redi_stck, ft_void);
 }
