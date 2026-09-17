@@ -1,11 +1,13 @@
 #include "libft_arr_t.h"
 #include "libft_str.h"
+#include "ms_rl_hooks.h"
 #include "ms_cmd_t.h"
 #include "ms_exec_utils.h"
 #include "ms_exit.h"
 #include "ms_signal.h"
 #include "ms_parsing.h"
 #include "ms_redi.h"
+#include "ms_env.h"
 #include "ms_redi_t.h"
 #include "ms_repl.h"
 #include "ms_safe.h"
@@ -13,6 +15,7 @@
 #include <libft_io.h>
 #include <libft_ll.h>
 #include <libft_mem.h>
+#include <signal.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,11 +67,15 @@ char	*ms_gnl_heredoc(char *delimiter)
 	char	*unq_deli;
 	char *expander_cache;
 
-	line = ms_repl_readline(ms_repl_prompt_heredoc);
-	if(line == NULL)
+	if(ms_signal_last() == SIGINT)
 		return (NULL);
-	unq_deli = unquoted_delimiter(delimiter);
+	line = ms_repl_readline(ms_repl_prompt_heredoc, ms_rl_heredoc_event_hook);
+	if(ms_env_get_status() != 0)
+		return (NULL);
+	if(line == NULL || ms_signal_last() == SIGINT)
+		return (NULL);
 
+	unq_deli = unquoted_delimiter(delimiter);
 	// abort if input deli unquoted and line == delimiter
 	if (unq_deli == NULL && ft_str_eq(line, delimiter))
 		return (ft_free(line), ft_free(unq_deli), NULL);

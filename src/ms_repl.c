@@ -16,6 +16,7 @@
 #include "ms_exec.h"
 #include "ms_exit.h"
 #include "ms_signal.h"
+#include "ms_rl_hooks.h"
 #include "ms_parsing.h"
 #include "ms_repl.h"
 #include <errno.h>
@@ -37,20 +38,15 @@ static char	*ms_cut_nl(char *s)
 	return (s);
 }
 
-char	*ms_repl_readline(ms_repl_prompt_get prompt_getter)
+char	*ms_repl_readline(ms_repl_prompt_get prompt_getter, int (*ms_rl_hook)(void))
 {
 	char	*line;
 
 	if (!isatty(STDIN_FILENO))
 		return (ms_cut_nl(ft_gnl(STDIN_FILENO)));
-	line = ms_repl_rl_wrapper(prompt_getter());
+	line = ms_repl_rl_wrapper(prompt_getter(), ms_rl_hook);
 	if (line == NULL)
 		return (NULL);
-	if (!ft_m3_add(line))
-	{
-		free(line);
-		ms_error_out(EXIT_FAILURE, NULL, errno);
-	}
 	return (line);
 }
 
@@ -64,7 +60,8 @@ t_byte	ms_repl(void)
 
 	while (true)
 	{
-		line = ms_repl_readline(ms_repl_prompt_shell);
+		ms_signal_listen(0);
+		line = ms_repl_readline(ms_repl_prompt_shell, ms_rl_main_event_hook);
 		if (line == NULL)
 			break ;
 		ms_repl_history_add(line);

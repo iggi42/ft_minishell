@@ -29,11 +29,8 @@ void	ms_stdenv_apply(int stdenv[2])
 
 static void	ms_execve(char *path, char **argv)
 {
-	char *error_msg;
-	
 	execve(path, argv, ms_env_environ_export());
-	error_msg = ms_protect(ft_strf("%s: cmd not found"));
-	ms_error_out(EXIT_NO_EXEC_PERM, error_msg, 0);
+	ms_error_out(EXIT_NO_EXEC_PERM, path, errno);
 }
 
 static void	ms_exec_do_cmd(char **argv)

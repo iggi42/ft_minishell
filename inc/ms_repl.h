@@ -20,9 +20,11 @@ typedef char	*(*ms_repl_prompt_get)(void);
 t_byte			ms_repl(void);
 
 // repl utils (also used by heredoc)
-char			*ms_repl_readline(ms_repl_prompt_get prompt_getter);
+char	*ms_repl_readline(ms_repl_prompt_get prompt_getter, int (*ms_rl_hook)(void));
+// char			*ms_repl_readline(ms_repl_prompt_get prompt_getter);
 
-char			*ms_repl_rl_wrapper(char *prompt);
+// char			*ms_repl_rl_wrapper(char *prompt);A
+char			*ms_repl_rl_wrapper(char *prompt, int (*ms_rl_hook)(void));
 
 // add the line to the readline history
 void			ms_repl_history_add(char *line);
