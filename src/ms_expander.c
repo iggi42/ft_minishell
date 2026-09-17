@@ -6,7 +6,10 @@
 #include "unistd.h"
 #include <libft_mem.h>
 #include <libft_str.h>
+#include <libft_io.h>
 
+
+// 
 static char	*slice_and_dice(char *str, size_t start, size_t len, char *var)
 {
 	char	*before;
@@ -39,8 +42,11 @@ char	*expand(char *str, int *i)
 		return (str);
 	}
 	var_name = ms_substr(str, *i + 1, len);
-	env_var = ms_env_get(var_name, "");
+	ft_printf("%d | var var: %s\n", *i, var_name);
+	env_var = ms_env_get(var_name, var_name);
+	ft_printf("%d | env var: %s\n", *i, env_var);
 	new_str = slice_and_dice(str, *i, len + 1, env_var);
+	ft_printf("%d | new string: %s\n", *i, new_str);
 	*i = *i + ft_strlen(env_var);
 	ft_free(var_name);
 	return (new_str);
@@ -63,7 +69,7 @@ char	*ms_expand_var(char *str, bool care_about_quotes)
 			double_q = !double_q;
 		else if (str[i] == '$')
 		{
-			if (care_about_quotes && single_q == true && str[++i] == '\0')
+			if ((care_about_quotes && single_q == true) || str[i + 1] == '\0')
 				break;
 			else
 			{
