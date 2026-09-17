@@ -23,7 +23,6 @@ int	ms_rl_main_event_hook(void)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		rl_done = 1;
 	}
 	return (0);
 }
@@ -43,9 +42,7 @@ char	*ms_repl_rl_wrapper(char *prompt, int (*ms_rl_hook)(void) )
 	char	*line;
 
 	rl_event_hook = ms_rl_hook;
-	// prompt = ms_protect(ft_strf("%d @ %s", getpid(), prompt));
 	line = readline(prompt);
-	// ft_free(prompt);
 	if (!ft_m3_add(line))
 	{
 		free(line);
