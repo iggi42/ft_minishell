@@ -27,8 +27,7 @@ bool	ms_env_unset(char *name);
 // get an environment variable, freeing it directly is not your job
 char	*ms_env_get(char *name, char *fallback);
 
-void	ms_env_each(void (*fold)(void *acc, char *name, char *value),
-			void *acc);
+void	ms_env_each(void (*each)(char *name, char *value));
 
 void	ms_env_inc_shlvl(void);
 void	ms_env_init(void);

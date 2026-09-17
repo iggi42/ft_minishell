@@ -63,7 +63,7 @@ char	*ms_expand_var(char *str, bool care_about_quotes)
 			double_q = !double_q;
 		else if (str[i] == '$')
 		{
-			if (single_q == true && str[++i] == '\0')
+			if (care_about_quotes && single_q == true && str[++i] == '\0')
 				break;
 			else
 			{

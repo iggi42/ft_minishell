@@ -58,7 +58,13 @@ t_byte	import_vars(char **arg)
 	return (import_var(*arg) | import_vars(arg + 1));
 }
 
-t_byte	print_declares(void)
+void print_export(char *name, char *key)
+{
+	if(!ft_str_eq(name, "?"))
+		ft_printf("export '%s=%s'\n", name, key);
+}
+
+t_byte	print_exports(void)
 {
 	return (0);
 }
@@ -66,6 +72,6 @@ t_byte	print_declares(void)
 t_byte	ms_exec_builtin_export(char **argv)
 {
 	if (ft_arr_len((t_arr)argv) < 2)
-		return (print_declares());
+		return (ms_env_each(print_export), 0);
 	return (import_vars(argv + 1));
 }

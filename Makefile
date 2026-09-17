@@ -15,7 +15,7 @@ SRCS += ms_redi.c ms_redi_apply.c
 SRCS += ms_cmd_free.c ms_cmd_new.c ms_cmd_heredoc.c
 SRCS += ms_dbg.c
 
-SRCS += ms_env_core.c ms_env_crud.c ms_env_environ.c ms_env_special.c
+SRCS += ms_env_core.c ms_env_crud.c ms_env_environ.c ms_env_special.c ms_env_each.c
 SRCS += ms_exec_builtins.c ms_exec_builtins_cd.c ms_exec_builtins_echo.c ms_exec_builtins_env.c
 SRCS += ms_exec_builtins_exit.c ms_exec_builtins_export.c ms_exec_builtins_pwd.c ms_exec_builtins_unset.c
 SRCS += ms_exec.c ms_exec_cmd.c ms_exec_pipe.c ms_exec_child.c
