@@ -58,3 +58,8 @@ void	*ms_exit_if(void *cond, char *error_msg)
 	ms_exit(EXIT_FAILURE);
 	return (NULL);
 }
+
+void	ms_signal_exit(int sig)
+{
+	ms_exit(128 + sig);
+}

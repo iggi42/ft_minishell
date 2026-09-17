@@ -27,4 +27,5 @@ void	*ms_exit_if(void *cond, char *error_msg);
 //	otherwise return cond
 void	*ms_protect(void *cond);
 
+void	ms_signal_exit(int sig);
 #endif

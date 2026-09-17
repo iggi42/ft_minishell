@@ -22,11 +22,8 @@ int	handle_operator(char *str, int i, t_token **tokens)
 	int					len;
 
 	len = 1;
-	if (str[i] == '>' && str[i + 1] == '>')
-	{
-		len = 2;
+	if (str[i] == '>' && str[i + 1] == '>' && i++)
 		type = T_OUT_APPEND;
-	}
 	else if (str[i] == '<' && str[i + 1] == '<')
 	{
 		len = 2;
@@ -74,7 +71,9 @@ int	handle_arg(char *str, int i, t_token **tokens)
 char	*ms_syntax_check(t_token *tokens)
 {
 	t_token	*current;
+	char	*normi;
 
+	normi = "syntax error near unexpected sign '%s'";
 	current = tokens;
 	if (current && current->kind == T_PIPE)
 		return (ms_strdup("syntax error near unexpected sign '|'"));
@@ -83,8 +82,7 @@ char	*ms_syntax_check(t_token *tokens)
 		if (is_redirect(current->kind))
 		{
 			if (!current->next || current->next->kind != T_WORD)
-				return (ms_protect(ft_strf("syntax error near unexpected sign '%s'",
-							current->value)));
+				return (ms_protect(ft_strf(normi, current->value)));
 		}
 		if (current->kind == T_PIPE)
 		{

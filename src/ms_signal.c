@@ -28,11 +28,6 @@ int	ms_signal_last(void)
 	return (*last_signal_store());
 }
 
-void	ms_signal_exit(int sig)
-{
-	ms_exit(128 + sig);
-}
-
 void	ms_signal_listen(int sig)
 {
 	*last_signal_store() = sig;
