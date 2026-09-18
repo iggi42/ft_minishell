@@ -32,8 +32,6 @@ int	ms_signal_last(void)
 // resetting with 0 also drops a signal that nobody consumed yet
 void	ms_signal_listen(int sig)
 {
-	if (sig == 0 && ms_signal_consume() == SIGINT && isatty(STDIN_FILENO))
-		ft_putchar_fd('\n', STDERR_FILENO);
 	*last_signal_store() = sig;
 	if (sig != 0)
 		ms_env_set_status(128 + sig);

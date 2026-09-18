@@ -46,8 +46,6 @@ char	*ms_repl_readline(t_ms_repl_prompt_get prompt_getter,
 	if (!isatty(STDIN_FILENO))
 		return (ms_cut_nl(ft_gnl(STDIN_FILENO)));
 	line = ms_repl_rl_wrapper(prompt_getter(), ms_rl_hook);
-	if (line == NULL)
-		return (NULL);
 	return (line);
 }
 

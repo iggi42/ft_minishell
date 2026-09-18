@@ -18,7 +18,6 @@
 
 bool	ms_is_path(char *cmd);
 
-// returns a pointer that needs to be freed
 char	*ms_pwd(void);
 
 t_byte	ms_atoi(char *str);

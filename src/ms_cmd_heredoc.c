@@ -27,6 +27,7 @@
 #include <libft_str.h>
 #include <signal.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 static void	ms_heredoc_cleanup_running(t_ms_heredoc *chd)
 {
@@ -70,7 +71,7 @@ char	*ms_gnl_heredoc(char *delimiter)
 	if (ms_signal_last() == SIGINT)
 		return (NULL);
 	line = ms_repl_readline(ms_repl_prompt_heredoc, ms_rl_heredoc_event_hook);
-	if (line == NULL || ms_signal_last() == SIGINT)
+	if (line == NULL)
 		return (NULL);
 	unq_deli = unquoted_delimiter(delimiter);
 	if (unq_deli == NULL && ft_str_eq(line, delimiter))

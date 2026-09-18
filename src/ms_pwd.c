@@ -13,21 +13,22 @@
 #include "ms_env.h"
 #include "ms_exit.h"
 #include <errno.h>
+#include <libft_io.h>
+#include <libft_mem.h>
 #include <limits.h>
 #include <unistd.h>
 
-// also gets called by cd, not just the pwd builtin
-// so don't aggressively error out
 char	*ms_pwd(void)
 {
 	static char	cwd[PATH_MAX];
 
+	ft_bzero(cwd, sizeof(cwd));
 	errno = 0;
-	if (getcwd(cwd, PATH_MAX) == NULL)
+	getcwd(cwd, PATH_MAX);
+	if (errno != 0)
 	{
-		ms_complain("getpwd failed", errno);
 		ms_env_set_status(1);
 		cwd[0] = '\0';
 	}
-	return ((char *)&cwd);
+	return ((char *)cwd);
 }

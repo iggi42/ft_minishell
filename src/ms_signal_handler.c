@@ -13,7 +13,9 @@
 #include "ms_signal.h"
 #include <libft_byte_t.h>
 #include <libft_io.h>
+#include <readline/readline.h>
 #include <signal.h>
+#include <unistd.h>
 
 volatile sig_atomic_t	g_ms_signal;
 
@@ -35,6 +37,7 @@ static void	ms_sig_trigger(t_byte sig)
 		(*ms_sig_store(sig))(sig);
 }
 
+// init our signal handler with ms_signal_set_handler(-1, NULL)
 void	ms_signal_set_handler(int sig, t_ms_sig_handler dab)
 {
 	static struct sigaction	s_sig;

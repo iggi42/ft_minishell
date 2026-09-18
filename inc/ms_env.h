@@ -22,6 +22,10 @@ char	**ms_env_environ_export(void);
 // set an environment variable, copies the string into an key value storage.
 void	ms_env_set(char *name, char *value);
 
+// ensures a variable is in the store
+// with an empty string as val if it is not there yet
+void	ms_env_touch(char *key);
+
 bool	ms_env_unset(char *name);
 
 // get an environment variable, freeing it directly is not your job
