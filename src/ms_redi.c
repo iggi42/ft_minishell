@@ -10,14 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bw.h"
-#include "ms_exec_utils.h"
-#include "ms_exit.h"
 #include "ms_redi.h"
 #include "ms_safe.h"
-#include <libft_io.h>
 #include <libft_mem.h>
-#include <libft_str.h>
 
 void	ms_redi_turnoff(t_ms_redi *redi)
 {

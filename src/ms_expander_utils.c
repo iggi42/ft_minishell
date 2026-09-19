@@ -10,12 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_exit.h"
 #include "ms_safe.h"
 #include "ms_token.h"
-#include <libft_io.h>
 #include <libft_mem.h>
-#include <libft_str.h>
 
 static size_t	unquote_len(char *str)
 {

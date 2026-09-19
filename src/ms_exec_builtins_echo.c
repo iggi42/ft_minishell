@@ -14,7 +14,6 @@
 #include <unistd.h>
 #include <libft_byte_t.h>
 #include <stdbool.h>
-#include <stddef.h>
 
 // flags have to be at the start
 // -nnnn is valid -n flag (may only contain n)

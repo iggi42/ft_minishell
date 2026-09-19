@@ -10,15 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_io.h"
-#include "libft_mem.h"
 #include "libft_merle.h"
-#include "libft_str.h"
-#include "ms_env.h"
 #include "ms_exit.h"
 #include "ms_signal.h"
+#include <stdlib.h>
 #include <errno.h>
-#include <stdio.h>
 #include <readline/readline.h>
 #include <signal.h>
 #include <unistd.h>

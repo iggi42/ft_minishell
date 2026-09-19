@@ -11,9 +11,7 @@
 /* ************************************************************************** */
 
 #include "ms_env.h"
-#include "ms_exit.h"
 #include <errno.h>
-#include <libft_io.h>
 #include <libft_mem.h>
 #include <limits.h>
 #include <unistd.h>

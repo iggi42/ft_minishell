@@ -18,7 +18,6 @@
 #include "ms_rl_hooks.h"
 #include "ms_signal.h"
 #include <libft_io.h>
-#include <libft_mem.h>
 
 static char	*ms_cut_nl(char *s)
 {

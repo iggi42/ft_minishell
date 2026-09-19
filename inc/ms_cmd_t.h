@@ -13,7 +13,6 @@
 #ifndef MS_CMD_T_H
 # define MS_CMD_T_H
 # include "ms_redi_t.h"
-# include <libft_byte_t.h>
 # include <libft_ll.h>
 # include <unistd.h>
 

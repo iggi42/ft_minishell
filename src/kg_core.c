@@ -12,7 +12,6 @@
 
 #include "kg_priv_t.h"
 #include "ms_exit.h"
-#include "ms_safe.h"
 #include <libft_mem.h>
 #include <libft_os.h>
 

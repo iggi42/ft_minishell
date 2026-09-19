@@ -17,7 +17,6 @@
 #include <libft_arr.h>
 #include <libft_mem.h>
 #include <libft_str.h>
-#include <libft_toa.h>
 
 // this code is for interactions of our variable store with __environ
 

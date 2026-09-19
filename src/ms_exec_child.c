@@ -12,7 +12,6 @@
 
 #include "bw.h"
 #include "ms_env.h"
-#include "ms_exec.h"
 #include "ms_exec_builtins.h"
 #include "ms_exec_utils.h"
 #include "ms_exit.h"

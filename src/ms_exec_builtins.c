@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ms_exec_builtins.h"
-#include <libft_io.h>
 #include <libft_str.h>
 
 t_ms_builtin	ms_builtin_get_frk(char *name)
