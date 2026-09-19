@@ -1,28 +1,18 @@
-#include "libft_io.h"
-#include "libft_str.h"
-#include "ms_dbg.h"
-#include "ms_env.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_token_word_splitting.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/19 15:23:28 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/19 15:23:29 by fkruger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ms_safe.h"
 #include "ms_token.h"
-#include <stdbool.h>
-#include <stddef.h>
-
-static bool	is_in_ifs(char c)
-{
-	bool	result;
-
-	result = ft_strchr(" \t\n", c) != NULL;
-	return (result);
-}
-
-static bool	is_quote(char c)
-{
-	bool	result;
-
-	result = ('\"' == c) || ('\'' == c);
-	// ft_printf("is_quote(%c) = %s\n", c, result ? "true" : "false");
-	return (result);
-}
+#include <libft_str.h>
 
 // returns the pointer of start where the word ends
 static char	*ms_word_size(char *start, size_t *word_size)
@@ -33,11 +23,11 @@ static char	*ms_word_size(char *start, size_t *word_size)
 	*word_size = 0;
 	while (start[*word_size] != '\0')
 	{
-		if (active_quotes == -1 && is_quote(start[*word_size]))
+		if (active_quotes == -1 && ms_ws_is_quote(start[*word_size]))
 			active_quotes = start[*word_size];
 		else if (active_quotes != -1 && start[*word_size] == active_quotes)
 			active_quotes = -1;
-		else if (active_quotes == -1 && is_in_ifs(start[*word_size]))
+		else if (active_quotes == -1 && ms_ws_is_in_ifs(start[*word_size]))
 			break ;
 		(*word_size)++;
 	}
@@ -47,7 +37,7 @@ static char	*ms_word_size(char *start, size_t *word_size)
 // returns the point of the string where the split word ends
 static char	*ms_word_axe(char *start, bool *is_word_start, size_t *word_size)
 {
-	if (*start == '\0' || is_in_ifs(*start))
+	if (*start == '\0' || ms_ws_is_in_ifs(*start))
 	{
 		*is_word_start = false;
 		return (start);
@@ -64,16 +54,13 @@ t_token	*ms_word_spaltwerk(char *input_str)
 	char	*cont;
 	char	*fresh_word;
 
-	// ft_printf("spaltwerk eingabe: [%s]\n", input_str);
 	fresh_tokens = NULL;
 	while (input_str)
 	{
 		cont = ms_word_axe(input_str, &is_word_start, &word_size);
-		// ft_printf("to axe : [%s] => rest at [%s]\n", input_str, cont);
 		if (is_word_start)
 		{
 			fresh_word = ms_substr(input_str, 0, word_size);
-			// ft_printf("fresh word: [%s]\n", fresh_word),
 			append_token(&fresh_tokens, fresh_word, T_WORD);
 		}
 		if (*cont == '\0')
@@ -83,7 +70,6 @@ t_token	*ms_word_spaltwerk(char *input_str)
 	return (fresh_tokens);
 }
 
-//
 t_token	*ms_token_lst(t_token *start)
 {
 	t_token	*lst_tkn;
@@ -107,8 +93,7 @@ t_token	*ms_word_split(t_token **wrd)
 	if (wrd == NULL || *wrd == NULL)
 		return (NULL);
 	insert_me = ms_word_spaltwerk((*wrd)->value);
-	// ms_print_tokens(insert_me);
-	if(insert_me == NULL)
+	if (insert_me == NULL)
 		return ((*wrd)->next);
 	cont = ms_token_lst(insert_me);
 	cont->next = (*wrd)->next;
