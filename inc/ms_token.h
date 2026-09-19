@@ -56,6 +56,8 @@ char				*ms_syntax_check(t_token *tokens);
 
 void				ms_expand(t_token **list);
 
+int					ms_expand_var(t_token *prev, t_token **tkn);
+
 char				*remove_quote(char *str);
 
 char				*ms_quote_hide(char *value);

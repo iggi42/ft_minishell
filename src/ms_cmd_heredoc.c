@@ -79,7 +79,7 @@ char	*ms_gnl_heredoc(char *delimiter)
 	if (unq_deli != NULL && ft_str_eq(line, unq_deli))
 		return (ft_free(line), ft_free(unq_deli), NULL);
 	if (unq_deli == NULL)
-		ms_expand_var(&line, false);
+		ms_expand_str(&line, false);
 	ft_free(unq_deli);
 	return (line);
 }

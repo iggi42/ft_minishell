@@ -10,10 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft_io.h"
+#include "libft_mem.h"
 #include "libft_str.h"
 #include "ms_exit.h"
+#include "ms_parsing.h"
 #include "ms_safe.h"
 #include "ms_token.h"
+#include <stdbool.h>
 
 int	handle_operator(char *str, int i, t_token **tokens)
 {
@@ -37,7 +41,7 @@ int	handle_operator(char *str, int i, t_token **tokens)
 		type = T_PIPE;
 	else
 		return (0);
-	operator = ms_substr(str, i, len);
+	operator= ms_substr(str, i, len);
 	append_token(tokens, operator, type);
 	return (i + len);
 }
@@ -84,10 +88,10 @@ char	*ms_syntax_check(t_token *tokens)
 	t_token	*current;
 	char	*normi;
 
-	normi = "syntax error near unexpected sign '%s'";
+	normi = "syntax error near unexpected token '%s'";
 	current = tokens;
 	if (current && current->kind == T_PIPE)
-		return (ms_strdup("syntax error near unexpected sign '|'"));
+		return (ms_strdup("syntax error near unexpected token '|'"));
 	while (current)
 	{
 		if (is_redirect(current->kind))
@@ -98,7 +102,7 @@ char	*ms_syntax_check(t_token *tokens)
 		if (current->kind == T_PIPE)
 		{
 			if (!current->next || current->next->kind == T_PIPE)
-				return (ms_strdup("syntax error near unexpected sign '|'"));
+				return (ms_strdup("syntax error near unexpected token '|'"));
 		}
 		current = current->next;
 	}

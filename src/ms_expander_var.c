@@ -23,7 +23,7 @@
 #include <libft_str.h>
 #include <stddef.h>
 
-size_t	ms_expander_next_el(char *str, bool care_about_quotes)
+static size_t	ms_expander_next_el(char *str, bool care_about_quotes)
 {
 	size_t	i;
 	bool	single_q;
@@ -91,7 +91,7 @@ static t_iol_el	*ms_exp_nxt_sect(char *s, size_t *consumed, bool quotes)
 	return (result);
 }
 
-void	ms_expand_var(char **s, bool quotes)
+void	ms_expand_str(char **s, bool quotes)
 {
 	t_iol		expanded;
 	size_t		consumed;
@@ -124,7 +124,7 @@ void	ms_expand(t_token **list)
 	{
 		if (current->kind == T_WORD && (prev_token == NULL
 				|| prev_token->kind != T_HERE_DOC))
-			ms_expand_var(&current->value, true);
+			ms_expand_str(&current->value, true);
 		prev_token = current;
 		current = current->next;
 	}
