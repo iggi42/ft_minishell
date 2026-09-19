@@ -13,10 +13,8 @@
 #include "kg_priv_t.h"
 #include "ms_exit.h"
 #include "ms_safe.h"
-#include "unistd.h"
 #include <libft_mem.h>
 #include <libft_os.h>
-#include <stdbool.h>
 
 static t_kg_el	**head(void)
 {

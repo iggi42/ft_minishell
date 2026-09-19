@@ -15,7 +15,6 @@
 #include "ms_exit.h"
 #include "ms_safe.h"
 #include <libft_mem.h>
-#include <stdbool.h>
 #include <unistd.h>
 
 static t_bw_el	**head(void)

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_byte_t.h"
 #include "ms_env.h"
 #include "ms_exit.h"
 #include "ms_safe.h"

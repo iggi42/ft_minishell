@@ -14,7 +14,6 @@
 #include <libft_byte_t.h>
 #include <libft_io.h>
 #include <signal.h>
-#include <unistd.h>
 
 volatile sig_atomic_t	g_ms_signal;
 

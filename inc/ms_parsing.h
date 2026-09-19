@@ -14,7 +14,6 @@
 # define MS_PARSING_H
 # include "ms_cmd_t.h"
 # include <libft_kv.h>
-# include <stdbool.h>
 
 typedef struct s_ms_parse_res
 {

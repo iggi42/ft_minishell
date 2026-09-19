@@ -18,7 +18,6 @@
 #include <libft_io.h>
 #include <libft_merle.h>
 #include <string.h>
-#include <unistd.h>
 
 void	ms_exit(int exit_code)
 {

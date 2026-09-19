@@ -18,7 +18,6 @@
 #include "ms_exit.h"
 #include <errno.h>
 #include <fcntl.h>
-#include <stdlib.h>
 #include <unistd.h>
 
 int	ms_open(char *path, int flags)

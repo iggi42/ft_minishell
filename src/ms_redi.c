@@ -14,9 +14,7 @@
 #include "ms_exec_utils.h"
 #include "ms_exit.h"
 #include "ms_redi.h"
-#include "ms_redi_t.h"
 #include "ms_safe.h"
-#include <errno.h>
 #include <libft_io.h>
 #include <libft_mem.h>
 #include <libft_str.h>

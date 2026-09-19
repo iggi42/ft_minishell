@@ -10,13 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_arr_t.h"
-#include "ms_cmd_t.h"
 #include "ms_env.h"
 #include "ms_exec.h"
 #include "ms_signal.h"
 #include <libft_arr.h>
-#include <libft_byte_t.h>
 #include <signal.h>
 
 void	ms_exec(t_ms_cmd **run_me)

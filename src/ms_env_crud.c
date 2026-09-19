@@ -10,11 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_kv.h"
-#include "libft_lst_kv.h"
 #include "ms_env_core.h"
 #include "ms_safe.h"
-#include <stdbool.h>
 
 void	ms_env_set(char *key, char *value)
 {

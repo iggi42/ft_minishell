@@ -14,10 +14,8 @@
 #include "ms_exec_utils.h"
 #include "ms_exit.h"
 #include "ms_redi.h"
-#include "ms_redi_t.h"
 #include "ms_safe.h"
 #include <errno.h>
-#include <stdlib.h>
 
 static	int	(*get_opn(enum e_ms_redi_kind k))(char *target)
 {

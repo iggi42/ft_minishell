@@ -17,7 +17,6 @@
 #include <libft_io.h>
 #include <libft_mem.h>
 #include <libft_str.h>
-#include <stdlib.h>
 #include <unistd.h>
 
 t_byte	ms_exec_builtin_exit(char **argv)

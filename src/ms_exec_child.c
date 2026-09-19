@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "bw.h"
-#include "libft_arr_t.h"
-#include "ms_cmd_t.h"
 #include "ms_env.h"
 #include "ms_exec.h"
 #include "ms_exec_builtins.h"
@@ -23,8 +21,6 @@
 #include <errno.h>
 #include <libft_arr.h>
 #include <libft_str.h>
-#include <signal.h>
-#include <unistd.h>
 
 void	ms_stdenv_close(void)
 {

@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "bw.h"
-#include "libft_byte_t.h"
-#include "ms_cmd_t.h"
 #include "ms_env.h"
 #include "ms_exec_builtins.h"
 #include "ms_exec_utils.h"
@@ -20,9 +18,7 @@
 #include "ms_safe.h"
 #include <libft_arr.h>
 #include <libft_io.h>
-#include <libft_ll.h>
 #include <libft_str.h>
-#include <unistd.h>
 
 // this returns true for builtins which can not be done in a fork
 // if such a builtin for cmd->argv[0] is found it is run

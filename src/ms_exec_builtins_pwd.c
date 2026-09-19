@@ -14,7 +14,6 @@
 #include "ms_utils.h"
 #include <errno.h>
 #include <libft_io.h>
-#include <limits.h>
 #include <stdio.h>
 #include <unistd.h>
 

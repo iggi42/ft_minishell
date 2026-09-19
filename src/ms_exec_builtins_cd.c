@@ -14,7 +14,6 @@
 #include "ms_exit.h"
 #include <errno.h>
 #include <libft_arr.h>
-#include <libft_byte_t.h>
 #include <libft_io.h>
 #include <libft_mem.h>
 #include <libft_str.h>

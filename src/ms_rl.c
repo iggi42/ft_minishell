@@ -21,7 +21,6 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <signal.h>
-#include <stdlib.h>
 #include <unistd.h>
 
 // the prompt is reset here, so the SIGINT has to be forgotten too:
