@@ -83,6 +83,15 @@ int	ms_line_is_blank(char *input)
 	return (input[i] == '\0');
 }
 
+char *ms_token_type2str(t_token *kind)
+{
+	if (kind == NULL)
+		return "";
+	if(kind->kind == T_HERE_DOC)
+		return "<<";
+	return kind->value;
+}
+
 char	*ms_syntax_check(t_token *tokens)
 {
 	t_token	*current;
@@ -97,7 +106,7 @@ char	*ms_syntax_check(t_token *tokens)
 		if (is_redirect(current->kind))
 		{
 			if (!current->next || current->next->kind != T_WORD)
-				return (ms_protect(ft_strf(normi, current->value)));
+				return (ms_protect(ft_strf(normi, ms_token_type2str(current))));
 		}
 		if (current->kind == T_PIPE)
 		{
