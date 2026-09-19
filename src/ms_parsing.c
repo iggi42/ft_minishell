@@ -114,14 +114,13 @@ t_ms_parse_res	*ms_parse(char *input)
 
 	tkns = ms_tokenize(input);
 	result = ms_malloc(sizeof(t_ms_parse_res));
+	result->exit_code = 0;
 	if (tkns == NULL && !ms_line_is_blank(input))
 		result->source.error_msg = ms_strdup(ERR_MSG_UNCLOSED);
 	else
 		result->source.error_msg = ms_syntax_check(tkns);
 	if((result->source.error_msg != NULL))
 		result->exit_code = 2;
-	else
-		result->exit_code = 0;
 	// ft_putendl_fd("before expansion", STDOUT_FILENO);
 	// ms_print_tokens(tkns);
 	if (result->exit_code == 0)
@@ -133,6 +132,7 @@ t_ms_parse_res	*ms_parse(char *input)
 		result->source.cmds = build_cmd_arr(tkns);
 		if (result->source.cmds == NULL)
 		{
+			// ms_print_cmd("1. cmd:",  result->source.cmds[0] );
 			result->exit_code = 1;
 			result->source.error_msg = ms_strdup("syntax error");
 		}
