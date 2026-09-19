@@ -10,18 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_io.h"
 #include "ms_env.h"
-#include "ms_dbg.h"
 #include "ms_exec.h"
 #include "ms_exit.h"
 #include "ms_parsing.h"
 #include "ms_repl.h"
 #include "ms_rl_hooks.h"
 #include "ms_signal.h"
-#include <libft_char.h>
+#include <libft_io.h>
 #include <libft_mem.h>
-#include <unistd.h>
 
 static char	*ms_cut_nl(char *s)
 {
@@ -48,9 +45,6 @@ char	*ms_repl_readline(t_ms_repl_prompt_get prompt_getter,
 	return (line);
 }
 
-// maybe only clear the cache of the used fd one day
-// for now just remeber to ft_gnl(-1) before exiting
-// this is good enough for now
 t_byte	ms_repl(void)
 {
 	char			*line;
@@ -64,7 +58,6 @@ t_byte	ms_repl(void)
 			break ;
 		ms_repl_history_add(line);
 		parsing_result = ms_parse(line);
-		/* print_parsing_result("repl parser res:", parsing_result); */
 		if (parsing_result->exit_code == 0)
 			ms_exec(parsing_result->source.cmds);
 		else

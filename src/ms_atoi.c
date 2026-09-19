@@ -10,19 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_str.h"
-#include "libft_char.h"
-#include <endian.h>
+#include <libft_str.h>
 #include <libft_byte_t.h>
-#include <stdbool.h>
-#include <stddef.h>
 
-int	is_space(char c)
+static int	atoi_is_space(char c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
-static int	prugel(char *digits, int neg)
+static int	ms_atoi_prugel(char *digits, int neg)
 {
 	char	*max;
 	size_t	len;
@@ -46,10 +42,10 @@ int	invalid(char *str)
 {
 	char	*digits;
 	int		neg;
-	
+
 	if (!str || !*str)
 		return (1);
-	while (is_space(*str))
+	while (atoi_is_space(*str))
 		str++;
 	neg = (*str == '-');
 	if (*str == '-' || *str == '+')
@@ -59,11 +55,11 @@ int	invalid(char *str)
 	digits = str;
 	while (*str >= '0' && *str <= '9')
 		str++;
-	while (is_space(*str))
+	while (atoi_is_space(*str))
 		str++;
 	if (*str != '\0')
 		return (1);
-	return (prugel(digits, neg));
+	return (ms_atoi_prugel(digits, neg));
 }
 
 bool	ms_atoi_valid(char *str)
@@ -80,7 +76,7 @@ t_byte	ms_atoi(char *str)
 	result = 0;
 	if (invalid(str))
 		return (2);
-	while (is_space(*str))
+	while (atoi_is_space(*str))
 		str++;
 	if (*str == '-')
 	{

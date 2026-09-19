@@ -28,8 +28,6 @@ int	main(int argc, char **argv)
 	ms_env_free();
 	ft_gnl(-1);
 	ms_stdenv_close();
-	// uncomment this for the eval to make garabage collector run and the very end
-	// we tested without them cleaning up and the end if we return to main (doing an exit)
-	// ms_exit(ms_env_get_status());
+	ms_exit(ms_env_get_status());
 	return (ms_env_get_status());
 }

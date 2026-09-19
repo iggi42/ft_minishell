@@ -11,19 +11,9 @@
 /* ************************************************************************** */
 
 #include "bw.h"
-#include "ms_env.h"
-#include "ms_exec_builtins.h"
 #include "ms_exec_utils.h"
-#include "ms_exit.h"
-#include "ms_redi.h"
 #include "ms_safe.h"
-#include <errno.h>
-#include <libft_arr.h>
-#include <libft_ll.h>
-#include <libft_io.h>
 #include <libft_mem.h>
-#include <stdio.h>
-#include <unistd.h>
 
 static void	add_pid(t_list **pids, pid_t pid)
 {
@@ -34,6 +24,12 @@ static void	add_pid(t_list **pids, pid_t pid)
 	*new_content = pid;
 	new_el = ft_lstnew(new_content);
 	ft_lstadd_back(pids, new_el);
+}
+
+static void	ms_close_unless(int fd, int unless)
+{
+	if (fd != unless)
+		ms_close(fd);
 }
 
 // returns a list of pids to wait on
@@ -49,20 +45,17 @@ static t_list	*spawn_pipe(t_ms_cmd **cmds)
 	stdenv[R] = STDIN_FILENO;
 	while (cmds[0] != NULL)
 	{
-		if(stdenv[R] != STDIN_FILENO)
-			ms_close(stdenv[R]);
+		ms_close_unless(stdenv[R], STDIN_FILENO);
 		stdenv[R] = out_pipe[R];
 		if (cmds[1] != NULL)
 			stdenv[W] = ms_pipe((int *)out_pipe)[W];
 		else
 			stdenv[W] = STDOUT_FILENO;
-		// ft_printf_fd(STDERR_FILENO, "stdenv [%d, %d], pipe [R:%d, W:%d] \n", stdenv[0], stdenv[1], out_pipe[R], out_pipe[W]);
 		fr = ms_fork();
 		if (fr == 0)
 			ms_exec_child(cmds[0], stdenv);
 		add_pid(&result, fr);
-		if(stdenv[W] != STDOUT_FILENO)
-			ms_close(out_pipe[W]);
+		ms_close_unless(out_pipe[W], STDOUT_FILENO);
 		cmds++;
 	}
 	return (result);

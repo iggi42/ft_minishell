@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_io.h"
-#include "libft_str.h"
 #include "ms_exit.h"
 #include "ms_safe.h"
 #include "ms_token.h"
+#include <libft_io.h>
 #include <libft_mem.h>
+#include <libft_str.h>
 
 static size_t	unquote_len(char *str)
 {
@@ -102,8 +102,7 @@ int	del_empty_token(t_token **list, char **err_msg)
 	{
 		if (current->kind == T_WORD && current->value[0] == 0)
 		{
-			// TODO check if the prev token is a redirect
-			if(previous != NULL && is_redirect(previous->kind))
+			if (previous != NULL && is_redirect(previous->kind))
 			{
 				*err_msg = ms_strdup("ambiguous redirect\n");
 				return (1);

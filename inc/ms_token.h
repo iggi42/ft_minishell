@@ -39,9 +39,13 @@ typedef struct s_token
 // create a list of tokens from an string
 t_token				*ms_tokenize(char *input);
 
-t_token	*new_token(char *value, enum e_token_type kind);
+t_token				*new_token(char *value, enum e_token_type kind);
 
 t_token				*ms_word_split(t_token **word);
+
+int					ms_ws_is_in_ifs(char c);
+
+int					ms_ws_is_quote(char c);
 
 // token list utils
 void				append_token(t_token **list, char *value,

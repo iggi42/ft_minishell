@@ -10,14 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_io.h"
-#include "libft_mem.h"
-#include "libft_str.h"
 #include "ms_exit.h"
 #include "ms_parsing.h"
 #include "ms_safe.h"
 #include "ms_token.h"
-#include <stdbool.h>
+#include <libft_str.h>
 
 int	handle_operator(char *str, int i, t_token **tokens)
 {
@@ -41,7 +38,7 @@ int	handle_operator(char *str, int i, t_token **tokens)
 		type = T_PIPE;
 	else
 		return (0);
-	operator= ms_substr(str, i, len);
+	operator = ms_substr(str, i, len);
 	append_token(tokens, operator, type);
 	return (i + len);
 }
@@ -72,24 +69,13 @@ int	handle_arg(char *str, int i, t_token **tokens)
 	return (i);
 }
 
-// tells an empty line apart from a line that failed to tokenize
-int	ms_line_is_blank(char *input)
-{
-	size_t	i;
-
-	i = 0;
-	while (input[i] == ' ' || input[i] == '\t')
-		i++;
-	return (input[i] == '\0');
-}
-
-char *ms_token_type2str(t_token *kind)
+char	*ms_token_type2str(t_token *kind)
 {
 	if (kind == NULL)
-		return "";
-	if(kind->kind == T_HERE_DOC)
-		return "<<";
-	return kind->value;
+		return ("");
+	if (kind->kind == T_HERE_DOC)
+		return ("<<");
+	return (kind->value);
 }
 
 char	*ms_syntax_check(t_token *tokens)

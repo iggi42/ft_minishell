@@ -10,20 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_cmd_t.h"
 #include "ms_exit.h"
-#include "ms_dbg.h"
 #include "ms_parsing.h"
 #include "ms_parsing_utils.h"
 #include "ms_safe.h"
 #include "ms_token.h"
 #include <libft_arr.h>
-#include <libft_io.h>
-#include <libft_ll.h>
 #include <libft_mem.h>
-#include <libft_str.h>
-#include <stdbool.h>
-#include <unistd.h>
 
 // this returns the next element from inputs
 static t_nxt_el	get_next_elemnt(t_token **tkn_start, bool *is_redi)
@@ -119,20 +112,15 @@ t_ms_parse_res	*ms_parse(char *input)
 		result->source.error_msg = ms_strdup(ERR_MSG_UNCLOSED);
 	else
 		result->source.error_msg = ms_syntax_check(tkns);
-	if((result->source.error_msg != NULL))
+	if ((result->source.error_msg != NULL))
 		result->exit_code = 2;
-	// ft_putendl_fd("before expansion", STDOUT_FILENO);
-	// ms_print_tokens(tkns);
 	if (result->exit_code == 0)
 		result->exit_code = ms_expand(&tkns, &(result->source.error_msg));
-	// ft_putendl_fd("after expansion", STDOUT_FILENO);
-	// ms_print_tokens(tkns);
 	if (result->exit_code == 0)
 	{
 		result->source.cmds = build_cmd_arr(tkns);
 		if (result->source.cmds == NULL)
 		{
-			// ms_print_cmd("1. cmd:",  result->source.cmds[0] );
 			result->exit_code = 1;
 			result->source.error_msg = ms_strdup("syntax error");
 		}
