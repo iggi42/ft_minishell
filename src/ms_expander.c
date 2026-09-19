@@ -27,7 +27,11 @@ static void ms_expand_all_vars(t_token **tkns)
 	{
 		if (current->kind == T_WORD && prev_token != NULL
 			&& prev_token->kind != T_HERE_DOC)
+		{
 			current = ms_expand_var(&(prev_token->next));
+			if(current == NULL)
+				break;
+		}
 		prev_token = current;
 		current = current->next;
 	}	current = *tkns;

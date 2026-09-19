@@ -20,7 +20,10 @@
 #include <errno.h>
 #include <libft_arr.h>
 #include <libft_ll.h>
+#include <libft_io.h>
 #include <libft_mem.h>
+#include <stdio.h>
+#include <unistd.h>
 
 static void	add_pid(t_list **pids, pid_t pid)
 {
@@ -43,17 +46,23 @@ static t_list	*spawn_pipe(t_ms_cmd **cmds)
 
 	result = NULL;
 	out_pipe[R] = STDIN_FILENO;
+	stdenv[R] = STDIN_FILENO;
 	while (cmds[0] != NULL)
 	{
+		if(stdenv[R] != STDIN_FILENO)
+			ms_close(stdenv[R]);
 		stdenv[R] = out_pipe[R];
 		if (cmds[1] != NULL)
 			stdenv[W] = ms_pipe((int *)out_pipe)[W];
 		else
 			stdenv[W] = STDOUT_FILENO;
+		// ft_printf_fd(STDERR_FILENO, "stdenv [%d, %d], pipe [R:%d, W:%d] \n", stdenv[0], stdenv[1], out_pipe[R], out_pipe[W]);
 		fr = ms_fork();
 		if (fr == 0)
 			ms_exec_child(cmds[0], stdenv);
 		add_pid(&result, fr);
+		if(stdenv[W] != STDOUT_FILENO)
+			ms_close(out_pipe[W]);
 		cmds++;
 	}
 	return (result);

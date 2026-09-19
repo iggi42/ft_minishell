@@ -89,7 +89,7 @@ t_token	*ms_token_lst(t_token *start)
 	t_token	*lst_tkn;
 
 	if (start == NULL)
-		return (new_token(ms_strdup(""), T_WORD));
+		return (NULL);
 	lst_tkn = start;
 	while (start)
 	{
@@ -108,6 +108,8 @@ t_token	*ms_word_split(t_token **wrd)
 		return (NULL);
 	insert_me = ms_word_spaltwerk((*wrd)->value);
 	// ms_print_tokens(insert_me);
+	if(insert_me == NULL)
+		return ((*wrd)->next);
 	cont = ms_token_lst(insert_me);
 	cont->next = (*wrd)->next;
 	free_token(*wrd);

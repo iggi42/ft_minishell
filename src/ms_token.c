@@ -88,10 +88,10 @@ char	*ms_syntax_check(t_token *tokens)
 	t_token	*current;
 	char	*normi;
 
-	normi = "syntax error near unexpected token '%s'";
+	normi = "syntax error near unexpected token `%s'";
 	current = tokens;
 	if (current && current->kind == T_PIPE)
-		return (ms_strdup("syntax error near unexpected token '|'"));
+		return (ms_strdup("syntax error near unexpected token `|'"));
 	while (current)
 	{
 		if (is_redirect(current->kind))
@@ -102,7 +102,7 @@ char	*ms_syntax_check(t_token *tokens)
 		if (current->kind == T_PIPE)
 		{
 			if (!current->next || current->next->kind == T_PIPE)
-				return (ms_strdup("syntax error near unexpected token '|'"));
+				return (ms_strdup("syntax error near unexpected token `|'"));
 		}
 		current = current->next;
 	}
