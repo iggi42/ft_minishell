@@ -13,18 +13,35 @@
 #include "ms_parsing.h"
 #include "ms_token.h"
 
+static t_token	*ms_expand_var(t_token **word)
+{
+	if (word == NULL)
+		return (NULL);
+	ms_expand_str(&((*word)->value), true);
+	return (ms_word_split(word));
+}
+
 static void	ms_expand_all_vars(t_token **tkns)
 {
 	t_token	*current;
 	t_token	*prev_token;
 
-	current = *tkns;
+	if (*tkns == NULL)
+		return ;
+	if ((*tkns)->kind == T_WORD)
+		current = ms_expand_var(tkns);
+	else
+		current = *tkns;
 	prev_token = NULL;
 	while (current)
 	{
-		if (current->kind == T_WORD &&
-			!(prev_token != NULL && prev_token->kind == T_HERE_DOC))
-				ms_expand_str(&(current->value), true);
+		if (current->kind == T_WORD && prev_token != NULL
+			&& prev_token->kind != T_HERE_DOC)
+		{
+			current = ms_expand_var(&(prev_token->next));
+			if (current == NULL)
+				break ;
+		}
 		prev_token = current;
 		current = current->next;
 	}

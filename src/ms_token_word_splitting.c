@@ -46,7 +46,7 @@ static char	*ms_word_axe(char *start, bool *is_word_start, size_t *word_size)
 	return (ms_word_size(start, word_size));
 }
 
-t_token	*ms_word_spaltwerk(char *input_str)
+static t_token	*ms_word_spaltwerk(char *input_str)
 {
 	bool	is_word_start;
 	size_t	word_size;
@@ -70,7 +70,7 @@ t_token	*ms_word_spaltwerk(char *input_str)
 	return (fresh_tokens);
 }
 
-t_token	*ms_token_lst(t_token *start)
+static t_token	*ms_token_lst(t_token *start)
 {
 	t_token	*lst_tkn;
 
