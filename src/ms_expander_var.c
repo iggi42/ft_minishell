@@ -113,6 +113,7 @@ void	ms_expand_str(char **s, bool quotes)
 	*s = runner;
 }
 
+/*
 void	ms_expand(t_token **list)
 {
 	t_token	*current;
@@ -140,3 +141,4 @@ void	ms_expand(t_token **list)
 		current = current->next;
 	}
 }
+	*/

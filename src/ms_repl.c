@@ -70,9 +70,9 @@ t_byte	ms_repl(void)
 			ft_printf_fd(STDERR_FILENO, "minishell: %s\n",
 				parsing_result->source.error_msg);
 			if (!isatty(STDIN_FILENO))
-				ms_exit(2);
+				ms_exit(parsing_result->exit_code);
 			else
-				ms_env_set_status(2);
+				ms_env_set_status(parsing_result->exit_code);
 		}
 		else
 			ms_exec(parsing_result->source.cmds);

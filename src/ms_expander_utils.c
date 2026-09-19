@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft_io.h"
 #include "ms_safe.h"
 #include "ms_token.h"
 #include <libft_mem.h>
@@ -88,7 +89,7 @@ t_token	*remove_token(t_token **list, t_token *previous, t_token *current)
 	return (next_token);
 }
 
-void	del_empty_token(t_token **list)
+int	del_empty_token(t_token **list)
 {
 	t_token	*current;
 	t_token	*previous;
@@ -98,11 +99,20 @@ void	del_empty_token(t_token **list)
 	while (current)
 	{
 		if (current->kind == T_WORD && current->value[0] == 0)
+		{
+			// TODO check if the prev token is a redirect
+			if(previous != NULL && is_redirect(previous->kind))
+			{
+				ft_printf("ambiguous redirect\n", current->value);
+				return (1);
+			}
 			current = remove_token(list, previous, current);
+		}
 		else
 		{
 			previous = current;
 			current = current->next;
 		}
 	}
+	return (0);
 }

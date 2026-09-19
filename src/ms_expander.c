@@ -1,38 +1,25 @@
 #include "ms_parsing.h"
 #include "ms_token.h"
+#include "ms_env.h"
+#include "ms_dbg.h"
 #include <stdbool.h>
 #include <libft_mem.h>
-
-bool	is_ambigous_redi(char *maybe_ambi)
-{
-	bool	result;
-	char	*local_copy;
-
-	local_copy = ms_strdup(maybe_ambi);
-	ms_expand_str(&local_copy, true);
-	result = ms_line_is_blank(local_copy);
-	ft_free(local_copy);
-	return (result);
-}
 
 // // we know the curent->next is not NULL and a word
 // if (is_ambigous_redi(current->next->value))
 // 	return (ms_protect(ft_strf(ambi_error_msg, current->next->value)));
 // // check if the next word expands to anything here, if it does not
 // // it should an ambigious redirect, I think?
-
-static bool ms_expand_var(t_token **current, t_token *prev)
+static void ms_expand_var(t_token *word)
 {
-	if ((*current)->kind != T_WORD)
-		return true;
-	if (prev_token != NULL	|| prev_token->kind != T_HERE_DOC))
-	
-	ms_expand_str(current->value, true);
+	ms_expand_str(&word->value, true);
+	ft_printf("new val: %s \n", word->value);
+	ms_print_tokens(ms_tokenize(word->value));
 }
 
 // this function name is a lie, we don't expand the tokens
 // after here doc redis
-static int ms_expand_all_vars(t_token **tkns)
+static void ms_expand_all_vars(t_token **tkns)
 {
 	t_token	*current;
 	t_token	*prev_token;
@@ -41,12 +28,12 @@ static int ms_expand_all_vars(t_token **tkns)
 	prev_token = NULL;
 	while (current)
 	{
-		if(!ms_expand_var(current, prev_token))
-			return false;
+		if (current->kind == T_WORD && prev_token != NULL
+			&& prev_token->kind != T_HERE_DOC)
+			ms_expand_var(current);
 		prev_token = current;
 		current = current->next;
-	}
-	return 0;
+	}	current = *tkns;
 }
 
 static void ms_expand_all_quotes(t_token **tokns)
@@ -66,11 +53,17 @@ static void ms_expand_all_quotes(t_token **tokns)
 	}
 }
 
-void	ms_expand(t_token **tkns)
+// 0 => expanding encountered issues
+// 1 => expanding worked out
+int	ms_expand(t_token **tkns)
 {
+	int result;
+
 	if(tkns == NULL)
-		return;
+		return 1;
+	result = 0;
 	ms_expand_all_vars(tkns);
-	del_empty_token(tkns);
+	result |= del_empty_token(tkns);
 	ms_expand_all_quotes(tkns);
+	return result;
 }
