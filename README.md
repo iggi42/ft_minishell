@@ -9,7 +9,7 @@ by the 42 *minishell* project. The goal is to rebuild the core of a shell such a
 a line from the user, split it into tokens, expand variables and quotes, build a pipeline of
 commands with their redirections, and then execute that pipeline with `fork`, `pipe`, `dup2`
 and `execve` — while keeping the exit status, the environment and the terminal signals
-behaving the way a real shell does.
+behaving the way a shell does.
 
 The shell runs both **interactively** (with a `readline` prompt, line editing and history) and
 **non-interactively**, reading commands from a pipe or a file, which makes it usable in scripts:
@@ -46,7 +46,7 @@ and no `~` expansion.
 
 ### Requirements
 
-* a C compiler (`cc`/`gcc`) and `make`
+* a C compiler and `make`
 * the **GNU readline** library and its headers — on Debian/Ubuntu:
   `sudo apt install libreadline-dev`
 * `libft` is **not** an external dependency: it lives in `libft/` inside this repository and is
@@ -143,12 +143,13 @@ A few decisions worth pointing out:
 * **The environment is a key/value store**, not a `char **`. `ms_env_*` wraps libft's `t_kv`;
   `environ` is imported at start-up and rebuilt on demand for `execve`. Special entries such as
   `?` live in the same store but are hidden from `env` and `export` output.
-* **Two bookkeepers guard the resources.** `bw` (`src/bw_core.c`) remembers every open file
+* **Three bookkeepers guard the resources.**  `m3` (from the libft) remembers every allocated buffer that was not freed yet. `bw` (`src/bw_core.c`) remembers every open file
   descriptor and `kg` (`src/kg_core.c`, the "kindergarten") every child pid, so both the parent
   and a freshly forked child can drop everything they must not keep with a single call.
-* **Allocation and syscalls go through `ms_safe_*`.** These thin wrappers abort the shell with a
+* **Allocation and syscalls go through `ms_safe_*`.** These thin wrappers abort the shell with a 
   clean error instead of letting a failed `malloc`, `fork` or `pipe` propagate an unchecked
   `NULL` or `-1`, which keeps the rest of the code readable within the 25-line Norm limit.
+  They also massively reduce the chance, that a line with a missing token in case of a allocation failure is run.
 * **Only one global variable exists**, `g_ms_signal` in `src/ms_signal_handler.c`, as the subject
   demands: the handler does nothing but store the signal number, and the REPL consumes it later
   at a safe point.
@@ -156,14 +157,6 @@ A few decisions worth pointing out:
   interrupted with `Ctrl-C` without taking the shell down with them.
 * The whole project is written against the **42 Norm** (`norm.pdf`, version 4.1) and compiles
   with `-Wall -Wextra -Werror`.
-
-### Repository layout
-
-```
-inc/      public headers, one per module
-src/      implementation (tokenizer, expander, parser, executor, builtins, env, signals)
-libft/    our own C library (strings, arrays, key/value store, printf, get_next_line)
-```
 
 ## Resources
 
@@ -187,10 +180,12 @@ Documentation and references used while building the shell:
 
 ### Use of AI
 
-*To be filled in by the authors.*
+Claude (Anthropic) was used to debug, summarize test-cases and verify them.
 
-### 👤 Author
+Claude (Anthropic) was also used to generate this README file based on the existing source code of the project.
+
+### Author
 - **GitHub:** [cuteKittenArri](https://github.com/cuteKittenArri)
 - **GitHub:** [iggi42](https://github.com/iggi42)
 
-<img src="mage.gif" alt="arri" style="max-width: 180px;">
+<img src="https://arri-eta.vercel.app/mage.gif" alt="arri" style="max-width: 180px;">
