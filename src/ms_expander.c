@@ -13,14 +13,6 @@
 #include "ms_parsing.h"
 #include "ms_token.h"
 
-// returns the last token from the resulting expansion
-static void	ms_expand_var(t_token **word)
-{
-	if (word == NULL)
-		return ;
-	ms_expand_str(&((*word)->value), true);
-}
-
 static void	ms_expand_all_vars(t_token **tkns)
 {
 	t_token	*current;
@@ -30,9 +22,9 @@ static void	ms_expand_all_vars(t_token **tkns)
 	prev_token = NULL;
 	while (current)
 	{
-		if (current->kind == T_WORD && prev_token != NULL
-			&& prev_token->kind != T_HERE_DOC)
-			ms_expand_var(&(prev_token->next));
+		if (current->kind == T_WORD &&
+			!(prev_token != NULL && prev_token->kind == T_HERE_DOC))
+				ms_expand_str(&(current->value), true);
 		prev_token = current;
 		current = current->next;
 	}
