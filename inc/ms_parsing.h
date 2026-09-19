@@ -18,8 +18,7 @@
 
 typedef struct s_ms_parse_res
 {
-	bool			success;
-	int exit_code;
+	int				exit_code;
 	union			u_ms_parse_res_body
 	{
 		char		*error_msg;

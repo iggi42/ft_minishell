@@ -13,7 +13,6 @@
 #include "ms_signal.h"
 #include <libft_byte_t.h>
 #include <libft_io.h>
-#include <readline/readline.h>
 #include <signal.h>
 #include <unistd.h>
 

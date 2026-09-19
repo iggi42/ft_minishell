@@ -14,7 +14,7 @@
 # define MS_EXEC_H
 # include "ms_cmd_t.h"
 
-t_byte	ms_exec(t_ms_cmd **run_me);
+void	ms_exec(t_ms_cmd **run_me);
 // run an array of cmds in a pipe. don't use for 1 cmd.
 t_byte	ms_exec_pipe(t_ms_cmd **full_pipe);
 

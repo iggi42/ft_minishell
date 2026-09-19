@@ -11,15 +11,14 @@
 /* ************************************************************************** */
 
 #include "libft_io.h"
-#include "libft_merle.h"
 #include "ms_env.h"
+#include "ms_dbg.h"
 #include "ms_exec.h"
 #include "ms_exit.h"
 #include "ms_parsing.h"
 #include "ms_repl.h"
 #include "ms_rl_hooks.h"
 #include "ms_signal.h"
-#include <errno.h>
 #include <libft_char.h>
 #include <libft_mem.h>
 #include <unistd.h>
@@ -65,7 +64,10 @@ t_byte	ms_repl(void)
 			break ;
 		ms_repl_history_add(line);
 		parsing_result = ms_parse(line);
-		if (!parsing_result->success)
+		/* print_parsing_result("repl parser res:", parsing_result); */
+		if (parsing_result->exit_code == 0)
+			ms_exec(parsing_result->source.cmds);
+		else
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: %s\n",
 				parsing_result->source.error_msg);
@@ -74,8 +76,6 @@ t_byte	ms_repl(void)
 			else
 				ms_env_set_status(parsing_result->exit_code);
 		}
-		else
-			ms_exec(parsing_result->source.cmds);
 		ms_free_parser_result(parsing_result, line);
 	}
 	return (ms_env_get_status());

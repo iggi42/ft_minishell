@@ -39,22 +39,28 @@ typedef struct s_token
 // create a list of tokens from an string
 t_token				*ms_tokenize(char *input);
 
+t_token	*new_token(char *value, enum e_token_type kind);
+
+t_token				*ms_word_split(t_token **word);
+
 // token list utils
 void				append_token(t_token **list, char *value,
 						enum e_token_type kind);
 t_token				*free_token_list(t_token *list);
 
+void				free_token(t_token *token);
+
 size_t				ms_parsing_count_cmds(t_token *tokens);
 
 // char				*slice_and_dice(char *str, int start, int len, char *var);
 
-int				del_empty_token(t_token **list);
+int					del_empty_token(t_token **list, char **error_msg);
 
 // returns NULL if tokens have no syntax error
 // otherwise returns a pointer to a error mesage string (never free it)
 char				*ms_syntax_check(t_token *tokens);
 
-int					ms_expand(t_token **list);
+int					ms_expand(t_token **list, char **error_msg);
 
 char				*remove_quote(char *str);
 

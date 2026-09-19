@@ -24,7 +24,7 @@ char	*ms_pwd(void)
 
 	ft_bzero(cwd, sizeof(cwd));
 	errno = 0;
-	getcwd(cwd, PATH_MAX);
+	(void) getcwd(cwd, PATH_MAX);
 	if (errno != 0)
 	{
 		ms_env_set_status(1);

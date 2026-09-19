@@ -18,9 +18,9 @@
 #include "ms_exit.h"
 #include "ms_signal.h"
 #include <errno.h>
+#include <stdio.h>
 #include <readline/readline.h>
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -59,7 +59,7 @@ char	*ms_repl_rl_wrapper(char *prompt, int (*ms_rl_hook)(void))
 	rl_event_hook = ms_rl_hook;
 	if (ms_signal_consume() == SIGINT)
 	{
-		write(1, "\n", 1);
+		(void) write(1, "\n", 1);
 		ms_signal_listen(0);
 	}
 	line = readline(prompt);

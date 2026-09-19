@@ -15,8 +15,6 @@
 #include "ms_dbg.h"
 #include "ms_parsing.h"
 #include "ms_parsing_utils.h"
-#include "ms_redi.h"
-#include "ms_redi_t.h"
 #include "ms_safe.h"
 #include "ms_token.h"
 #include <libft_arr.h>
@@ -116,29 +114,26 @@ t_ms_parse_res	*ms_parse(char *input)
 
 	tkns = ms_tokenize(input);
 	result = ms_malloc(sizeof(t_ms_parse_res));
-	result->exit_code = 2;
 	if (tkns == NULL && !ms_line_is_blank(input))
 		result->source.error_msg = ms_strdup(ERR_MSG_UNCLOSED);
 	else
 		result->source.error_msg = ms_syntax_check(tkns);
-	result->success = (result->source.error_msg == NULL);
-	ft_putendl_fd("before expansion", STDOUT_FILENO);
-	ms_print_tokens(tkns);
-	if (result->success)
-	{
-		result->exit_code = ms_expand(&tkns);
-		if(result->exit_code != 1)
-			result->success = false;
-	}
-	ft_putendl_fd("after expansion", STDOUT_FILENO);
-	ms_print_tokens(tkns);
-	if (result->success)
-	{
+	if((result->source.error_msg != NULL))
+		result->exit_code = 2;
+	else
 		result->exit_code = 0;
+	// ft_putendl_fd("before expansion", STDOUT_FILENO);
+	// ms_print_tokens(tkns);
+	if (result->exit_code == 0)
+		result->exit_code = ms_expand(&tkns, &(result->source.error_msg));
+	// ft_putendl_fd("after expansion", STDOUT_FILENO);
+	// ms_print_tokens(tkns);
+	if (result->exit_code == 0)
+	{
 		result->source.cmds = build_cmd_arr(tkns);
 		if (result->source.cmds == NULL)
 		{
-			result->success = false;
+			result->exit_code = 1;
 			result->source.error_msg = ms_strdup("syntax error");
 		}
 	}
