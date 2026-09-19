@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_pwd.c                                           :+:      :+:    :+:   */
+/*   ms_tkn_ws_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/17 11:25:57 by fkruger           #+#    #+#             */
-/*   Updated: 2026/09/17 11:26:00 by fkruger          ###   ########.fr       */
+/*   Created: 2026/09/19 15:28:07 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/19 15:28:49 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_env.h"
-#include "ms_exit.h"
-#include <errno.h>
-#include <libft_io.h>
-#include <libft_mem.h>
-#include <limits.h>
-#include <unistd.h>
+#include <libft_str.h>
 
-char	*ms_pwd(void)
+bool	ms_ws_is_in_ifs(char c)
 {
-	static char	cwd[PATH_MAX];
+	return (ft_strchr(" \t\n", c) != NULL);
+}
 
-	ft_bzero(cwd, sizeof(cwd));
-	errno = 0;
-	(void) getcwd(cwd, PATH_MAX);
-	if (errno != 0)
-	{
-		ms_env_set_status(1);
-		cwd[0] = '\0';
-	}
-	return ((char *)cwd);
+bool	ms_ws_is_quote(char c)
+{
+	return (('\"' == c) || ('\'' == c));
 }

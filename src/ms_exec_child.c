@@ -23,6 +23,7 @@
 #include <errno.h>
 #include <libft_arr.h>
 #include <libft_str.h>
+#include <signal.h>
 #include <unistd.h>
 
 void	ms_stdenv_close(void)
@@ -41,6 +42,8 @@ void	ms_stdenv_apply(int stdenv[2])
 static void	ms_execve(char *path, char **argv)
 {
 	execve(path, argv, ms_env_environ_export());
+	if (errno == ENOENT)
+		ms_error_out(EXIT_CMD_NOT_FOUND, path, errno);
 	ms_error_out(EXIT_NO_EXEC_PERM, path, errno);
 }
 
@@ -51,12 +54,12 @@ static void	ms_exec_do_cmd(char **argv)
 
 	if (argv[0] == NULL)
 		ms_exit(EXIT_SUCCESS);
-	path = ms_find_exec_file(argv[0]);
-	if (path)
-		ms_execve(path, argv);
 	bilt = ms_builtin_get(argv[0]);
 	if (bilt)
 		ms_exit(bilt(argv));
+	path = ms_find_exec_file(argv[0]);
+	if (path)
+		ms_execve(path, argv);
 	ms_error_out(EXIT_CMD_NOT_FOUND, ft_strf("%s: command not found", argv[0]),
 		0);
 }

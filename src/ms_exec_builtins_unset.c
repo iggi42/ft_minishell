@@ -13,10 +13,10 @@
 #include "ms_env.h"
 #include <libft_arr.h>
 
+// bash reports success even when the name was never set
 static void	*folding_unset(void *acc, t_arr_el el)
 {
-	if (!ms_env_unset((char *)el))
-		*(t_byte *)acc = 1;
+	ms_env_unset((char *)el);
 	return (acc);
 }
 

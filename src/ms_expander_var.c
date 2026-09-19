@@ -23,7 +23,7 @@
 #include <libft_str.h>
 #include <stddef.h>
 
-size_t	ms_expander_next_el(char *str, bool care_about_quotes)
+static size_t	ms_expander_next_el(char *str, bool care_about_quotes)
 {
 	size_t	i;
 	bool	single_q;
@@ -45,7 +45,7 @@ size_t	ms_expander_next_el(char *str, bool care_about_quotes)
 	return (i);
 }
 
-static t_iol_el	*ms_exp_var_sect(char *s_dollar, size_t *consumed)
+static t_iol_el	*ms_exp_var_sect(char *s_dollar, size_t *consumed, bool quotes)
 {
 	char		*var_name;
 	t_iol_el	*result;
@@ -61,6 +61,11 @@ static t_iol_el	*ms_exp_var_sect(char *s_dollar, size_t *consumed)
 	{
 		var_name = ms_substr(s_dollar, 1, *consumed);
 		result->buffer = ms_env_get(var_name, "");
+		if (quotes)
+		{
+			result->buffer = ms_quote_hide(result->buffer);
+			result->free = ft_iol_free_always;
+		}
 		result->size = ft_strlen(result->buffer);
 		ft_free(var_name);
 	}
@@ -76,7 +81,7 @@ static t_iol_el	*ms_exp_nxt_sect(char *s, size_t *consumed, bool quotes)
 	if (*s == '\0')
 		return (NULL);
 	if (*s == '$')
-		result = ms_exp_var_sect(s, consumed);
+		result = ms_exp_var_sect(s, consumed, quotes);
 	if (result)
 		return (result);
 	*consumed = ms_expander_next_el(s, quotes);
@@ -86,7 +91,7 @@ static t_iol_el	*ms_exp_nxt_sect(char *s, size_t *consumed, bool quotes)
 	return (result);
 }
 
-void	ms_expand_var(char **s, bool quotes)
+void	ms_expand_str(char **s, bool quotes)
 {
 	t_iol		expanded;
 	size_t		consumed;
@@ -108,6 +113,7 @@ void	ms_expand_var(char **s, bool quotes)
 	*s = runner;
 }
 
+/*
 void	ms_expand(t_token **list)
 {
 	t_token	*current;
@@ -117,9 +123,9 @@ void	ms_expand(t_token **list)
 	prev_token = NULL;
 	while (current)
 	{
-		if (current->kind == T_WORD && prev_token != NULL
-			&& prev_token->kind != T_HERE_DOC)
-			ms_expand_var(&current->value, true);
+		if (current->kind == T_WORD && (prev_token == NULL
+				|| prev_token->kind != T_HERE_DOC))
+			ms_expand_str(&current->value, true);
 		prev_token = current;
 		current = current->next;
 	}
@@ -128,10 +134,11 @@ void	ms_expand(t_token **list)
 	prev_token = NULL;
 	while (current)
 	{
-		if (current->kind == T_WORD && prev_token != NULL
-			&& prev_token->kind != T_HERE_DOC)
-			current->value = remove_quote(current->value);
+		if (current->kind == T_WORD && (prev_token == NULL
+				|| prev_token->kind != T_HERE_DOC))
+			current->value = ms_quote_show(remove_quote(current->value));
 		prev_token = current;
 		current = current->next;
 	}
 }
+	*/

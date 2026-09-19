@@ -14,6 +14,7 @@
 #include <libft_byte_t.h>
 #include <libft_io.h>
 #include <signal.h>
+#include <unistd.h>
 
 volatile sig_atomic_t	g_ms_signal;
 
@@ -24,7 +25,7 @@ static void	ms_real_sh(int sig)
 
 static t_ms_sig_handler	*ms_sig_store(t_byte sig)
 {
-	static t_ms_sig_handler	store[sizeof(t_byte)];
+	static t_ms_sig_handler	store[MS_SIG_SLOTS];
 
 	return (&store[sig]);
 }
@@ -35,6 +36,7 @@ static void	ms_sig_trigger(t_byte sig)
 		(*ms_sig_store(sig))(sig);
 }
 
+// init our signal handler with ms_signal_set_handler(-1, NULL)
 void	ms_signal_set_handler(int sig, t_ms_sig_handler dab)
 {
 	static struct sigaction	s_sig;
@@ -44,6 +46,7 @@ void	ms_signal_set_handler(int sig, t_ms_sig_handler dab)
 		sigemptyset(&s_sig.sa_mask);
 		s_sig.sa_handler = ms_real_sh;
 		s_sig.sa_flags = 0;
+		return ;
 	}
 	*ms_sig_store(sig) = dab;
 	if (dab == NULL)

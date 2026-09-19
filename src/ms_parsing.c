@@ -10,18 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_cmd_t.h"
 #include "ms_exit.h"
 #include "ms_parsing.h"
 #include "ms_parsing_utils.h"
-#include "ms_redi_t.h"
 #include "ms_safe.h"
 #include "ms_token.h"
 #include <libft_arr.h>
-#include <libft_io.h>
-#include <libft_ll.h>
 #include <libft_mem.h>
-#include <libft_str.h>
 
 // this returns the next element from inputs
 static t_nxt_el	get_next_elemnt(t_token **tkn_start, bool *is_redi)
@@ -112,15 +107,21 @@ t_ms_parse_res	*ms_parse(char *input)
 
 	tkns = ms_tokenize(input);
 	result = ms_malloc(sizeof(t_ms_parse_res));
-	result->source.error_msg = ms_syntax_check(tkns);
-	result->success = (result->source.error_msg == NULL);
-	if (result->success)
+	result->exit_code = 0;
+	if (tkns == NULL && !ms_line_is_blank(input))
+		result->source.error_msg = ms_strdup(ERR_MSG_UNCLOSED);
+	else
+		result->source.error_msg = ms_syntax_check(tkns);
+	if ((result->source.error_msg != NULL))
+		result->exit_code = 2;
+	if (result->exit_code == 0)
+		result->exit_code = ms_expand(&tkns, &(result->source.error_msg));
+	if (result->exit_code == 0)
 	{
-		ms_expand(&tkns);
 		result->source.cmds = build_cmd_arr(tkns);
 		if (result->source.cmds == NULL)
 		{
-			result->success = false;
+			result->exit_code = 1;
 			result->source.error_msg = ms_strdup("syntax error");
 		}
 	}

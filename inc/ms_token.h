@@ -13,6 +13,11 @@
 #ifndef MS_TOKEN_H
 # define MS_TOKEN_H
 # include <stddef.h>
+# define ERR_MSG_UNCLOSED "syntax error: unexpected end of file"
+// quote characters of a variable value wear these while they travel
+// through the quote removal pass
+# define MS_HIDDEN_SQ 1
+# define MS_HIDDEN_DQ 2
 
 typedef enum e_token_type
 {
@@ -34,24 +39,40 @@ typedef struct s_token
 // create a list of tokens from an string
 t_token				*ms_tokenize(char *input);
 
+t_token				*new_token(char *value, enum e_token_type kind);
+
+t_token				*ms_word_split(t_token **word);
+
+int					ms_ws_is_in_ifs(char c);
+
+int					ms_ws_is_quote(char c);
+
 // token list utils
 void				append_token(t_token **list, char *value,
 						enum e_token_type kind);
 t_token				*free_token_list(t_token *list);
 
+void				free_token(t_token *token);
+
 size_t				ms_parsing_count_cmds(t_token *tokens);
 
 // char				*slice_and_dice(char *str, int start, int len, char *var);
 
-void				del_empty_token(t_token **list);
+int					del_empty_token(t_token **list, char **error_msg);
 
 // returns NULL if tokens have no syntax error
 // otherwise returns a pointer to a error mesage string (never free it)
 char				*ms_syntax_check(t_token *tokens);
 
-void				ms_expand(t_token **list);
+int					ms_expand(t_token **list, char **error_msg);
 
 char				*remove_quote(char *str);
+
+char				*ms_quote_hide(char *value);
+char				*ms_quote_show(char *str);
+
+// true when the line holds nothing but spaces and tabs
+int					ms_line_is_blank(char *input);
 
 int					is_redirect(t_toke_type kind);
 #endif

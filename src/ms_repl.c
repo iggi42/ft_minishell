@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_io.h"
-#include "libft_merle.h"
 #include "ms_env.h"
 #include "ms_exec.h"
 #include "ms_exit.h"
@@ -19,10 +17,8 @@
 #include "ms_repl.h"
 #include "ms_rl_hooks.h"
 #include "ms_signal.h"
-#include <errno.h>
-#include <libft_char.h>
+#include <libft_io.h>
 #include <libft_mem.h>
-#include <unistd.h>
 
 static char	*ms_cut_nl(char *s)
 {
@@ -46,14 +42,9 @@ char	*ms_repl_readline(t_ms_repl_prompt_get prompt_getter,
 	if (!isatty(STDIN_FILENO))
 		return (ms_cut_nl(ft_gnl(STDIN_FILENO)));
 	line = ms_repl_rl_wrapper(prompt_getter(), ms_rl_hook);
-	if (line == NULL)
-		return (NULL);
 	return (line);
 }
 
-// maybe only clear the cache of the used fd one day
-// for now just remeber to ft_gnl(-1) before exiting
-// this is good enough for now
 t_byte	ms_repl(void)
 {
 	char			*line;
@@ -67,17 +58,17 @@ t_byte	ms_repl(void)
 			break ;
 		ms_repl_history_add(line);
 		parsing_result = ms_parse(line);
-		if (!parsing_result->success)
+		if (parsing_result->exit_code == 0)
+			ms_exec(parsing_result->source.cmds);
+		else
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: %s\n",
 				parsing_result->source.error_msg);
 			if (!isatty(STDIN_FILENO))
-				ms_exit(2);
+				ms_exit(parsing_result->exit_code);
 			else
-				ms_env_set_status(2);
+				ms_env_set_status(parsing_result->exit_code);
 		}
-		else
-			ms_exec(parsing_result->source.cmds);
 		ms_free_parser_result(parsing_result, line);
 	}
 	return (ms_env_get_status());

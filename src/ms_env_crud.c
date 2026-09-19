@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft_kv.h"
 #include "libft_lst_kv.h"
 #include "ms_env_core.h"
 #include "ms_safe.h"
@@ -25,6 +26,13 @@ void	ms_env_set(char *key, char *value)
 	my_key = ms_strdup(key);
 	prev = ft_kv_put(ms_env_core_get(), my_key, my_val);
 	ft_kv_free_entry(prev);
+}
+
+void	ms_env_touch(char *key)
+{
+	if (ft_kv_get(ms_env_core_get(), (void *)key) != NULL)
+		return ;
+	ms_env_set(key, "");
 }
 
 char	*ms_env_get(char *key, char *fallback)

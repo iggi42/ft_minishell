@@ -15,6 +15,7 @@
 #include "ms_signal.h"
 #include <libft_io.h>
 #include <signal.h>
+#include <unistd.h>
 
 static int	*last_signal_store(void)
 {
@@ -28,6 +29,7 @@ int	ms_signal_last(void)
 	return (*last_signal_store());
 }
 
+// resetting with 0 also drops a signal that nobody consumed yet
 void	ms_signal_listen(int sig)
 {
 	*last_signal_store() = sig;

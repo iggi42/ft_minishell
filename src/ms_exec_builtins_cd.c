@@ -19,6 +19,7 @@
 #include <libft_mem.h>
 #include <libft_str.h>
 #include <limits.h>
+#include <stdio.h>
 #include <unistd.h>
 
 static t_byte	ms_chdir(char *s)
@@ -36,13 +37,22 @@ static t_byte	ms_chdir(char *s)
 	return (1);
 }
 
-static void	update_pwd(void)
+static int	update_pwd(void)
 {
 	char	cwd[PATH_MAX];
 
-	ms_exit_if(getcwd(cwd, PATH_MAX), "getpwd failed");
-	ms_env_set("OLDPWD", ms_env_get("PWD", ""));
-	ms_env_set("PWD", (char *) &cwd);
+	errno = 0;
+	if (getcwd(cwd, PATH_MAX) == NULL || errno != 0)
+	{
+		perror("minishell: cd");
+		return (1);
+	}
+	else
+	{
+		ms_env_set("OLDPWD", ms_env_get("PWD", ""));
+		ms_env_set("PWD", (char *)&cwd);
+		return (0);
+	}
 }
 
 t_byte	ms_exec_builtin_cd(char **argv)
@@ -68,6 +78,6 @@ t_byte	ms_exec_builtin_cd(char **argv)
 	else
 		target = argv[1];
 	if (ms_chdir(target) == 0)
-		return (update_pwd(), 0);
+		return (update_pwd());
 	return (1);
 }

@@ -11,15 +11,8 @@
 /* ************************************************************************** */
 
 #include "bw.h"
-#include "ms_env.h"
-#include "ms_exec_builtins.h"
 #include "ms_exec_utils.h"
-#include "ms_exit.h"
-#include "ms_redi.h"
 #include "ms_safe.h"
-#include <errno.h>
-#include <libft_arr.h>
-#include <libft_ll.h>
 #include <libft_mem.h>
 
 static void	add_pid(t_list **pids, pid_t pid)
@@ -33,6 +26,12 @@ static void	add_pid(t_list **pids, pid_t pid)
 	ft_lstadd_back(pids, new_el);
 }
 
+static void	ms_close_unless(int fd, int unless)
+{
+	if (fd != unless)
+		ms_close(fd);
+}
+
 // returns a list of pids to wait on
 static t_list	*spawn_pipe(t_ms_cmd **cmds)
 {
@@ -43,8 +42,10 @@ static t_list	*spawn_pipe(t_ms_cmd **cmds)
 
 	result = NULL;
 	out_pipe[R] = STDIN_FILENO;
+	stdenv[R] = STDIN_FILENO;
 	while (cmds[0] != NULL)
 	{
+		ms_close_unless(stdenv[R], STDIN_FILENO);
 		stdenv[R] = out_pipe[R];
 		if (cmds[1] != NULL)
 			stdenv[W] = ms_pipe((int *)out_pipe)[W];
@@ -54,6 +55,7 @@ static t_list	*spawn_pipe(t_ms_cmd **cmds)
 		if (fr == 0)
 			ms_exec_child(cmds[0], stdenv);
 		add_pid(&result, fr);
+		ms_close_unless(out_pipe[W], STDOUT_FILENO);
 		cmds++;
 	}
 	return (result);

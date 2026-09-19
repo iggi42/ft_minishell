@@ -19,18 +19,14 @@
 #include <libft_mem.h>
 #include <libft_str.h>
 
-// TODO: without arguments: print env sorted alphabetical
-// TODO: parsing variable names, check for valid var names
-// valid var names start with a _ or a-z / A-Z .
-// the rest of the name may also contain 0-9
-
 t_byte	import_var(char *arg)
 {
 	size_t	var_name_len;
 	char	*var_name;
 
 	var_name_len = ms_parsing_varname(arg);
-	if (var_name_len == 0)
+	if (var_name_len == 0 || arg[0] == '?'
+		|| (arg[var_name_len] != '=' && arg[var_name_len] != '\0'))
 	{
 		var_name = ms_protect(ft_strf("export: `%s': not a valid identifier",
 					arg));
@@ -41,9 +37,9 @@ t_byte	import_var(char *arg)
 	if (arg[var_name_len] == '=')
 		var_name = ms_substr(arg, 0, var_name_len);
 	else
-		var_name = ms_strdup("");
+		var_name = ms_substr(arg, 0, var_name_len);
 	if (arg[var_name_len] == '\0')
-		ms_env_set(var_name, "");
+		ms_env_touch(var_name);
 	else
 		ms_env_set(var_name, &arg[var_name_len + 1]);
 	ft_free(var_name);
@@ -62,11 +58,6 @@ void	print_export(char *name, char *key)
 {
 	if (!ft_str_eq(name, "?"))
 		ft_printf("export '%s=%s'\n", name, key);
-}
-
-t_byte	print_exports(void)
-{
-	return (0);
 }
 
 t_byte	ms_exec_builtin_export(char **argv)

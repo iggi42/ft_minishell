@@ -10,9 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ms_exit.h"
 #include "ms_safe.h"
 #include "ms_token.h"
+#include <libft_io.h>
 #include <libft_mem.h>
+#include <libft_str.h>
 
 static size_t	unquote_len(char *str)
 {
@@ -88,7 +91,7 @@ t_token	*remove_token(t_token **list, t_token *previous, t_token *current)
 	return (next_token);
 }
 
-void	del_empty_token(t_token **list)
+int	del_empty_token(t_token **list, char **err_msg)
 {
 	t_token	*current;
 	t_token	*previous;
@@ -98,11 +101,19 @@ void	del_empty_token(t_token **list)
 	while (current)
 	{
 		if (current->kind == T_WORD && current->value[0] == 0)
+		{
+			if (previous != NULL && is_redirect(previous->kind))
+			{
+				*err_msg = ms_strdup("ambiguous redirect\n");
+				return (1);
+			}
 			current = remove_token(list, previous, current);
+		}
 		else
 		{
 			previous = current;
 			current = current->next;
 		}
 	}
+	return (0);
 }

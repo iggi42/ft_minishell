@@ -18,7 +18,7 @@
 
 typedef struct s_ms_parse_res
 {
-	bool			success;
+	int				exit_code;
 	union			u_ms_parse_res_body
 	{
 		char		*error_msg;
@@ -32,7 +32,7 @@ t_ms_parse_res		*ms_parse(char *input);
 
 // returns always a freeable string
 // char				*ms_expand_var(char *text_with_vars);
-void				ms_expand_var(char **str, bool care_about_quotes);
+void				ms_expand_str(char **str, bool care_about_quotes);
 
 bool				ms_is_metachar(char c);
 

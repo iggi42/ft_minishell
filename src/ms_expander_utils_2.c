@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_pwd.c                                           :+:      :+:    :+:   */
+/*   ms_expander_utils_2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/17 11:25:57 by fkruger           #+#    #+#             */
-/*   Updated: 2026/09/17 11:26:00 by fkruger          ###   ########.fr       */
+/*   Created: 2026/09/19 16:07:52 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/19 16:07:57 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_env.h"
-#include "ms_exit.h"
-#include <errno.h>
-#include <libft_io.h>
-#include <libft_mem.h>
-#include <limits.h>
-#include <unistd.h>
+#include <stddef.h>
 
-char	*ms_pwd(void)
+// tells an empty line apart from a line that failed to tokenize
+int	ms_line_is_blank(char *input)
 {
-	static char	cwd[PATH_MAX];
+	size_t	i;
 
-	ft_bzero(cwd, sizeof(cwd));
-	errno = 0;
-	(void) getcwd(cwd, PATH_MAX);
-	if (errno != 0)
-	{
-		ms_env_set_status(1);
-		cwd[0] = '\0';
-	}
-	return ((char *)cwd);
+	i = 0;
+	while (input[i] == ' ' || input[i] == '\t')
+		i++;
+	return (input[i] == '\0');
 }

@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_signal.h                                        :+:      :+:    :+:   */
+/*   ms_heredoc.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkruger <fkruger@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/17 11:21:10 by fkruger           #+#    #+#             */
-/*   Updated: 2026/09/17 11:21:11 by fkruger          ###   ########.fr       */
+/*   Created: 2026/09/19 16:19:14 by fkruger           #+#    #+#             */
+/*   Updated: 2026/09/19 16:19:15 by fkruger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_SIGNAL_H
-# define MS_SIGNAL_H
-// one slot per t_byte, so every signal number fits
-# define MS_SIG_SLOTS 256
+#ifndef MS_HEREDOC_H
+# define MS_HEREDOC_H
+# include "ms_cmd_t.h"
 
-typedef void	(*t_ms_sig_handler)(int);
+void	ms_heredoc_cleanup_running(t_ms_heredoc *chd);
 
-void			ms_signal_init(void);
-void			ms_signal_child(void);
+void	ms_heredoc_cleanup_ready(t_ms_heredoc *chd);
 
-void			ms_signal_listen(int sig);
-int				ms_signal_last(void);
-void			ms_signal_set_handler(int sig, t_ms_sig_handler dab);
-int				ms_signal_consume(void);
+// returns NULL if the input delimiter carried no quotes at all,
+// otherwise the delimiter with every quote removed
+char	*unquoted_delimiter(char *delimiter);
+char	*ms_gnl_heredoc(char *delimiter);
+char	**ms_heredoc_readin(char *delimiter);
 #endif
