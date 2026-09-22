@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ms_env.h"
 #include <libft_str.h>
 
 bool	ms_ws_is_in_ifs(char c)
 {
-	return (ft_strchr(" \t\n", c) != NULL);
+	return (ft_strchr(ms_env_get("IFS", " \t\n"), c) != NULL);
 }
 
 bool	ms_ws_is_quote(char c)

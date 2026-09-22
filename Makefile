@@ -46,7 +46,7 @@ CPPFLAGS += -I./inc
 # TESTS += env_test.c token_test.c
 
 ## cflags here get also applied to libft binaries
-#FT_EXTRA_CFLAGS += -g
+FT_EXTRA_CFLAGS += -g
 
 LDLIBS += -lreadline
 

@@ -45,6 +45,7 @@ void	ms_signal_set_handler(int sig, t_ms_sig_handler dab)
 		sigemptyset(&s_sig.sa_mask);
 		s_sig.sa_handler = ms_real_sh;
 		s_sig.sa_flags = 0;
+		signal(SIGQUIT, SIG_IGN);
 		return ;
 	}
 	*ms_sig_store(sig) = dab;
